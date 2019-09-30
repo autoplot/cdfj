@@ -74,6 +74,7 @@ import java.util.zip.*;
     transient ByteBuffer buf;
     protected String[] varNames;
     protected Hashtable variableTable;
+    private HashMap<Integer,CDFVariable> ivariableTable;
     Hashtable attributeTable;
     protected CDFCore thisCDF;
     protected CDFFactory.CDFSource source;
@@ -112,6 +113,7 @@ import java.util.zip.*;
         int [] offsets = new int[] {(int)zVDRHead, (int)rVDRHead};
         String [] vtypes = {"z", "r"};
         Hashtable table = new Hashtable();
+        HashMap<Integer,CDFVariable> ivariableTable= new HashMap<>();
         Vector v = new Vector();
         for (int vtype = 0; vtype < 2; vtype++) {
             long offset = offsets[vtype];
@@ -124,6 +126,7 @@ import java.util.zip.*;
                 CDFVariable cdfv = new CDFVariable(offset, vtypes[vtype]);
                 String name = cdfv.getName();
                 v.add(name);
+                ivariableTable.put( cdfv.number, cdfv );
                 table.put(name, cdfv);
                 if (next == 0) break;
                 offset = next;
@@ -135,6 +138,7 @@ import java.util.zip.*;
             varNames[i] = (String)v.elementAt(i);
         }
         variableTable = table;
+        this.ivariableTable= ivariableTable;
         LOGGER.exiting("CDFImpl","variables");
         return table;
     }
@@ -321,15 +325,12 @@ import java.util.zip.*;
      * returns Variable object associated with a given type at a given number
      */
     Variable getCDFVariable(String vtype, int number) {
-        Set set = variableTable.keySet();
-        Iterator iter = set.iterator();
-        while (iter.hasNext()) {
-            CDFVariable var = (CDFVariable)variableTable.get(iter.next());
-            if (var.vtype.equals(vtype)) {
-                if (var.number == number) return var;
-            }
+        CDFVariable var= ivariableTable.get( number );
+        if ( vtype.equals(var.vtype) ) {
+            return var;
+        } else {
+            throw new IllegalArgumentException("unsupported case, file must contain only zvariables or rvariables");
         }
-        return null;
     }
 
     /**
