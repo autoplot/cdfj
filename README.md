@@ -8,4 +8,6 @@ unix> cd cdfj
 unix> ant jar
 ~~~~~
 
+* This does not work--TODO: fix this *
+
 and cdfj.jar will be in the "dist" folder.
