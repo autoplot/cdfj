@@ -119,14 +119,14 @@ public final class ReaderFactory {
             int len = (int)file.length();
             byte[] ba = new byte[len];
             int rem = len;
-            FileInputStream fis = new FileInputStream(file);
-            int n = 0;
-            while (rem > 0) {
-                len = fis.read(ba, n, rem);
-                n += len;
-                rem -= len;
+            try (FileInputStream fis = new FileInputStream(file)) {
+                int n = 0;
+                while (rem > 0) {
+                    len = fis.read(ba, n, rem);
+                    n += len;
+                    rem -= len;
+                }
             }
-            fis.close();
             cdf = CDFFactory.getCDF(ba);
         } catch (Throwable th) {
             throw new CDFException.ReaderError("I/O Error reading " + fname);

@@ -96,10 +96,11 @@ public final class CDFFactory {
         clean();
         File file = new File(fname);
         final String _fname = file.getPath();
-        FileInputStream fis = new FileInputStream(file);
-        FileChannel ch = fis.getChannel();
-        ByteBuffer buf = ch.map(FileChannel.MapMode.READ_ONLY, 0, ch.size());
-        fis.close();
+        ByteBuffer buf;
+        try (FileInputStream fis = new FileInputStream(file)) {
+            FileChannel ch = fis.getChannel();
+            buf = ch.map(FileChannel.MapMode.READ_ONLY, 0, ch.size());
+        }
         CDFImpl cdf = getVersion(buf);
         ((CDFImpl)cdf).setOption(new ProcessingOption() {
             public String missingRecordOption() {

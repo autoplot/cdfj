@@ -1150,11 +1150,11 @@ public class GenericWriter {
         //System.out.println(channel.size());
     }
     void writeWin(String fname, ByteBuffer buf) throws IOException {
-        FileOutputStream fos = new FileOutputStream(fname);
-        byte[] ba = buf.array();
-        fos.write(ba);
-        fos.close();
-        //System.out.println("finished writing to " + fname);
+        try (FileOutputStream fos = new FileOutputStream(fname)) {
+            byte[] ba = buf.array();
+            fos.write(ba);
+            //System.out.println("finished writing to " + fname);
+        }
     }
 /*
         byte[] ba = new byte[chunkSize];
