@@ -10,7 +10,7 @@ public class TimeUtil {
     static final long[] jtimes;
     static final int[] leapSecondIds;
     static final long[] tt_times;;
-    static final int highest;
+    static final int HIGHEST;
     static SimpleDateFormat sdf =
         new SimpleDateFormat("y'-'M'-'dd'T'HH:mm:ss.SSS");
 
@@ -19,7 +19,7 @@ public class TimeUtil {
      */
     public static final long TT_JANUARY_1_1970 = -946727957816000000l;
     static final long JANUARY_1_1972 = Date.UTC(72,0,1,0,0,0);
-    static final int lastLeapSecondId;
+    static final int LAST_LEAP_SECOND_ID;
     static {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         boolean[][] transition = new boolean[100][2];
@@ -104,8 +104,8 @@ public class TimeUtil {
                 System.out.println("Internal error.");
             }
         }
-        highest = 1000*jtimes.length;
-        lastLeapSecondId = leapSecondIds[leapSecondIds.length - 1];
+        HIGHEST = 1000*jtimes.length;
+        LAST_LEAP_SECOND_ID = leapSecondIds[leapSecondIds.length - 1];
     }
 
     /**
@@ -131,7 +131,7 @@ public class TimeUtil {
                 }
                 i++;
             }
-            if (start < 0) start = (double)(l + highest);
+            if (start < 0) start = (double)(l + HIGHEST);
         }
         return start;
     }
@@ -276,8 +276,8 @@ public class TimeUtil {
          */
         public static long correctedIfNecessary(long varTime, int leapId) throws
             Throwable {
-            if (leapId == lastLeapSecondId) return varTime;
-            if (leapId < lastLeapSecondId) { //
+            if (leapId == LAST_LEAP_SECOND_ID) return varTime;
+            if (leapId < LAST_LEAP_SECOND_ID) { //
                 int id = -1;
                 for (int i = (leapSecondIds.length - 1); i >= 0; i--) {
                     if (leapId == leapSecondIds[i]) {

@@ -9,7 +9,7 @@ public interface TimeSeriesOneD {
     /**
      *
      */
-    public boolean oned = true;
+    public boolean ONED = true;
     /**
      * Returns times according to the
      * {@link TimeInstantModel time instant model}

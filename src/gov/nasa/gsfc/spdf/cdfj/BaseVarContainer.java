@@ -8,7 +8,7 @@ import java.lang.reflect.*;
  * @author nand
  */
 public abstract class BaseVarContainer implements Runnable {
-    static final int chunkSize = 1024;
+    static final int CHUNK_SIZE = 1024;
     final CDFImpl thisCDF;
     final Variable var;
     final int[] pt;
@@ -126,7 +126,7 @@ public abstract class BaseVarContainer implements Runnable {
         fillCount = _fillCount;
         overlap = _overlap;
         if ((DataTypes.size[type] > 1) || (_class != Byte.TYPE)) {
-            int _recordsPerChunk = (chunkSize/elements);
+            int _recordsPerChunk = (CHUNK_SIZE/elements);
             recordsPerChunk = (_recordsPerChunk == 0)?1:_recordsPerChunk;
             csize = recordsPerChunk*elements;
             chunking = true;

@@ -14,17 +14,17 @@ public interface CDF3 extends CDFCore {
     /**
      *
      */
-    public final int AgrEDRHead_OFFSET = 20;
+    public final int AGR_EDRHEAD_OFFSET = 20;
 
     /**
      *
      */
-    public final int AzEDRHead_OFFSET = 48;
+    public final int AZ_EDRHEAD_OFFSET = 48;
 
     /**
      *
      */
-    public final int rDimSizes_OFFSET = 84;
+    public final int R_DIMSIZES_OFFSET = 84;
 
     /**
      *
@@ -96,7 +96,7 @@ public interface CDF3 extends CDFCore {
     /**
      *
      */
-    public final int OFFSET_zNumDims = VAR_OFFSET_NAME + 256;
+    public final int OFFSET_Z_NUMDIMS = VAR_OFFSET_NAME + 256;
 
     /**
      *
@@ -121,7 +121,7 @@ public interface CDF3 extends CDFCore {
     /**
      *
      */
-    public final int OFFSET_sRecords = 48;
+    public final int OFFSET_SRECORDS = 48;
 
     /**
      *

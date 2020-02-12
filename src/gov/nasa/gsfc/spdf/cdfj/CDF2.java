@@ -14,17 +14,17 @@ public interface CDF2 extends CDFCore {
     /**
      *
      */
-    public final int AgrEDRHead_OFFSET = 12;
+    public final int AGR_EDRHEAD_OFFSET = 12;
 
     /**
      *
      */
-    public final int AzEDRHead_OFFSET = 36;
+    public final int AZ_EDRHEAD_OFFSET = 36;
 
     /**
      *
      */
-    public final int rDimSizes_OFFSET = 60;
+    public final int R_DIMSIZES_OFFSET = 60;
 
     /**
      *
@@ -108,7 +108,7 @@ public interface CDF2 extends CDFCore {
     /**
      *
      */
-    public final int OFFSET_sRecords = 32;
+    public final int OFFSET_SRECORDS = 32;
 
     /**
      *

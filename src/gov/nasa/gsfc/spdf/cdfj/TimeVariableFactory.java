@@ -14,8 +14,8 @@ public class TimeVariableFactory {
      *
      */
     public static final double JANUARY_1_1970;
-    static final long longFill = -9223372036854775807L;
-    static final double doubleFill = -1.0e31;
+    static final long LONG_FILL = -9223372036854775807L;
+    static final double DOUBLE_FILL = -1.0e31;
     static {
         int offset = 0;
         for (int year=0; year < 1970; year++) {
@@ -431,7 +431,7 @@ public class TimeVariableFactory {
             dbuf.position(first);
             dbuf.get(da);
             for (int i = 0; i < count; i++) {
-                if (da[i] == doubleFill) {
+                if (da[i] == DOUBLE_FILL) {
                     System.out.println("at " + i + " fill found");
                     da[i] = Double.NaN;
                     continue;
@@ -489,7 +489,7 @@ public class TimeVariableFactory {
                 offset = base - TT2000_DATE;
                 for (int i = first; i <= last; i++) {
                     long nano = lbuf.get(i);
-                    if (nano == longFill) {
+                    if (nano == LONG_FILL) {
                         da[i - first] = Double.NaN;
                         continue;
                     }
@@ -502,7 +502,7 @@ public class TimeVariableFactory {
                     offset = 1000*(base - TT2000_DATE);
                     for (int i = first; i <= last; i++) {
                         long nano = lbuf.get(i);
-                        if (nano == longFill) {
+                        if (nano == LONG_FILL) {
                             da[i - first] = Double.NaN;
                             continue;
                         }
@@ -519,7 +519,7 @@ public class TimeVariableFactory {
                     offset = 1000000*(base - TT2000_DATE);
                     for (int i = first; i <= last; i++) {
                         long nano = lbuf.get(i);
-                        if (nano == longFill) {
+                        if (nano == LONG_FILL) {
                             da[i - first] = Double.NaN;
                             continue;
                         }
@@ -581,7 +581,7 @@ public class TimeVariableFactory {
                 mul = 1000;
                 for (int i = first; i <= last; i++) {
                     _d = dbuf.get(2*i);
-                    if (_d == doubleFill) {
+                    if (_d == DOUBLE_FILL) {
                         da[i - first] = Double.NaN;
                         continue;
                     }
@@ -594,7 +594,7 @@ public class TimeVariableFactory {
                     mul = 1000000;
                     for (int i = first; i <= last; i++) {
                         _d = dbuf.get(2*i);
-                        if (_d == doubleFill) {
+                        if (_d == DOUBLE_FILL) {
                             da[i - first] = Double.NaN;
                             continue;
                         }
@@ -607,7 +607,7 @@ public class TimeVariableFactory {
                         mul = 1000000000;
                         for (int i = first; i <= last; i++) {
                             _d = dbuf.get(2*i);
-                            if (_d == doubleFill) {
+                            if (_d == DOUBLE_FILL) {
                                 da[i - first] = Double.NaN;
                                 continue;
                             }
@@ -618,7 +618,7 @@ public class TimeVariableFactory {
                     } else { // pico
                         for (int i = first; i <= last; i++) {
                             _d = dbuf.get(2*i);
-                            if (_d == doubleFill) {
+                            if (_d == DOUBLE_FILL) {
                                 da[i - first] = Double.NaN;
                                 continue;
                             }
@@ -678,7 +678,7 @@ public class TimeVariableFactory {
             if (offsetUnits == TimePrecision.MILLISECOND) {
                 if (base == JANUARY_1_1970_LONG) {
                     for (int i = 0; i < count; i++) {
-                        if (da[i] == doubleFill) {
+                        if (da[i] == DOUBLE_FILL) {
                             da[i] = Double.NaN;
                             continue;
                         }
@@ -687,7 +687,7 @@ public class TimeVariableFactory {
                 } else {
                     offset = base - JANUARY_1_1970_LONG;
                     for (int i = 0; i < count; i++) {
-                        if (da[i] == doubleFill) {
+                        if (da[i] == DOUBLE_FILL) {
                             da[i] = Double.NaN;
                             continue;
                         }
@@ -702,7 +702,7 @@ public class TimeVariableFactory {
                 }
                 if (base == JANUARY_1_1970) {
                     for (int i = 0; i < count; i++) {
-                        if (da[i] == doubleFill) {
+                        if (da[i] == DOUBLE_FILL) {
                             da[i] = Double.NaN;
                             continue;
                         }
@@ -711,7 +711,7 @@ public class TimeVariableFactory {
                 } else {
                     offset = 1000*(base - JANUARY_1_1970_LONG);
                     for (int i = 0; i < count; i++) {
-                        if (da[i] == doubleFill) {
+                        if (da[i] == DOUBLE_FILL) {
                             da[i] = Double.NaN;
                             continue;
                         }
