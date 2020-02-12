@@ -1702,6 +1702,7 @@ public class Extractor {
     /**
      * returns range of values for the specified element of a one
      * dimensional variable.returns null if the specified element is not valid.
+     * @param thisCDF
      * @param ielement
      * @param var
      * @param iend
@@ -1834,6 +1835,7 @@ public class Extractor {
      * returns range of values for the specified elements of a one
      * dimensional variable.returns null if any of the specified elements is not valid.-- does not respect 'previous' and cases where the requested
  range has partial overlap with the available range
+     * @param thisCDF
      * @param idx
      * @param var
      * @param iend

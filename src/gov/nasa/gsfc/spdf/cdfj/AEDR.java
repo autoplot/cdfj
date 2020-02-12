@@ -20,6 +20,8 @@ public class AEDR {
      * Constructs AEDR of a given type and value for an ADR.Specification of type is deferred if type = -1.Once set,
  data type cannot be changed.
      * @param adr
+     * @param type
+     * @param value
      * @throws java.lang.Throwable
      */
     public AEDR(ADR adr, int type, Object value) throws Throwable {

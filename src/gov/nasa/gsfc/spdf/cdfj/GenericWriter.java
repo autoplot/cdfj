@@ -310,6 +310,7 @@ public class GenericWriter {
     /**
      * Defines a time series of a new named variable of specified data type
      * and the time variable of specified name and type.
+     * @param name
      * @param compressed
      * @param dataType
      * @param timeType
@@ -546,6 +547,8 @@ public class GenericWriter {
  defineStringVariable(String name, int[] dim,
   boolean[] varys, boolean recordVariance, boolean compressed,
   Object pad, int size, SparseRecordOption.NONE)
+     * @param name
+     * @param dim
      * @param size
      * @param pad
      * @param varys

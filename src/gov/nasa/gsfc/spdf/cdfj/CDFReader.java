@@ -18,7 +18,7 @@ public class CDFReader extends GenericReader {
     }
     /**
      * Constructs a reader for the given CDF file.
-     * @param string
+     * @param cdfFile
      * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFReader(String cdfFile) throws CDFException.ReaderError {
