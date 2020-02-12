@@ -1,8 +1,6 @@
 package gov.nasa.gsfc.spdf.cdfj;
-import java.io.*;
 import java.nio.*;
 import java.util.*;
-import java.util.zip.*;
 import java.lang.reflect.*;
 public class Extractor {
     static int MAX_ARRAY = 3;

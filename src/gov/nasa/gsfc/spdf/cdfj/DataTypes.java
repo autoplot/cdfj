@@ -1,6 +1,5 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
-import java.io.*;
 import java.lang.reflect.*;
 public final class DataTypes {
     public static final int ENCODING_COUNT = 17;

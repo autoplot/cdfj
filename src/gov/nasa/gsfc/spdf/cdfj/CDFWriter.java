@@ -1,11 +1,8 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
-import java.nio.channels.*;
 import java.util.*;
 import java.io.*;
 import java.net.*;
-import java.security.MessageDigest;
-import java.lang.reflect.*;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 /**

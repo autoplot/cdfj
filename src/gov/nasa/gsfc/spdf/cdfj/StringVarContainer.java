@@ -1,6 +1,5 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
-import java.util.*;
 import java.lang.reflect.*;
 public final class StringVarContainer extends ByteVarContainer implements 
     VDataContainer.CString {

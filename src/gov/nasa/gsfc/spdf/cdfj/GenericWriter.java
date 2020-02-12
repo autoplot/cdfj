@@ -4,7 +4,6 @@ import java.nio.channels.*;
 import java.util.*;
 import java.io.*;
 import java.security.MessageDigest;
-import java.lang.reflect.*;
 /**
  * Base class for creating a version 3.6 CDF.
  * Derived class CDFWriter provides methods for creating a CDF

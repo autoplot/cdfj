@@ -1,7 +1,6 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.net.*;
 import java.io.*;
-import java.nio.*;
 import java.util.*;
 import java.util.zip.*;
 import java.nio.channels.FileChannel;

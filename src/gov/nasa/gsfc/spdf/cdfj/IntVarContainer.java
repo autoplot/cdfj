@@ -1,7 +1,6 @@
 package gov.nasa.gsfc.spdf.cdfj;
 //import gov.nasa.gsfc.spdf.common.*;
 import java.nio.*;
-import java.util.*;
 import java.lang.reflect.*;
 public final class IntVarContainer extends BaseVarContainer implements
     VDataContainer.CInt {

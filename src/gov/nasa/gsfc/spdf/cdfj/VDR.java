@@ -1,6 +1,5 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
-import java.io.*;
 import java.util.*;
 public class VDR {
     ByteBuffer record = ByteBuffer.allocate(8 + 4 + 8 + 4 + 4 +

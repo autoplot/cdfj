@@ -1,7 +1,5 @@
 package gov.nasa.gsfc.spdf.cdfj;
-import java.io.*;
 import java.net.*;
-import java.nio.*;
 import java.util.*;
 import java.lang.reflect.*;
 /**

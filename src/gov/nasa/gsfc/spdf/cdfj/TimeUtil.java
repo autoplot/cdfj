@@ -1,7 +1,5 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.util.*;
-import java.io.*;
-import java.net.*;
 import java.text.*;
 public class TimeUtil {
     static final long[] jtimes;

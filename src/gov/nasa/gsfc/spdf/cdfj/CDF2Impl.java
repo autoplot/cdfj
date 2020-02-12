@@ -1,9 +1,6 @@
 package gov.nasa.gsfc.spdf.cdfj;
-import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
-import java.util.*;
-import java.util.zip.*;
 final class CDF2Impl extends CDFImpl implements CDF2, java.io.Serializable {
     public int GDROffset;
     public int VAR_OFFSET_NAME;

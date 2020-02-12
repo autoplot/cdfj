@@ -1,10 +1,6 @@
 package gov.nasa.gsfc.spdf.cdfj;
-import java.io.*;
 import java.nio.*;
-import java.util.*;
-import java.io.*;
 import java.nio.channels.*;
-import java.util.zip.*;
 final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
     public long GDROffset;
     FileChannel fc;

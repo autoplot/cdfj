@@ -1,6 +1,4 @@
 package gov.nasa.gsfc.spdf.cdfj;
-import java.nio.*;
-import java.util.*;
 /**
  * Interface that defines methods for getting attributes, variable
  * characteristics, and data from a generic CDF 

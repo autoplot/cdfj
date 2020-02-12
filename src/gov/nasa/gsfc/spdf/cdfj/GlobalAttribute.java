@@ -1,5 +1,4 @@
 package gov.nasa.gsfc.spdf.cdfj;
-import java.util.*;
 /**
  * Global Attribute specification.
  */

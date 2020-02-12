@@ -1,5 +1,4 @@
 package gov.nasa.gsfc.spdf.cdfj;
-import java.util.*;
 public interface VariableAttribute extends Attribute {
     /**
      * returns count of entries for this variable attribute. 
