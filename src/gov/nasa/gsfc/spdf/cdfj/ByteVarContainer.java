@@ -91,7 +91,7 @@ public class ByteVarContainer extends BaseVarContainer implements
         int records = -1;
         switch (rank) {
         case 0:
-            if (singlePoint) return new Byte(buf.get());
+            if (singlePoint) return buf.get();
             byte[] ba = new byte[words];
             buf.get(ba);
             return ba;

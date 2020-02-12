@@ -32,22 +32,22 @@ public class VDR {
             if (cl.getComponentType() != String.class) {
                 _pad = new Number[1];
                 if (cl.getComponentType() == Double.TYPE) {
-                    _pad[0] = new Double(((double[])pad)[0]);
+                    _pad[0] = ((double[])pad)[0];
                 }
                 if (cl.getComponentType() == Float.TYPE) {
-                    _pad[0] = new Float(((float[])pad)[0]);
+                    _pad[0] = ((float[])pad)[0];
                 }
                 if (cl.getComponentType() == Integer.TYPE) {
-                    _pad[0] = new Integer(((int[])pad)[0]);
+                    _pad[0] = ((int[])pad)[0];
                 }
                 if (cl.getComponentType() == Long.TYPE) {
-                    _pad[0] = new Long(((long[])pad)[0]);
+                    _pad[0] = ((long[])pad)[0];
                 }
                 if (cl.getComponentType() == Short.TYPE) {
-                    _pad[0] = new Short(((short[])pad)[0]);
+                    _pad[0] = ((short[])pad)[0];
                 }
                 if (cl.getComponentType() == Byte.TYPE) {
-                    _pad[0] = new Byte(((byte[])pad)[0]);
+                    _pad[0] = ((byte[])pad)[0];
                 }
             }
             int category = DataTypes.typeCategory[dataType];
@@ -229,7 +229,7 @@ public class VDR {
         for (int i = 0; i < zNumDims; i++) dimBuf.putInt(dim[i]);
         for (int i = 0; i < zNumDims; i++) {
             dimBuf.putInt(varys[i]?-1:0);
-            if (varys[i]) efdim.add(new Integer(dim[i]));
+            if (varys[i]) efdim.add(dim[i]);
         }
         dimBuf.position(0);
     }

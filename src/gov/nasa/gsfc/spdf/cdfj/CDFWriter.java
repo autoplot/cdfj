@@ -725,7 +725,7 @@ public class CDFWriter extends GenericWriter {
            new HashMap<String, SparseRecordOption>();
         @Override
         public void add(String vname, boolean compression) {
-            map.put(vname, new Boolean(compression));
+            map.put(vname, compression);
         }
         @Override
         public void add(String vname, boolean compression,

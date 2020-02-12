@@ -1433,7 +1433,7 @@ import java.util.zip.*;
             int [] dimensions = getDimensions();
             Vector ecount = new Vector();
             for (int i = 0; i < dimensions.length; i++) {
-                    if (getVarys()[i]) ecount.add(new Integer(dimensions[i]));
+                    if (getVarys()[i]) ecount.add(dimensions[i]);
             }
             return ecount;
         }

@@ -13,33 +13,33 @@ public class ArrayAttribute {
             cl = cl.getComponentType();
             if (cl.isPrimitive()) {            
                 if (cl == Double.TYPE) {
-                    dim.add(new Integer(((double[])o).length));
+                    dim.add(((double[])o).length);
                     break;
                 }
                 if (cl == Float.TYPE) {
-                    dim.add(new Integer(((float[])o).length));
+                    dim.add(((float[])o).length);
                     break;
                 }
                 if (cl == Integer.TYPE) {
-                    dim.add(new Integer(((int[])o).length));
+                    dim.add(((int[])o).length);
                     break;
                 }
                 if (cl == Byte.TYPE) {
-                    dim.add(new Integer(((byte[])o).length));
+                    dim.add(((byte[])o).length);
                     break;
                 }
                 if (cl == Short.TYPE) {
-                    dim.add(new Integer(((short[])o).length));
+                    dim.add(((short[])o).length);
                     break;
                 }
                 if (cl == Long.TYPE) {
-                    dim.add(new Integer(((long[])o).length));
+                    dim.add(((long[])o).length);
                     break;
                 }
             } 
             Object[] _o = (Object[])o;
             o = _o[0];
-            dim.add(new Integer(_o.length));                
+            dim.add(_o.length);                
         }
     }
     public Class<?> getType() {return cl;}

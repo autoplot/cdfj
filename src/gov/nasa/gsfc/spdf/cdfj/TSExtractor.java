@@ -74,10 +74,10 @@ public class TSExtractor extends Extractor {
         Number pad;
         if (DataTypes.typeCategory[type] == DataTypes.LONG) {
             longType = true;
-            pad = new Long(((long[])getPadValue(rdr.thisCDF, var))[element]);
+            pad = ((long[])getPadValue(rdr.thisCDF, var))[element];
         } else {
             pad =
-                new Double(((double[])getPadValue(rdr.thisCDF, var))[element]);
+                    ((double[])getPadValue(rdr.thisCDF, var))[element];
         }
         double[] stimes;
         Object o = null;
@@ -95,11 +95,9 @@ public class TSExtractor extends Extractor {
             recordRange = getRecordRange(rdr, var, timeRange);
             if (recordRange == null) return null;
             if (which == null) {
-                o = getRange0(rdr.thisCDF, var, new Integer(recordRange[0]),
-                                  new Integer(recordRange[1]));
+                o = getRange0(rdr.thisCDF, var, recordRange[0], recordRange[1]);
             } else {
-                o = getRangeForElement1(rdr.thisCDF, var,
-                    new Integer(recordRange[0]), new Integer(recordRange[1]),
+                o = getRangeForElement1(rdr.thisCDF, var, recordRange[0], recordRange[1],
                     which);
             }
             stimes = new double[Array.getLength(o)];
@@ -125,10 +123,10 @@ public class TSExtractor extends Extractor {
         Number fillValue = null;
         if (fill.getClass().getComponentType() == Double.TYPE) {
             fillDefined =  (((double[])fill)[0] == 0);
-            if (fillDefined) fillValue = new Double(((double[])fill)[1]);
+            if (fillDefined) fillValue = ((double[])fill)[1];
         } else {
             fillDefined =  (((long[])fill)[0] == 0);
-            if (fillDefined) fillValue = new Long(((long[])fill)[1]);
+            if (fillDefined) fillValue = ((long[])fill)[1];
         }
         if (!fillDefined) {
             vdata = castToDouble(oa[1], longType);
@@ -288,12 +286,9 @@ public class TSExtractor extends Extractor {
             recordRange = getRecordRange(rdr, var, timeRange);
             if (recordRange == null) return null;
             if (which == null) {
-                vdata = (double[])getRange0(rdr.thisCDF, var,
-                        new Integer(recordRange[0]),
-                                  new Integer(recordRange[1]), strideObject);
+                vdata = (double[])getRange0(rdr.thisCDF, var, recordRange[0], recordRange[1], strideObject);
             } else {
-                vdata = (double[])getRangeForElement1(rdr.thisCDF, var,
-                    new Integer(recordRange[0]), new Integer(recordRange[1]),
+                vdata = (double[])getRangeForElement1(rdr.thisCDF, var, recordRange[0], recordRange[1],
                     which, strideObject);
             }
         }
@@ -403,11 +398,9 @@ public class TSExtractor extends Extractor {
                 recordRange = getRecordRange(rdr, var, timeRange, ts);
                 if (recordRange == null) throw new Throwable("no record range");
                 if (which == null) {
-                    o = getRange0(rdr.thisCDF, var, new Integer(recordRange[0]),
-                                  new Integer(recordRange[1]));
+                    o = getRange0(rdr.thisCDF, var, recordRange[0], recordRange[1]);
                 } else {
-                    o = getRangeForElement1(rdr.thisCDF, var,
-                    new Integer(recordRange[0]), new Integer(recordRange[1]),
+                    o = getRangeForElement1(rdr.thisCDF, var, recordRange[0], recordRange[1],
                     which);
                 }
             }

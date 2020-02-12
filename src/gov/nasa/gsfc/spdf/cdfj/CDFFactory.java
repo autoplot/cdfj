@@ -206,7 +206,7 @@ public final class CDFFactory {
         if (maxMappedMemory != null) {
             if (maxMappedMemory > value) return;
         }
-        maxMappedMemory = new Long(value);
+        maxMappedMemory = value;
     }
     public static void clean() {
         if (maxMappedMemory != null) {

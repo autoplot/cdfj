@@ -120,7 +120,7 @@ public abstract class BaseVarContainer implements Runnable {
     }
 
     public void setDirect(boolean direct) {
-        if (allocationMode == null) allocationMode = new Boolean(direct);
+        if (allocationMode == null) allocationMode = direct;
     }
 
     ByteBuffer userBuffer;

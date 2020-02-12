@@ -135,10 +135,10 @@ public class Extractor {
         if (DataTypes.typeCategory[type] == DataTypes.LONG) {
             ldata = new long[numberOfValues];
             longType = true;
-            pad = new Long(((long[])getPadValue(thisCDF, var))[0]);
+            pad = ((long[])getPadValue(thisCDF, var))[0];
         } else {
             data = new double[numberOfValues];
-            pad = new Double(((double[])getPadValue(thisCDF, var))[0]);
+            pad = ((double[])getPadValue(thisCDF, var))[0];
         }
         Vector locations =
             ((CDFImpl.DataLocator)var.getLocator()).getLocationsAsVector();
@@ -253,10 +253,10 @@ public class Extractor {
             Number fillValue = null;
             if (fill.getClass().getComponentType() == Double.TYPE) {
                 fillDefined =  (((double[])fill)[0] == 0);
-                if (fillDefined) fillValue = new Double(((double[])fill)[1]);
+                if (fillDefined) fillValue = ((double[])fill)[1];
             } else {
                 fillDefined =  (((long[])fill)[0] == 0);
-                if (fillDefined) fillValue = new Long(((long[])fill)[1]);
+                if (fillDefined) fillValue = ((long[])fill)[1];
             }
             int type = var.getType();
             int n = var.getDataItemSize()/DataTypes.size[type];
@@ -998,22 +998,22 @@ public class Extractor {
             Number num;
             switch (DataTypes.typeCategory[type]) {
             case 0:
-                return new Double((double)bv.getFloat(pos));
+                return (double)bv.getFloat(pos);
             case 1:
-                return new Double(bv.getDouble(pos));
+                return bv.getDouble(pos);
             case 2:
                 method = DataTypes.method[type];
                 num = (Number)method.invoke(bv, new Object[] {});
-                return new Double(num.doubleValue());
+                return num.doubleValue();
             case 3:
                 method = DataTypes.method[type];
                 long longInt = DataTypes.longInt[type];
                 num = (Number)method.invoke(bv, new Object[] {});
                 int x = num.intValue();
                 double d = (x >= 0)?(double)x:(double)(longInt + x);
-                return new Double(d);
+                return d;
             case 5:
-                return new Long(bv.getLong(pos));
+                return bv.getLong(pos);
             }
         }
         return null;
@@ -1553,7 +1553,7 @@ public class Extractor {
         int [] dimensions = var.getDimensions();
         Vector ecount = new Vector();
         for (int i = 0; i < dimensions.length; i++) {
-                if (var.getVarys()[i]) ecount.add(new Integer(dimensions[i]));
+                if (var.getVarys()[i]) ecount.add(dimensions[i]);
         }
         return ecount;
     }
@@ -1984,7 +1984,7 @@ public class Extractor {
                 if (last > end) last = end;
             }
         }
-        return new Object[] {bv, new Integer(first), new Integer(last)};
+        return new Object[] {bv, first, last};
     }
     /**
       * 3D Series

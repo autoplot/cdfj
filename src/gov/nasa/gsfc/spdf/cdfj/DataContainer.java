@@ -35,8 +35,8 @@ public class DataContainer {
     Boolean phantom = null;
     void addPhantomEntry() {
         if (phantom != null) return;
-        firstRecords.add(new Integer(-1));
-        lastRecords.add(new Integer(-1));
+        firstRecords.add(-1);
+        lastRecords.add(-1);
         bufs.add(null);
         phantom = Boolean.TRUE;
     }
@@ -65,7 +65,7 @@ public class DataContainer {
                 }
                 if (_doNotCompress == null) {
                     doNotCompress = (recordRange.length == 2);
-                    _doNotCompress = new Boolean(doNotCompress);
+                    _doNotCompress = doNotCompress;
                 } else {
                     if ((doNotCompress && (recordRange.length > 2)) ||
                        (!doNotCompress && (recordRange.length == 2))) {
@@ -137,10 +137,10 @@ public class DataContainer {
                 last = recordRange[1];
                 npt = last - first + 1;
             }
-            firstRecords.add(new Integer(first));
-            lastRecords.add(new Integer(last));
+            firstRecords.add(first);
+            lastRecords.add(last);
             bufs.add(buf);
-            points.add(new Integer(npt));
+            points.add(npt);
             return;
         }
         ArrayAttribute aa = new ArrayAttribute(data);
@@ -159,7 +159,7 @@ public class DataContainer {
             Vector<Integer> vdim = null;
             if (vdr.dataType == 32) {
                 vdim = new Vector<Integer>();
-                vdim.add(new Integer(2));
+                vdim.add(2);
             } else {
                 vdim = vdr.efdim;
             }
@@ -335,10 +335,10 @@ public class DataContainer {
             bufs.clear();
             phantom = Boolean.FALSE;
         }
-        firstRecords.add(new Integer(first));
-        lastRecords.add(new Integer(last));
+        firstRecords.add(first);
+        lastRecords.add(last);
         bufs.add(buf);
-        points.add(new Integer(npt));
+        points.add(npt);
     }
     long[] locs;
     VXR[] vxrs;

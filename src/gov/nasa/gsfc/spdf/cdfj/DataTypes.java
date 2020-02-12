@@ -130,8 +130,8 @@ public final class DataTypes {
         return (typeCategory[type] == LONG);
     }
     public static Object defaultPad(int type) {
-        if (isLongType(type)) return new Long(-9223372036854775807L);
-        if (isStringType(type)) return new Byte(" ".getBytes()[0]);
+        if (isLongType(type)) return -9223372036854775807L;
+        if (isStringType(type)) return " ".getBytes()[0];
         return new Double(0);
     }
 }

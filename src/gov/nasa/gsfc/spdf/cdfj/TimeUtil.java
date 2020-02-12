@@ -75,12 +75,12 @@ public class TimeUtil {
         Vector<Integer> ids = new Vector<Integer>();
         for (int i = 0; i < transition.length; i++) {
             if (transition[i][0]) {
-                times.add(new Long(Date.UTC(70 + i, 5, 30, 23, 59, 59)));
-                ids.add(new Integer((1970 + i)*10000 + 701));
+                times.add(Date.UTC(70 + i, 5, 30, 23, 59, 59));
+                ids.add((1970 + i)*10000 + 701);
             }
             if (transition[i][1]) {
-                times.add(new Long(Date.UTC(70 + i, 11, 31, 23, 59, 59)));
-                ids.add(new Integer((1971 + i)*10000 + 101));
+                times.add(Date.UTC(70 + i, 11, 31, 23, 59, 59));
+                ids.add((1971 + i)*10000 + 101);
             }
         }
         jtimes = new long[times.size()];

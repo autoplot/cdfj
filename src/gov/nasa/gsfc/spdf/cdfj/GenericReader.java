@@ -278,8 +278,7 @@ public class GenericReader extends MetaData {
                 return thisCDF.getRange(varName, first, last);
             }
             return method.invoke(null,
-                new Object[] {thisCDF, var, new Integer(first),
-                new Integer(last)});
+                new Object[] {thisCDF, var, first, last});
         } catch (Throwable th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
@@ -347,7 +346,7 @@ public class GenericReader extends MetaData {
                 return (double[])thisCDF.get(varName, component);
             }
             return (double[])method.invoke(null,
-                new Object[] {thisCDF, var, new Integer(component)});
+                new Object[] {thisCDF, var, component});
         } catch (Throwable th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
@@ -405,8 +404,7 @@ public class GenericReader extends MetaData {
                 component);
             }
             return (double[])method.invoke(null,
-                new Object[] {thisCDF, var, new Integer(first),
-                new Integer(last), new Integer(component)});
+                new Object[] {thisCDF, var, first, last, component});
         } catch (Throwable th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
@@ -437,8 +435,7 @@ public class GenericReader extends MetaData {
                 components);
             }
             return (double[][])method.invoke(null,
-                new Object[] {thisCDF, var, new Integer(first),
-                new Integer(last), components});
+                new Object[] {thisCDF, var, first, last, components});
         } catch (Throwable th) {
             throw new CDFException.ReaderError(th.getMessage());
         }

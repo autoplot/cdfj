@@ -673,7 +673,7 @@ public class CDFReader extends GenericReader {
             Variable var = thisCDF.getVariable(varName);
             Method method = TSExtractor.getMethod(var, "TimeSeries", 0);
             return (double[][])method.invoke(null, new Object []
-                {rdr, var, new Boolean(ignoreFill), timeRange});
+                {rdr, var, ignoreFill, timeRange});
         }
         TimeSeries _getTimeSeries(String varName, boolean ignoreFill,
             double[] timeRange, TimeInstantModel tspec) throws Throwable {
@@ -681,7 +681,7 @@ public class CDFReader extends GenericReader {
             Variable var = thisCDF.getVariable(varName);
             Method method = TSExtractor.getMethod(var, "TimeSeriesObject", 0);
             TimeSeries ts =  (TimeSeries)method.invoke(null, new Object []
-                {rdr, var, new Boolean(ignoreFill), timeRange, tspec});
+                {rdr, var, ignoreFill, timeRange, tspec});
             return new TimeSeriesImpl(ts);
         }
         public double[][] getTimeSeries(String varName) throws Throwable {
@@ -928,7 +928,7 @@ public class CDFReader extends GenericReader {
             Variable var = thisCDF.getVariable(varName);
             Method method = TSExtractor.getMethod(var, "TimeSeries", 1);
             return (double[][])method.invoke(null, new Object []
-                {rdr, var, new Integer(component), new Boolean(ignoreFill),
+                {rdr, var, component, ignoreFill,
                 timeRange});
         }
         private TimeSeries _getTimeSeries(String varName, int component,
@@ -938,7 +938,7 @@ public class CDFReader extends GenericReader {
             Variable var = thisCDF.getVariable(varName);
             Method method = TSExtractor.getMethod(var, "TimeSeriesObject", 1);
             TimeSeries ts = (TimeSeries)method.invoke(null, new Object []
-                {rdr, var, new Integer(component), new Boolean(ignoreFill),
+                {rdr, var, component, ignoreFill,
                 timeRange, tspec});
             return new TimeSeriesImpl(ts);
         }
