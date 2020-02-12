@@ -175,9 +175,8 @@ public class CDFWriter extends GenericWriter {
         String[] vnames;
         if (col == null) {
             vnames = cdf.getVariableNames();
-            for (int n = 0; n < vnames.length; n++) {
-                vcol.add(vnames[n], cdf.isCompressed(vnames[n]),
-                    sparseRecordOption(cdf, vnames[n]));
+            for (String vname : vnames) {
+                vcol.add(vname, cdf.isCompressed(vname), sparseRecordOption(cdf, vname));
             }
         } else {
             vnames = getSelected(cdf, col);
@@ -356,42 +355,42 @@ public class CDFWriter extends GenericWriter {
          checkLastLeapSecondId(cdf);
          copyGlobalAttributes(cdf);
          addGlobalAttributeEntry("cdfj_source", cdf.getSource());
-         for (int n = 0; n < vnames.length; n++) {
-             String vn = vnames[n];
-             copyVariableAttributes(cdf, vn);
-         }
-         for (int n = 0; n < vnames.length; n++) {
-             String tvar;
-             if (!cdf.recordVariance(vnames[n])) continue;
-             if (cdf.isTimeType(vnames[n])) continue;
-             try {
-                 tvar = cdf.getTimeVariableName(vnames[n]);
-             } catch(Throwable th) {
-                 tvar = null;
-             }
-             if (tvar != null) {
-                 DataContainer dc = dataContainers.get(vnames[n]);
-                 if (cdf.getNumberOfValues(vnames[n]) ==
-                     cdf.getNumberOfValues(tvar)) {
-                     dc.setTimeContainer(dataContainers.get(tvar));
-                 }
-             }
-         }
-         for (int n = 0; n < vnames.length; n++) {
-             if (cdf.getNumberOfValues(vnames[n]) == 0) {
-                 ((DataContainer)dataContainers.get(vnames[n])).
-                 addPhantomEntry();
-             } else {
-                 copyVariableData(cdf, vnames[n]);
-             }
-             vcol.add(vnames[n], cdf.isCompressed(vnames[n]),
-                    sparseRecordOption(cdf, vnames[n]));
-         }
+        for (String vn : vnames) {
+            copyVariableAttributes(cdf, vn);
+        }
+        for (String vname : vnames) {
+            String tvar;
+            if (!cdf.recordVariance(vname)) {
+                continue;
+            }
+            if (cdf.isTimeType(vname)) {
+                continue;
+            }
+            try {
+                tvar = cdf.getTimeVariableName(vname);
+            }catch(Throwable th) {
+                tvar = null;
+            }
+            if (tvar != null) {
+                DataContainer dc = dataContainers.get(vname);
+                if (cdf.getNumberOfValues(vname) == cdf.getNumberOfValues(tvar)) {
+                    dc.setTimeContainer(dataContainers.get(tvar));
+                }
+            }
+        }
+        for (String vname : vnames) {
+            if (cdf.getNumberOfValues(vname) == 0) {
+                ((DataContainer) dataContainers.get(vname)).addPhantomEntry();
+            } else {
+                copyVariableData(cdf, vname);
+            }
+            vcol.add(vname, cdf.isCompressed(vname), sparseRecordOption(cdf, vname));
+        }
     }
     private void _addCDF(GenericReader cdf) throws Throwable {
         String[] vnames = cdf.getVariableNames();
-        for (int n = 0; n < vnames.length; n++) {
-            vcol.add(vnames[n], cdf.isCompressed(vnames[n]));
+        for (String vname : vnames) {
+            vcol.add(vname, cdf.isCompressed(vname));
         }
         _addCDF(cdf, vnames);
     }
@@ -400,22 +399,20 @@ public class CDFWriter extends GenericWriter {
         CDFException.ReaderError, CDFException.WriterError {
 //      try {
             String[] gan = cdf.globalAttributeNames();
-            for (int a = 0; a < gan.length; a++) {
-                Vector entries = null;
-                try {
-                    entries = cdf.getAttributeEntries(gan[a]);
-                } catch (Throwable th) {
-                    throw new CDFException.ReaderError(th.getMessage());
-                }
-                gamap.put(gan[a], entries);
-                for (int e = 0; e < entries.size(); e++) {
-                    AttributeEntry entry =
-                         (AttributeEntry)entries.get(e);
-                    addGlobalAttributeEntry(gan[a],
-                         SupportedTypes.cdfType(entry.getType()),
-                         entry.getValue());
-                }
-             }
+        for (String gan1 : gan) {
+            Vector entries = null;
+            try {
+                entries = cdf.getAttributeEntries(gan1);
+            }catch (Throwable th) {
+                throw new CDFException.ReaderError(th.getMessage());
+            }
+            gamap.put(gan1, entries);
+            for (int e = 0; e < entries.size(); e++) {
+                AttributeEntry entry =
+                        (AttributeEntry)entries.get(e);
+                addGlobalAttributeEntry(gan1, SupportedTypes.cdfType(entry.getType()), entry.getValue());
+            }
+        }
 //      } catch (Throwable t) {
 //          t.printStackTrace();
 //          throw new Throwable("Faulty original CDF, or program error " +
@@ -453,23 +450,22 @@ public class CDFWriter extends GenericWriter {
         }
         Hashtable amap = new Hashtable();
         String[] anames = cdf.variableAttributeNames(vn);
-        for (int i = 0; i < anames.length; i++) {
-                Vector entries = null;
-                try {
-                    entries = cdf.getAttributeEntries(vn, anames[i]);
-                } catch (Throwable th) {
-                    throw new CDFException.ReaderError(th.getMessage());
-                }
-             amap.put(anames[i], entries);
-             AttributeEntry entry = (AttributeEntry)entries.get(0);
-             ctype = SupportedTypes.cdfType(entry.getType());
-             setVariableAttributeEntry(vn, anames[i], ctype, entry.getValue());
-             for (int e = 1; e < entries.size(); e++) {
-                 entry = (AttributeEntry)entries.get(e);
-                 ctype = SupportedTypes.cdfType(cdf.getType(vn));
-                 addVariableAttributeEntry(vn, anames[i],
-                 ctype, entry.getValue());
-             }
+        for (String aname : anames) {
+            Vector entries = null;
+            try {
+                entries = cdf.getAttributeEntries(vn, aname);
+            }catch (Throwable th) {
+                throw new CDFException.ReaderError(th.getMessage());
+            }
+            amap.put(aname, entries);
+            AttributeEntry entry = (AttributeEntry)entries.get(0);
+            ctype = SupportedTypes.cdfType(entry.getType());
+            setVariableAttributeEntry(vn, aname, ctype, entry.getValue());
+            for (int e = 1; e < entries.size(); e++) {
+                entry = (AttributeEntry)entries.get(e);
+                ctype = SupportedTypes.cdfType(cdf.getType(vn));
+                addVariableAttributeEntry(vn, aname, ctype, entry.getValue());
+            }
         }
         vmap.put("amap", amap);
         variableMap.put(vn, vmap);
@@ -486,9 +482,9 @@ public class CDFWriter extends GenericWriter {
             } catch (Throwable th) {
                 throw new CDFException.ReaderError(th.getMessage());
             }
-            for (int i = 0; i < dbufs.length; i++) {
-                ByteBuffer b = dbufs[i].getBuffer();
-                addBuffer(vn, dbufs[i]);
+            for (VariableDataBuffer dbuf : dbufs) {
+                ByteBuffer b = dbuf.getBuffer();
+                addBuffer(vn, dbuf);
             }
         } else {
             VDataContainer _container = null;
@@ -528,48 +524,47 @@ public class CDFWriter extends GenericWriter {
         checkGlobalAttributes(cdf);
         List timeVariableList = getTimeVariableList(cdf);
         String[] vnames = vcol.getNames();
-        for (int n = 0; n < vnames.length; n++) {
-            String vn = vnames[n];
+        for (String vn : vnames) {
             Hashtable vmap = (Hashtable)variableMap.get(vn);
             if (((Boolean)vmap.get("variance"))) {
                 if (timeVariableList.contains(vn)) {
-                     DataContainer dc = dataContainers.get(vn);
-                     if (cdf.getNumberOfValues(vn) > 0) {
-                         Object firstTime;
-                         try {
-                             if (cdf.isCompatible(vn, Double.TYPE)) {
-                                 firstTime = cdf.getOneDArray(vn, "double",
-                                     new int[]{0,0}, true, !rowMajority);
-                             } else {
-                                 firstTime = cdf.getOneDArray(vn, "long",
-                                     new int[]{0,0}, true, !rowMajority);
-                             }
-                         } catch (Throwable th) {
+                    DataContainer dc = dataContainers.get(vn);
+                    if (cdf.getNumberOfValues(vn) > 0) {
+                        Object firstTime;
+                        try {
+                            if (cdf.isCompatible(vn, Double.TYPE)) {
+                                firstTime = cdf.getOneDArray(vn, "double",
+                                        new int[]{0,0}, true, !rowMajority);
+                            } else {
+                                firstTime = cdf.getOneDArray(vn, "long",
+                                        new int[]{0,0}, true, !rowMajority);
+                            }
+                        } catch (Throwable th) {
                             throw new CDFException.WriterError(th.getMessage());
-                         }
-                         if (!dc.timeOrderOK(firstTime)) {
-                             throw new CDFException.WriterError("Time Backup -"
-                             + "Time of first record for variable " + vn +
-                             " of CDF " + cdf.thisCDF.getSource().getName() +
-                             " starts before the end of previous CDF");
-                         }
-                     }
-                 }
-                 if (cdf.getNumberOfValues(vn) > 0) {
-                     copyVariableData(cdf, vn);
-                 }
-             }
-         }
+                        }
+                        if (!dc.timeOrderOK(firstTime)) {
+                            throw new CDFException.WriterError("Time Backup -"
+                                    + "Time of first record for variable " + vn +
+                                    " of CDF " + cdf.thisCDF.getSource().getName() +
+                                    " starts before the end of previous CDF");
+                        }
+                    }
+                }
+                if (cdf.getNumberOfValues(vn) > 0) {
+                    copyVariableData(cdf, vn);
+                }
+            }
+        }
     }
 
     List getTimeVariableList(GenericReader cdf) {
         ArrayList<String> list = new ArrayList<String>();
         String[] vnames = vcol.getNames();
-        for (int n = 0; n < vnames.length; n++) {
+        for (String vname : vnames) {
             String tvar;
             try {
-                tvar = cdf.getTimeVariableName(vnames[n]);
-            } catch (Throwable th) {
+                tvar = cdf.getTimeVariableName(vname);
+            }catch (Throwable th) {
                 tvar = null;
             }
             if (tvar != null) list.add(tvar);
@@ -580,12 +575,12 @@ public class CDFWriter extends GenericWriter {
     void checkGlobalAttributes(GenericReader cdf) throws
         CDFException.ReaderError, CDFException.WriterError {
         String[] gan = cdf.globalAttributeNames();
-        for (int a = 0; a < gan.length; a++) {
-            Vector _entries = (Vector)gamap.get(gan[a]);
+        for (String gan1 : gan) {
+            Vector _entries = (Vector) gamap.get(gan1);
             Vector entries = null;
             try {
-                entries = cdf.getAttributeEntries(gan[a]);
-            } catch (Throwable th) {
+                entries = cdf.getAttributeEntries(gan1);
+            }catch (Throwable th) {
                 throw new CDFException.ReaderError(th.getMessage());
             }
             for (int e = 0; e < entries.size(); e++) {
@@ -597,8 +592,8 @@ public class CDFWriter extends GenericWriter {
                     if (found) break;
                 }
                 if (!found) {
-                    if (!doNotCheckListGlobal.contains(gan[a])) {
-                        logger.log(Level.FINE, "Global attribute entry for attribute {0} not in base, or differs from the value in base.", gan[a]);
+                    if (!doNotCheckListGlobal.contains(gan1)) {
+                        logger.log(Level.FINE, "Global attribute entry for attribute {0} not in base, or differs from the value in base.", gan1);
                     }
                 }
             }
@@ -611,9 +606,9 @@ public class CDFWriter extends GenericWriter {
         Hashtable vmap = (Hashtable)variableMap.get(vn);
         validateVariableProperties(cdf, vn);
         Hashtable amap = (Hashtable)vmap.get("amap");
-        for (int i = 0; i < anames.length; i++) {
-            Vector entries = cdf.getAttributeEntries(vn, anames[i]);
-            Vector _entries = (Vector) amap.get(anames[i]);
+        for (String aname : anames) {
+            Vector entries = cdf.getAttributeEntries(vn, aname);
+            Vector _entries = (Vector) amap.get(aname);
             for (int e = 0; e < entries.size(); e++) {
                 AttributeEntry entry = (AttributeEntry)entries.get(e);
                 boolean found = false;
@@ -622,7 +617,9 @@ public class CDFWriter extends GenericWriter {
                     found |= _entry.isSameAs(entry);
                     if (found) break;
                 }
-                if (!found) logger.log(Level.FINE, "Attribute entry for attribute {0} for variable {1} not in base.", new Object[]{anames[i], vn});
+                if (!found) {
+                    logger.log(Level.FINE, "Attribute entry for attribute {0} for variable {1} not in base.", new Object[]{aname, vn});
+                }
             }
         }
     }
@@ -704,9 +701,11 @@ public class CDFWriter extends GenericWriter {
         String[] anames = cdf.variableAttributeNames(vname);
         Vector dependent = new Vector();
         if (anames == null) return dependent;
-        for (int i = 0; i < anames.length; i++) {
-            if (!anames[i].startsWith("DEPEND_")) continue;
-            dependent.add( ((Vector)cdf.getAttribute(vname, anames[i])).get(0));
+        for (String aname : anames) {
+            if (!aname.startsWith("DEPEND_")) {
+                continue;
+            }
+            dependent.add(((Vector) cdf.getAttribute(vname, aname)).get(0));
         }
         return dependent;
     }
@@ -756,8 +755,10 @@ public class CDFWriter extends GenericWriter {
     }
     boolean hasVariable(GenericReader cdf, String vname) {
         String[] vnames = cdf.getVariableNames();
-        for (int n = 0; n < vnames.length; n++) {
-            if (vname.equals(vnames[n])) return true;
+        for (String vname1 : vnames) {
+            if (vname.equals(vname1)) {
+                return true;
+            }
         }
         return false;
     }

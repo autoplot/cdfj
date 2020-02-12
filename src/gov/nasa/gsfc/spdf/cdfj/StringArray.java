@@ -92,7 +92,9 @@ public class StringArray extends AArray {
     }
 
     void addString(ByteBuffer buf, String[] sa, int max) throws Throwable {
-        for (int i = 0; i < sa.length; i++) addString(buf, sa[i], max);
+        for (String sa1 : sa) {
+            addString(buf, sa1, max);
+        }
     }
 /*
     void addString(ByteBuffer buf, String[] sa, int max) throws Throwable {

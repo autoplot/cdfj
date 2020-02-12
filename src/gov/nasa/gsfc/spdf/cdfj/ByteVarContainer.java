@@ -12,14 +12,14 @@ public class ByteVarContainer extends BaseVarContainer implements
         if (DataTypes.isStringType(type)) {
             String[] sa = (String[])pad;
             int count = 0;
-            for (int i = 0; i < sa.length; i++) {
-                count += sa[i].length();
+            for (String sa1 : sa) {
+                count += sa1.length();
             }
             bpad = new byte[count];
             byte[] ba;
             count = 0;
-            for (int i = 0; i < sa.length; i++) {
-                ba = sa[i].getBytes();
+            for (String sa1 : sa) {
+                ba = sa1.getBytes();
                 for (int b = 0; b < ba.length; b++) bpad[count++] = ba[b];
             }
         } else {

@@ -166,12 +166,14 @@ import java.util.zip.*;
      */
     public String [] getVariableNames(String type) {
         Vector vars = new Vector();
-        for (int i = 0; i < varNames.length; i++) {
-            Vector v = (Vector)getAttribute(varNames[i],"VAR_TYPE");
+        for (String varName : varNames) {
+            Vector v = (Vector) getAttribute(varName, "VAR_TYPE");
             if (v == null) continue;
             if (v.size() == 0) continue;
             String s = (String)v.elementAt(0);
-            if (s.equals(type)) vars.add(varNames[i]);
+            if (s.equals(type)) {
+                vars.add(varName);
+            }
         }
         String [] sa = new String[vars.size()];
         for (int i = 0; i < sa.length; i++) {
@@ -676,12 +678,12 @@ import java.util.zip.*;
             if (numberOfValues == 0) return;
             long[][] locations = locator.getLocations();
             long last = locations[0][0] - 1;
-            for (int i = 0; i < locations.length; i++) {
-                if (locations[i][0] != (last + 1)) {
+            for (long[] location : locations) {
+                if (location[0] != (last + 1)) {
                     recordGap = true;
                     break;
                 }
-                last = locations[i][1];
+                last = location[1];
             }
             if (recordGap) {
                 if (sRecords == 0) {
@@ -755,12 +757,12 @@ import java.util.zip.*;
             long[][] locations = locator.getLocations();
             Vector dbufs = new Vector();
             int size = getDataItemSize();
-            for (int i = 0; i < locations.length; i++) {
-                int first = (int)locations[i][0];
-                int last = (int)locations[i][1];
-                ByteBuffer bv = getRecord(locations[i][2]);
+            for (long[] location : locations) {
+                int first = (int) location[0];
+                int last = (int) location[1];
+                ByteBuffer bv = getRecord(location[2]);
                 int clen = (last - first + 1)*size;
-                        //System.out.println("uclen: " + clen);
+                //System.out.println("uclen: " + clen);
                 boolean compressed = false;
                 if (!isCompressed()) {
                     bv.position(offset_RECORDS);
@@ -778,7 +780,7 @@ import java.util.zip.*;
                 bbuf.order(getByteOrder());
                 bbuf.limit(clen);
                 dbufs.add(new VariableDataBuffer(first, last, bbuf,
-                    compressed));
+                        compressed));
             }
             VariableDataBuffer[] vdbuf = new VariableDataBuffer[dbufs.size()];
             dbufs.toArray(vdbuf);

@@ -446,10 +446,11 @@ public class CDFReader extends GenericReader {
         String[] anames = thisCDF.variableAttributeNames(varName);
         if (anames == null) return new String[0];
         Vector dependent = new Vector();
-        for (int i = 0; i < anames.length; i++) {
-            if (!anames[i].startsWith("DEPEND_")) continue;
-            dependent.add(
-                ((Vector)thisCDF.getAttribute(varName, anames[i])).get(0));
+        for (String aname : anames) {
+            if (!aname.startsWith("DEPEND_")) {
+                continue;
+            }
+            dependent.add(((Vector) thisCDF.getAttribute(varName, aname)).get(0));
         }
         String[] sa = new String[dependent.size()];
         dependent.toArray(sa);

@@ -126,10 +126,10 @@ public class VDR {
                             int len = values[0].length();
                             len *= values.length;
                             buf = ByteBuffer.allocate(len);
-                            for (int i = 0; i < values.length; i++) {
+                            for (String value : values) {
                                 try {
-                                    buf.put(values[i].getBytes());
-                                } catch (Exception ex) {
+                                    buf.put(value.getBytes());
+                                }catch (Exception ex) {
                                     throw new Throwable("encoding");
                                 }
                                 buf.position(0);

@@ -309,11 +309,12 @@ public class DataContainer {
             }
             last = first + npt -1;
             buf = ByteBuffer.allocateDirect(vdr.numElems*values.length);
-            for (int i = 0; i < values.length; i++) {
-                int len = values[i].length();
-                if (len > vdr.numElems) throw new Throwable("String " +
-                values[i] + " is longer than the length of variable.");
-                byte[] _bar = values[i].getBytes();
+            for (String value : values) {
+                int len = value.length();
+                if (len > vdr.numElems) {
+                    throw new Throwable("String " + value + " is longer than the length of variable.");
+                }
+                byte[] _bar = value.getBytes();
                 buf.put(_bar);
                 for (int f = 0; f < (vdr.numElems - _bar.length); f++) {
                     buf.put((byte)0x20);
@@ -479,27 +480,27 @@ public class DataContainer {
         if (_bufs == null) return buf;
         int nbuf = 0;
         if (_bufs.size() > 0) {
-            for (int v = 0; v < vxrs.length; v++) {
-                buf.put(vxrs[v].get());
-                for (int e = 0; e < vxrs[v].numEntries; e++) {
+            for (VXR vxr1 : vxrs) {
+                buf.put(vxr1.get());
+                for (int e = 0; e < vxr1.numEntries; e++) {
                     int n = _firstRecords.get(nbuf + e);
                     buf.putInt(n);
                 }
-                for (int e = 0; e < vxrs[v].numEntries; e++) {
+                for (int e = 0; e < vxr1.numEntries; e++) {
                     int n = _lastRecords.get(nbuf + e);
                     buf.putInt(n);
                 }
-                for (int e = 0; e < vxrs[v].numEntries; e++) {
+                for (int e = 0; e < vxr1.numEntries; e++) {
                     buf.putLong(locs[nbuf + e]);
                 }
                 if (!vdr.isCompressed()) {
-                    for (int e = 0; e < vxrs[v].numEntries; e++) {
+                    for (int e = 0; e < vxr1.numEntries; e++) {
                         buf.putLong(VVR_PREAMBLE + _bufs.get(nbuf + e).limit());
                         buf.putInt(7);
                         buf.put(_bufs.get(nbuf + e));
                     }
                 } else {
-                    for (int e = 0; e < vxrs[v].numEntries; e++) {
+                    for (int e = 0; e < vxr1.numEntries; e++) {
                         ByteBuffer b = _bufs.get(nbuf + e);
                         buf.putLong(CVVR_PREAMBLE + b.limit());
                         buf.putInt(13);
@@ -508,7 +509,7 @@ public class DataContainer {
                         buf.put(b);
                     }
                 }
-                nbuf += vxrs[v].numEntries;
+                nbuf += vxr1.numEntries;
             }
         }
         return buf;
@@ -627,28 +628,28 @@ public class DataContainer {
         ByteBuffer longbuf = ByteBuffer.allocate(8);
         ByteBuffer intbuf = ByteBuffer.allocate(4);
         if (_bufs.size() > 0) {
-            for (int v = 0; v < vxrs.length; v++) {
-                channel.write(vxrs[v].get());
-                for (int e = 0; e < vxrs[v].numEntries; e++) {
+            for (VXR vxr1 : vxrs) {
+                channel.write(vxr1.get());
+                for (int e = 0; e < vxr1.numEntries; e++) {
                     int n = _firstRecords.get(nbuf + e);
                     writeInt(channel, intbuf, n);
                 }
-                for (int e = 0; e < vxrs[v].numEntries; e++) {
+                for (int e = 0; e < vxr1.numEntries; e++) {
                     int n = _lastRecords.get(nbuf + e);
                     writeInt(channel, intbuf, n);
                 }
-                for (int e = 0; e < vxrs[v].numEntries; e++) {
+                for (int e = 0; e < vxr1.numEntries; e++) {
                     writeLong(channel, longbuf, locs[nbuf + e]);
                 }
                 if (!vdr.isCompressed()) {
-                    for (int e = 0; e < vxrs[v].numEntries; e++) {
-                        writeLong(channel, longbuf, 
-                            VVR_PREAMBLE + _bufs.get(nbuf + e).limit());
+                    for (int e = 0; e < vxr1.numEntries; e++) {
+                        writeLong(channel, longbuf,
+                                VVR_PREAMBLE + _bufs.get(nbuf + e).limit());
                         writeInt(channel, intbuf, 7);
                         channel.write(_bufs.get(nbuf + e));
                     }
                 } else {
-                    for (int e = 0; e < vxrs[v].numEntries; e++) {
+                    for (int e = 0; e < vxr1.numEntries; e++) {
                         ByteBuffer b = _bufs.get(nbuf + e);
                         writeLong(channel, longbuf, CVVR_PREAMBLE + b.limit());
                         writeInt(channel, intbuf, 13);
@@ -657,7 +658,7 @@ public class DataContainer {
                         channel.write(b);
                     }
                 }
-                nbuf += vxrs[v].numEntries;
+                nbuf += vxr1.numEntries;
             }
         }
     }
