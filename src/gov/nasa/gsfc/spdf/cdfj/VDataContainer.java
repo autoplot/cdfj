@@ -7,24 +7,45 @@ import java.nio.*;
 public interface VDataContainer extends Runnable {
     /**
      * Returns ByteBuffer for this container.
+     * @return 
      */
     public ByteBuffer getBuffer();
 
     /**
      * Returns range of records in this container.
+     * @return 
      */
     public int[] getRecordRange();
 
     /**
      * Returns the one dimensional array representation.
+     * @return 
      */
     public Object as1DArray();
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
     public Object asOneDArray(boolean cmtarget);
+
+    /**
+     *
+     * @return
+     * @throws Throwable
+     */
     public AArray asArray() throws Throwable ;
+
+    /**
+     *
+     * @param direct
+     */
     public void setDirect(boolean direct);
 
     /**
      * Returns the {@link Variable Variable} for this container.
+     * @return 
      */
     public Variable getVariable();
 
@@ -34,10 +55,22 @@ public interface VDataContainer extends Runnable {
     public static interface CDouble extends VDataContainer {
         /**
          * Returns the one dimensional array representation.
+         * @return 
          */
         @Override
         public double[] as1DArray();
+
+        /**
+         *
+         * @return
+         */
         public double[] asOneDArray();
+
+        /**
+         *
+         * @param cmtarget
+         * @return
+         */
         @Override
         public double[] asOneDArray(boolean cmtarget);
 
@@ -54,10 +87,22 @@ public interface VDataContainer extends Runnable {
     public static interface CFloat extends VDataContainer {
         /**
          * Returns the one dimensional array representation.
+         * @return 
          */
         @Override
         public float[] as1DArray();
+
+        /**
+         *
+         * @return
+         */
         public float[] asOneDArray();
+
+        /**
+         *
+         * @param cmtarget
+         * @return
+         */
         @Override
         public float[] asOneDArray(boolean cmtarget);
 
@@ -74,10 +119,22 @@ public interface VDataContainer extends Runnable {
     public static interface CInt extends VDataContainer {
         /**
          * Returns the one dimensional array representation.
+         * @return 
          */
         @Override
         public int[] as1DArray();
+
+        /**
+         *
+         * @return
+         */
         public int[] asOneDArray();
+
+        /**
+         *
+         * @param cmtarget
+         * @return
+         */
         @Override
         public int[] asOneDArray(boolean cmtarget);
 
@@ -94,10 +151,22 @@ public interface VDataContainer extends Runnable {
     public static interface CShort extends VDataContainer {
         /**
          * Returns the one dimensional array representation.
+         * @return 
          */
         @Override
         public short[] as1DArray();
+
+        /**
+         *
+         * @return
+         */
         public short[] asOneDArray();
+
+        /**
+         *
+         * @param cmtarget
+         * @return
+         */
         @Override
         public short[] asOneDArray(boolean cmtarget);
 
@@ -114,10 +183,22 @@ public interface VDataContainer extends Runnable {
     public static interface CLong extends VDataContainer {
         /**
          * Returns the one dimensional array representation.
+         * @return 
          */
         @Override
         public long[] as1DArray();
+
+        /**
+         *
+         * @return
+         */
         public long[] asOneDArray();
+
+        /**
+         *
+         * @param cmtarget
+         * @return
+         */
         @Override
         public long[] asOneDArray(boolean cmtarget);
 
@@ -134,10 +215,22 @@ public interface VDataContainer extends Runnable {
     public static interface CByte extends VDataContainer {
         /**
          * Returns the one dimensional array representation.
+         * @return 
          */
         @Override
         public byte[] as1DArray();
+
+        /**
+         *
+         * @return
+         */
         public byte[] asOneDArray();
+
+        /**
+         *
+         * @param cmtarget
+         * @return
+         */
         @Override
         public byte[] asOneDArray(boolean cmtarget);
 
@@ -153,10 +246,22 @@ public interface VDataContainer extends Runnable {
     public static interface CString extends VDataContainer {
         /**
          * Returns the one dimensional array representation.
+         * @return 
          */
         @Override
         public byte[] as1DArray();
+
+        /**
+         *
+         * @return
+         */
         public byte[] asOneDArray();
+
+        /**
+         *
+         * @param cmtarget
+         * @return
+         */
         @Override
         public byte[] asOneDArray(boolean cmtarget);
 
@@ -165,6 +270,17 @@ public interface VDataContainer extends Runnable {
          */
         //public StringArray asArray() throws Throwable ;
     }
+
+    /**
+     *
+     * @param buffer
+     * @return
+     */
     public boolean setUserBuffer(ByteBuffer buffer);
+
+    /**
+     *
+     * @return
+     */
     public int getCapacity();
 }

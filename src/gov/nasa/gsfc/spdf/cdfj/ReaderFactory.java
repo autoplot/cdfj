@@ -13,6 +13,13 @@ public final class ReaderFactory {
      * creates  CDFReader object from a file using array backed ByteBuffer.
      */
     static int preamble = 3000;
+
+    /**
+     *
+     * @param fname
+     * @return
+     * @throws CDFException.ReaderError
+     */
     public static CDFReader getReader(String fname) throws
         CDFException.ReaderError {
         CDFImpl cdf = null;
@@ -42,6 +49,9 @@ public final class ReaderFactory {
 
     /**
      * creates  CDFReader object from a URL using array backed ByteBuffer.
+     * @param url
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public static CDFReader getReader(URL url) throws
         CDFException.ReaderError {
@@ -111,6 +121,14 @@ public final class ReaderFactory {
         }
         return null;
     }
+
+    /**
+     *
+     * @param fname
+     * @param map
+     * @return
+     * @throws CDFException.ReaderError
+     */
     public static CDFReader getReader(String fname, boolean map) throws
         CDFException.ReaderError {
         CDFImpl cdf = null;

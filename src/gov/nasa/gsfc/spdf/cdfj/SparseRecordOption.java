@@ -32,10 +32,17 @@ public final class SparseRecordOption {
     private SparseRecordOption(int option) {
         this.option = option;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getValue() {return option;}
 
     /**
      * Returns SparseRecordOption object for the named option.
+     * @param s
+     * @return 
      */
     public static SparseRecordOption getOption(String s) {
         return ht.get(s.toLowerCase());

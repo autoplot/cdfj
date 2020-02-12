@@ -2,9 +2,26 @@ package gov.nasa.gsfc.spdf.cdfj;
 //import gov.nasa.gsfc.spdf.common.*;
 import java.nio.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public final class DoubleVarContainer extends BaseVarContainer implements
     VDataContainer.CDouble {
     final double[] dpad;
+
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @param bo
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public DoubleVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve, ByteOrder bo) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -19,6 +36,16 @@ public final class DoubleVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public DoubleVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -172,10 +199,21 @@ public final class DoubleVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param type
+     * @param preserve
+     * @return
+     */
     public static boolean isCompatible(int type, boolean preserve) {
         return isCompatible(type, preserve, Double.TYPE);
     }
 
+    /**
+     *
+     * @return
+     * @throws Throwable
+     */
     public Object _asArray() throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank > 4) throw new Throwable("Rank > 4 not supported yet.");
@@ -276,6 +314,12 @@ public final class DoubleVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param elements
+     * @return
+     * @throws Throwable
+     */
     public Object asArrayElement(int[] elements) throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank != 1) throw new Throwable("Rank > 1 not supported.");
@@ -310,6 +354,13 @@ public final class DoubleVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param index0
+     * @param index1
+     * @return
+     * @throws Throwable
+     */
     public Object asArrayElement(int index0, int index1) throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank != 2) throw new Throwable("Rank other than 2 not supported.");
@@ -364,6 +415,16 @@ public final class DoubleVarContainer extends BaseVarContainer implements
         return sampled;
     }
 */
+
+    /**
+     *
+     * @param array
+     * @param offset
+     * @param first
+     * @param last
+     * @throws Throwable
+     */
+
     public void fillArray(double[] array, int offset, int first, int last)
         throws Throwable {
         if (buffers.size() == 0) throw new Throwable("buffer not available");
@@ -375,10 +436,21 @@ public final class DoubleVarContainer extends BaseVarContainer implements
     }
     @Override
     public double[] as1DArray() {return (double[])super.as1DArray();}
+
+    /**
+     *
+     * @return
+     */
     @Override
     public double[] asOneDArray() {
         return (double[])super.asOneDArray(true);
     }
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
     @Override
     public double[] asOneDArray(boolean cmtarget) {
         return (double[])super.asOneDArray(cmtarget);

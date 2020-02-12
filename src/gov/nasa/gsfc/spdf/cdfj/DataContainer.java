@@ -4,6 +4,11 @@ import java.nio.*;
 import java.nio.channels.FileChannel;
 import java.util.*;
 import java.util.zip.*;
+
+/**
+ *
+ * @author nand
+ */
 public class DataContainer {
     VDR vdr;
     VXR vxr;
@@ -11,20 +16,45 @@ public class DataContainer {
     Vector<Integer> lastRecords = new Vector<>();
     Vector<ByteBuffer> bufs = new Vector<>();
     Vector<Integer> points = new Vector<>();
+
+    /**
+     *
+     */
     protected long position;
     static final int VVR_PREAMBLE = 12;
     static final int CVVR_PREAMBLE = 24;
     final boolean rowMajority;
     final int CXR_MAX_ENTRIES = 6;
+
+    /**
+     *
+     * @param vdr
+     */
     public DataContainer(VDR vdr) {
         this(vdr, true);
     }
+
+    /**
+     *
+     * @param vdr
+     * @param bln
+     */
     public DataContainer(VDR vdr, boolean rowMajority) {
         this.vdr = vdr;
         vxr = new VXR();
         this.rowMajority = rowMajority;
     }
+
+    /**
+     *
+     * @return
+     */
     public VDR getVDR() {return vdr;}
+
+    /**
+     *
+     * @return
+     */
     public VXR getVXR() {return vxr;}
     CPR cpr;
     DataContainer timeContainer;
@@ -40,6 +70,14 @@ public class DataContainer {
         bufs.add(null);
         phantom = Boolean.TRUE;
     }
+
+    /**
+     *
+     * @param data
+     * @param recordRange
+     * @param oned
+     * @throws Throwable
+     */
     public void addData(Object data, int[] recordRange, boolean oned) throws
         Throwable {
         addData(data,recordRange, oned, false);
@@ -343,6 +381,11 @@ public class DataContainer {
     }
     long[] locs;
     VXR[] vxrs;
+
+    /**
+     *
+     * @return
+     */
     public int getSize() {
         // update vdr
         int size = vdr.getSize();
@@ -471,6 +514,11 @@ public class DataContainer {
         return size;
     }
 
+    /**
+     *
+     * @param buf
+     * @return
+     */
     public ByteBuffer update(ByteBuffer buf) {
         buf.position((int)position);
         buf.put(vdr.get());
@@ -522,6 +570,15 @@ public class DataContainer {
         }
         return n;
     }
+
+    /**
+     *
+     * @param data
+     * @param dataType
+     * @param relax
+     * @return
+     * @throws Throwable
+     */
     public ByteBuffer addJavaArray(Object data, int dataType, boolean relax)
         throws Throwable {
         ArrayAttribute aa = new ArrayAttribute(data);
@@ -617,6 +674,11 @@ public class DataContainer {
         return (next[0] > buf.getDouble(buf.limit() - 8));
     }
 
+    /**
+     *
+     * @param channel
+     * @throws IOException
+     */
     public void update(FileChannel channel) throws IOException {
         channel.position(position);
         channel.write(vdr.get());

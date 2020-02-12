@@ -11,6 +11,7 @@ public abstract class MetaData {
     /**
      * Returns ByteOrder.LITTLE_ENDIAN, or ByteOrder.BIG_ENDIAN depending
      * the CDF encoding
+     * @return 
      */
     public final ByteOrder getByteOrder() {
         return thisCDF.getByteOrder();
@@ -18,6 +19,7 @@ public abstract class MetaData {
 
     /**
      * Returns whether the arrays are stored in row major order in the source
+     * @return 
      */
     public final boolean rowMajority() {
         return thisCDF.rowMajority();
@@ -25,6 +27,7 @@ public abstract class MetaData {
 
     /**
      * Returns names of variables in the CDF
+     * @return 
      */
     public final String [] getVariableNames() {
         return thisCDF.getVariableNames();
@@ -32,6 +35,8 @@ public abstract class MetaData {
 
     /**
      * returns variable names of a given VAR_TYPE in a String[]
+     * @param type
+     * @return 
      */
     public final String [] getVariableNames(String type) {
         return thisCDF.getVariableNames(type);
@@ -39,6 +44,7 @@ public abstract class MetaData {
 
     /**
      * Returns names of global attributes.
+     * @return 
      */
     public final String [] globalAttributeNames() {
         return thisCDF.globalAttributeNames();
@@ -46,6 +52,8 @@ public abstract class MetaData {
 
     /**
      * Returns names of variable attributes.
+     * @param name
+     * @return 
      */
     public final String [] variableAttributeNames(String name) {
         return thisCDF.variableAttributeNames(name);
@@ -60,6 +68,8 @@ public abstract class MetaData {
      * <p>
      * This method is deprecated. Use {@link #getGlobalAttribute(String atr)
      * getGlobalAttribute(String atr)} method to extract all entries.
+     * @param atr
+     * @return 
      */
     public final Object getAttribute( String atr) {
         return thisCDF.getAttribute(atr);
@@ -67,6 +77,9 @@ public abstract class MetaData {
 
     /**
      * Returns number of entries for the named global attribute.
+     * @param atr
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public final int globalAttributeEntryCount(String atr) throws
         CDFException.ReaderError {
@@ -74,11 +87,12 @@ public abstract class MetaData {
     }
 
     /**
-     * Returns value of the named attribute for specified variable.
-     * For a  character string attribute, a Vector of String is returned.
-     * For a  numeric attribute, a Vector of size 1 is returned. The 
-     * single element of the Vector is a long[] if attribute's type is long;
-     * For all other numeric types, the element is a double[].
+     * Returns value of the named attribute for specified variable.For a  character string attribute, a Vector of String is returned.For a  numeric attribute, a Vector of size 1 is returned.The 
+ single element of the Vector is a long[] if attribute's type is long;
+ For all other numeric types, the element is a double[].
+     * @param varName
+     * @param aname
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final Object getAttribute( String varName,
@@ -89,6 +103,9 @@ public abstract class MetaData {
     /**
      * Returns list of {@link AttributeEntry AttributeEntry} objects for
      * the named attribute for the named variable.
+     * @param varName
+     * @param aname
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final Vector<AttributeEntry> getAttributeEntries(
@@ -99,6 +116,9 @@ public abstract class MetaData {
     /**
      * Returns list of {@link AttributeEntry AttributeEntry} objects for the
      * named global attribute.
+     * @param aname
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public final Vector<AttributeEntry> getAttributeEntries(
          String aname) throws CDFException.ReaderError {
@@ -112,6 +132,9 @@ public abstract class MetaData {
     /**
      * Returns {@link GlobalAttribute GlobalAttribute} object for
      * the named global attribute.
+     * @param atr
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public final GlobalAttribute getGlobalAttribute( String atr)
         throws CDFException.ReaderError {
@@ -124,6 +147,7 @@ public abstract class MetaData {
 
     /**
      * Returns an indication of the record varying property of a variable.
+     * @param varName
      * @return false if variable has a constant value for this CDF.
      * @throws   CDFException.ReaderError  if variable does not exist
      */
@@ -136,10 +160,11 @@ public abstract class MetaData {
 
     /**
      * Returns whether the values of the variable are represented in a
-     * compressed form in the CDF.
-     * For variables declared to be compressed, CDF specification allows
-     * the values to be stored in uncompressed form if the latter results in
-     * a smaller size.
+     * compressed form in the CDF.For variables declared to be compressed, CDF specification allows
+ the values to be stored in uncompressed form if the latter results in
+ a smaller size.
+     * @param varName
+     * @return
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final boolean isCompressed( String varName) throws
@@ -151,6 +176,8 @@ public abstract class MetaData {
 
     /**
      * Returns CDF type of the variable.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final int getType( String varName) throws CDFException.ReaderError {
@@ -161,6 +188,8 @@ public abstract class MetaData {
 
     /**
      * Returns size of a data item for the given variable.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final int getDataItemSize( String varName) throws
@@ -172,6 +201,8 @@ public abstract class MetaData {
 
     /**
      * Returns given variable's number property.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final int getNumber( String varName) throws
@@ -183,6 +214,8 @@ public abstract class MetaData {
 
     /**
      * Returns given variable's 'number of elements' property.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final int getNumberOfElements( String varName) throws
@@ -194,6 +227,8 @@ public abstract class MetaData {
 
     /**
      * Returns 'number of values' property of the given variable.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final int getNumberOfValues( String varName) throws
@@ -205,6 +240,8 @@ public abstract class MetaData {
 
     /**
      * Returns 'pad value' property of the given variable.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final Object getPadValue( String varName) throws
@@ -217,6 +254,9 @@ public abstract class MetaData {
     /**
      * Returns 'pad value' property of the given variable subject to the given
      * precision  preservation constraint.
+     * @param varName
+     * @param preservePrecision
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final Object getPadValue( String varName,
@@ -229,6 +269,8 @@ public abstract class MetaData {
 
     /**
      * Returns dimensions the given variable.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final int[] getDimensions( String varName) throws
@@ -240,6 +282,8 @@ public abstract class MetaData {
 
     /**
      * Returns 'varys' property of the given variable.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final boolean[] getVarys( String varName) throws
@@ -250,8 +294,9 @@ public abstract class MetaData {
     }
 
     /**
-     * Returns effective rank of this variable.
-     * Dimensions for which dimVarys is false do not count.
+     * Returns effective rank of this variable.Dimensions for which dimVarys is false do not count.
+     * @param varName
+     * @return
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final int getEffectiveRank( String varName) throws
@@ -264,6 +309,8 @@ public abstract class MetaData {
     /**
      * Shows whether one or more records (in the range returned by
      * getRecordRange()) are missing. 
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final boolean isMissingRecords( String varName) throws
@@ -275,6 +322,8 @@ public abstract class MetaData {
 
     /**
      * Returns record range for this variable
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final int[] getRecordRange( String varName) throws
@@ -287,6 +336,9 @@ public abstract class MetaData {
     /**
      * returns whether conversion of this variable to type specified by
      * cl is supported while preserving precision.
+     * @param varName
+     * @param cl
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final boolean isCompatible( String varName, Class cl) throws
@@ -303,6 +355,10 @@ public abstract class MetaData {
     /**
      * Returns whether conversion of this variable to type specified by
      * cl is supported under the given precision preserving constraint.
+     * @param varName
+     * @param preserve
+     * @param cl
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final boolean isCompatible( String varName,
@@ -315,7 +371,9 @@ public abstract class MetaData {
 
     /**
      * Return whether the missing record should be assigned the last 
-     * seen value. If none has been seen, pad value is assigned.
+     * seen value.If none has been seen, pad value is assigned.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final boolean missingRecordValueIsPrevious(
@@ -329,6 +387,8 @@ public abstract class MetaData {
     /**
      * Return whether the missing record should be assigned the pad 
      * value.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final boolean missingRecordValueIsPad(
@@ -341,6 +401,8 @@ public abstract class MetaData {
 
     /**
      * Return element count for this variable's dimensions.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final Vector<Integer> getElementCount(
@@ -351,8 +413,9 @@ public abstract class MetaData {
     } 
 
     /**
-     * Returns effective dimensions of the given variable.
-     * Dimensions for which dimVarys is false are ignored.
+     * Returns effective dimensions of the given variable.Dimensions for which dimVarys is false are ignored.
+     * @param varName
+     * @return
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final int[] getEffectiveDimensions(
@@ -365,6 +428,8 @@ public abstract class MetaData {
 
     /**
      * Returns whether the given variable represents time.
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
     public final boolean isTimeType( String varName) throws
@@ -381,12 +446,20 @@ public abstract class MetaData {
 
     /**
      * Returns whether there is a variable with the given name.
+     * @param varName
+     * @return 
      */
     public final boolean existsVariable(String varName) {
         if (varName == null) return false;
         return (thisCDF.getVariable(varName) != null);
     }
 
+    /**
+     *
+     * @param varName
+     * @return
+     * @throws CDFException.ReaderError
+     */
     public abstract String userTimeVariableName(String varName) throws
         CDFException.ReaderError;
 
@@ -425,20 +498,22 @@ public abstract class MetaData {
     }
 
     /**
-     * Identifies the leap second table used in creating this CDF.
-     * Returns the id of the last leap second in the leap second table.
+     * Identifies the leap second table used in creating this CDF.Returns the id of the last leap second in the leap second table.
      * Leap second id is an integer = year*10000 + month*100 + day, where
-     * year, month and day refer to the day following the leap second. Until
-     * 2015, leap second has been added at the end of December, or June. Thus
-     * leapSecondId is either (10000*year + 101), or (10000*year + 701).
+ year, month and day refer to the day following the leap second. Until
+ 2015, leap second has been added at the end of December, or June. Thus
+ leapSecondId is either (10000*year + 101), or (10000*year + 701).
+     * @return 
      */
     public final int getLastLeapSecondId() {
         return thisCDF.lastLeapSecondId;
     }
 
     /**
-     * Returns the blocking factor used to compress this variable.
-     * See the CDF User's Guide for details.
+     * Returns the blocking factor used to compress this variable.See the CDF User's Guide for details.
+     * @param varName
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public final int getBlockingFactor(String varName) throws 
         CDFException.ReaderError {
@@ -447,8 +522,10 @@ public abstract class MetaData {
         return thisCDF.getVariable(varName).getBlockingFactor();
     }
     /**
-     * Returns whether a variable of type r-variable..
-     * See the CDF User's Guide for details.
+     * Returns whether a variable of type r-variable..See the CDF User's Guide for details.
+     * @param varName
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public final boolean isTypeR(String varName) throws 
         CDFException.ReaderError {

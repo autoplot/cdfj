@@ -1,12 +1,35 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
+
+/**
+ *
+ * @author nand
+ */
 public class StringArray extends AArray {
+
+    /**
+     *
+     * @param o
+     * @throws Throwable
+     */
     public StringArray(Object o) throws Throwable {
         super(o);
     }
+
+    /**
+     *
+     * @param o
+     * @param bln
+     * @throws Throwable
+     */
     public StringArray(Object o, boolean majority) throws Throwable {
         super(o, majority);
     }
+
+    /**
+     *
+     * @return
+     */
     @Override
     public Object array() {
         switch (dim) {

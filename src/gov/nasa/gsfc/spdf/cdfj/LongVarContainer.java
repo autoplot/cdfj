@@ -2,9 +2,25 @@ package gov.nasa.gsfc.spdf.cdfj;
 //import gov.nasa.gsfc.spdf.common.*;
 import java.nio.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public final class LongVarContainer extends BaseVarContainer implements
     VDataContainer.CLong  {
     final long[] lpad;
+
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bo
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public LongVarContainer(CDFImpl thisCDF, Variable var, int[] pt, ByteOrder bo)
         throws IllegalAccessException, InvocationTargetException, Throwable {
         super(thisCDF, var, pt, true, bo, Long.TYPE);
@@ -18,6 +34,15 @@ public final class LongVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public LongVarContainer(CDFImpl thisCDF, Variable var, int[] pt)
         throws IllegalAccessException, InvocationTargetException, Throwable {
         this(thisCDF, var, pt, ByteOrder.nativeOrder());
@@ -30,6 +55,11 @@ public final class LongVarContainer extends BaseVarContainer implements
         return _buf;
     }
 
+    /**
+     *
+     * @param size
+     * @return
+     */
     @Override
     public Object allocateDataArray(int size) {
         return new long[size];
@@ -128,10 +158,21 @@ public final class LongVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param type
+     * @param preserve
+     * @return
+     */
     public static boolean isCompatible(int type, boolean preserve) {
         return isCompatible(type, preserve, Long.TYPE);
     }
 
+    /**
+     *
+     * @return
+     * @throws Throwable
+     */
     public Object _asArray() throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank > 4) throw new Throwable("Rank > 4 not supported yet.");
@@ -231,6 +272,15 @@ public final class LongVarContainer extends BaseVarContainer implements
             throw new Throwable("Internal error");
         }
     }
+
+    /**
+     *
+     * @param array
+     * @param offset
+     * @param first
+     * @param last
+     * @throws Throwable
+     */
     public void fillArray(long[] array, int offset, int first, int last)
         throws Throwable {
         if (buffers.size() == 0) throw new Throwable("buffer not available");
@@ -242,8 +292,19 @@ public final class LongVarContainer extends BaseVarContainer implements
     }
     @Override
     public long[] as1DArray() {return (long[])super.as1DArray();}
+
+    /**
+     *
+     * @return
+     */
     @Override
     public long[] asOneDArray() {return (long[])super.asOneDArray(true);}
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
     @Override
     public long[] asOneDArray(boolean cmtarget) {
         return (long[])super.asOneDArray(cmtarget);

@@ -1,8 +1,17 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
+
+/**
+ *
+ * @author nand
+ */
 public class GDR {
     ByteBuffer record = ByteBuffer.allocate(8 + 4 + 8 + 8 + 8 +
         8 + 4 + 4 + 4 + 4 + 4 + 8 + 4 + 4 + 4);
+
+    /**
+     *
+     */
     protected long position;
     long zVDRHead;
     long aDRHead;
@@ -10,24 +19,59 @@ public class GDR {
     int numAttr;
     int nzVars;
     int lastLeapSecondId;
+
+    /**
+     *
+     * @param l
+     */
     public void setZVDRHead(long l) {
         zVDRHead = l;
     }
+
+    /**
+     *
+     * @param l
+     */
     public void setADRHead(long l) {
         aDRHead = l;
     }
+
+    /**
+     *
+     * @param l
+     */
     public void setEof(long l) {
         eof = l;
     }
+
+    /**
+     *
+     * @param n
+     */
     public void setNumAttr(int n) {
         numAttr = n;
     }
+
+    /**
+     *
+     * @param n
+     */
     public void setNzVars(int n) {
         nzVars = n;
     }
+
+    /**
+     *
+     * @param n
+     */
     public void setLastLeapSecondId(int n) {
         lastLeapSecondId = n;
     }
+
+    /**
+     *
+     * @return
+     */
     public ByteBuffer get() {
         record.position(0);
         record.putLong((long)(record.capacity()));
@@ -48,5 +92,10 @@ public class GDR {
         record.position(0);
         return record;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getSize() {return record.limit();}
 }

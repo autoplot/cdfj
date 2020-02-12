@@ -1,7 +1,17 @@
 package gov.nasa.gsfc.spdf.cdfj;
+
+/**
+ *
+ * @author nand
+ */
 public class Stride {
     int[] stride;
     int nv;
+
+    /**
+     *
+     * @param ints
+     */
     public Stride(int[] stride) {
         if (stride.length == 0) {
             this.stride = null;
@@ -13,10 +23,21 @@ public class Stride {
             this.stride = new int[]{stride[0], stride[1]};
         }
     }
+
+    /**
+     *
+     * @param nv
+     * @return
+     */
     public int getStride(int nv) {
         this.nv = nv;
         return getStride();
     }
+
+    /**
+     *
+     * @return
+     */
     public int getStride() {
         int _stride = 1;
         if (stride != null) {

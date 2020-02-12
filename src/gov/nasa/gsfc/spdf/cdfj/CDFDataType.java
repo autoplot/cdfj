@@ -72,10 +72,17 @@ public final class CDFDataType {
     private CDFDataType(int type) {
         this.type = type;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getValue() {return type;}
 
     /**
      * Returns CDFDataType for a given CDFTimeType.
+     * @param type
+     * @return 
      */
     public static CDFDataType getType(CDFTimeType type) {
         if (type.getValue() == 31) return EPOCH;

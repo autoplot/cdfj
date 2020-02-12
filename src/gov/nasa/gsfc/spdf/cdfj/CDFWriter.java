@@ -24,6 +24,7 @@ public class CDFWriter extends GenericWriter {
 
     /**
      * Constructs a {@link CDFWriter CDFWriter} of given row majority.
+     * @param bln
      */
     public CDFWriter(boolean targetMajority) {
         super(targetMajority);
@@ -32,6 +33,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a {@link CDFWriter CDFWriter} populated 
      * with data from the given {@link GenericReader GenericReader}.
+     * @param reader
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(GenericReader cdf) throws CDFException.WriterError,
         CDFException.ReaderError {
@@ -46,6 +50,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated
      * with data from the given CDF file.
+     * @param string
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String fname) throws CDFException.WriterError,
         CDFException.ReaderError {
@@ -61,6 +68,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated
      * with data from the given files.
+     * @param strings
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String[] files) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -71,6 +81,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated
      * with data from the given URL.
+     * @param url
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL url) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -91,6 +104,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated
      * with data from the given array of URLs.
+     * @param urls
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL[] urls) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -101,10 +117,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated with
      * selected variables, and variables they depend on, from the given file.
-     * @param  fname   
-     * @param  col   
-     *   {@link SelectedVariableCollection SelectedVariableCollection} that
-     * defines variables to be selected and their properties
+     * @param string   
+     * @param svc
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String fname, SelectedVariableCollection col) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -120,10 +136,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated with
      * selected variables, and variables they depend on, from the given files.
-     * @param  files   
-     * @param  col   
-     *   {@link SelectedVariableCollection SelectedVariableCollection} that
-     * defines variables to be selected and their properties
+     * @param strings   
+     * @param svc
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String[] files, SelectedVariableCollection col) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -135,9 +151,9 @@ public class CDFWriter extends GenericWriter {
      * Constructs a column major {@link CDFWriter CDFWriter} populated with
      * selected variables, and variables they depend on, from the given URL.
      * @param  url   
-     * @param  col   
-     *   {@link SelectedVariableCollection SelectedVariableCollection} that
-     * defines variables to be selected and their properties
+     * @param svc
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL url, SelectedVariableCollection col) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -160,9 +176,9 @@ public class CDFWriter extends GenericWriter {
      * selected variables, and variables they depend on, from the given
      * array of URLs.
      * @param  urls
-     * @param  col   
-     *   {@link SelectedVariableCollection SelectedVariableCollection} that
-     * defines variables to be selected and their properties
+     * @param svc
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL[] urls, SelectedVariableCollection col) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -187,6 +203,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with data from the given file.
+     * @param string
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String fname, boolean targetMajority) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -224,6 +244,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with data from the given files.
+     * @param strings
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String[] files, boolean targetMajority) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -234,6 +258,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with data from the given URL.
+     * @param url
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL url, boolean targetMajority) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -254,6 +282,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with data from the given array of URLs.
+     * @param urls
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL[] urls, boolean targetMajority) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -265,6 +297,11 @@ public class CDFWriter extends GenericWriter {
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with selected variables, and variables they depend on, from
      * the given file.
+     * @param string
+     * @param svc
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String fname, boolean targetMajority,
         SelectedVariableCollection col) throws
@@ -282,6 +319,11 @@ public class CDFWriter extends GenericWriter {
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with selected variables, and variables they depend on, from
      * the given files.
+     * @param strings
+     * @param svc
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String[] files, boolean targetMajority,
         SelectedVariableCollection col) throws
@@ -295,6 +337,11 @@ public class CDFWriter extends GenericWriter {
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with selected variables, and variables they depend on, from
      * the given URL.
+     * @param url
+     * @param svc
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL url, boolean targetMajority,
         SelectedVariableCollection col) throws
@@ -317,6 +364,11 @@ public class CDFWriter extends GenericWriter {
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with selected variables, and variables they depend on, from
      * the given array of URLs.
+     * @param urls
+     * @param svc
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL[] urls, boolean targetMajority,
         SelectedVariableCollection col) throws
@@ -328,6 +380,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Adds previously selected variables, and variables they depend on, from
      * the given file.
+     * @param fname
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public void addCDF(String fname) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -338,6 +393,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Adds previously selected variables, and variables they depend on, from
      * the given URL.
+     * @param url
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public void addCDF(URL url) throws 
         CDFException.WriterError, CDFException.ReaderError {
@@ -517,6 +575,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Adds previously selected variables, and variables they depend on, from
      * the given {@link GenericReader GenericReader}..
+     * @param cdf
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
      */
     public void addCDF(GenericReader cdf) throws
         CDFException.ReaderError, CDFException.WriterError {
@@ -713,6 +774,7 @@ public class CDFWriter extends GenericWriter {
     /**
      * Returns a new instance of the {@link SelectedVariableCollection
      * SelectedVariableCollection}.
+     * @return 
      */
     public static SelectedVariableCollection selectorInstance() {
         return new Selector();
@@ -811,6 +873,7 @@ public class CDFWriter extends GenericWriter {
 
     /**
      * sets a Logger for this class
+     * @param _logger
      */
     public void setLogger(Logger _logger) {
         if (_logger == null) return;
@@ -818,9 +881,9 @@ public class CDFWriter extends GenericWriter {
     }
 
     /**
-     * Sets Level for the default anonymous  Logger for this class.
-     * If a logger has been set via a call to {@link #setLogger(Logger logger)},
-     * this method has no effect
+     * Sets Level for the default anonymous  Logger for this class.If a logger has been set via a call to {@link #setLogger(Logger)},
+ this method has no effect
+     * @param newLevel
      */
     public static void setLoggerLevel(Level newLevel) {
         if (logger == anonymousLogger) logger.setLevel(newLevel);
@@ -828,6 +891,7 @@ public class CDFWriter extends GenericWriter {
 
     /**
      * Adds an attribute to the list of 'not to be monitored' global attributes.
+     * @param aname
      */
     public static void addToDoNotCheckList(String aname) {
         if (doNotCheckListGlobal.contains(aname)) return;
@@ -837,6 +901,7 @@ public class CDFWriter extends GenericWriter {
     /**
      * Removes an attribute from the list 'not to be monitored' global
      * attributes.
+     * @param aname
      */
     public static void removeFromDoNotCheckList(String aname) {
         if (!doNotCheckListGlobal.contains(aname)) return;
@@ -845,6 +910,7 @@ public class CDFWriter extends GenericWriter {
 
     /**
      * Returns names of 'not to be monitored' global attributes.
+     * @return 
      */
     public String[] attributesInDoNotCheckList() {
         String[] sa = new String[doNotCheckListGlobal.size()];

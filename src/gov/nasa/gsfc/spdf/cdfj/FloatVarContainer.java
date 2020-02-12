@@ -2,9 +2,26 @@ package gov.nasa.gsfc.spdf.cdfj;
 //import gov.nasa.gsfc.spdf.common.*;
 import java.nio.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public final class FloatVarContainer extends BaseVarContainer implements
     VDataContainer.CFloat {
     final float[] fpad;
+
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @param bo
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public FloatVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve, ByteOrder bo) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -21,6 +38,16 @@ public final class FloatVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public FloatVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -34,6 +61,11 @@ public final class FloatVarContainer extends BaseVarContainer implements
         return _buf;
     }
 
+    /**
+     *
+     * @param size
+     * @return
+     */
     @Override
     public Object allocateDataArray(int size) {
         return new float[size];
@@ -167,10 +199,22 @@ public final class FloatVarContainer extends BaseVarContainer implements
             break;
         }
     }
+
+    /**
+     *
+     * @param type
+     * @param preserve
+     * @return
+     */
     public static boolean isCompatible(int type, boolean preserve) {
         return isCompatible(type, preserve, Float.TYPE);
     }
 
+    /**
+     *
+     * @return
+     * @throws Throwable
+     */
     public Object _asArray() throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank > 4) throw new Throwable("Rank > 4 not supported yet.");
@@ -270,6 +314,15 @@ public final class FloatVarContainer extends BaseVarContainer implements
             throw new Throwable("Internal error");
         }
     }
+
+    /**
+     *
+     * @param array
+     * @param offset
+     * @param first
+     * @param last
+     * @throws Throwable
+     */
     public void fillArray(float[] array, int offset, int first, int last)
         throws Throwable {
         if (buffers.size() == 0) throw new Throwable("buffer not available");
@@ -281,8 +334,19 @@ public final class FloatVarContainer extends BaseVarContainer implements
     }
     @Override
     public float[] as1DArray() {return (float[])super.as1DArray();}
+
+    /**
+     *
+     * @return
+     */
     @Override
     public float[] asOneDArray() {return (float[])super.asOneDArray(true);}
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
     @Override
     public float[] asOneDArray(boolean cmtarget) {
         return (float[])super.asOneDArray(cmtarget);

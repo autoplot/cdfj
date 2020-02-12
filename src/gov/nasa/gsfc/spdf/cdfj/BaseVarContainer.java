@@ -2,6 +2,11 @@ package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
 import java.util.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public abstract class BaseVarContainer implements Runnable {
     static final int chunkSize = 1024;
     final CDFImpl thisCDF;
@@ -20,6 +25,19 @@ public abstract class BaseVarContainer implements Runnable {
     final int fillCount;
     final boolean singlePoint;
     Boolean allocationMode;
+
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @param bo
+     * @param type
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     protected BaseVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve, ByteOrder bo, Class cl) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -119,23 +137,41 @@ public abstract class BaseVarContainer implements Runnable {
         }
     }
 
+    /**
+     *
+     * @param direct
+     */
     public void setDirect(boolean direct) {
         if (allocationMode == null) allocationMode = direct;
     }
 
     ByteBuffer userBuffer;
+
+    /**
+     *
+     * @param buf
+     * @return
+     */
     public boolean setUserBuffer(ByteBuffer buf) {
         if (allocationMode != null) return false;
         userBuffer = buf;
         return true;
     }
         
+    /**
+     *
+     * @return
+     */
     public ByteBuffer getBuffer() {
         if (buffers.size() == 0) return null;
         ContentDescriptor cd = (ContentDescriptor)buffers.get(0);
         return cd.getBuffer();
     }
 
+    /**
+     *
+     * @return
+     */
     public int[] getRecordRange() {
         if (buffers.size() == 0) return null;
         ContentDescriptor cd = (ContentDescriptor)buffers.get(0);
@@ -317,6 +353,15 @@ public abstract class BaseVarContainer implements Runnable {
         int getLastRecord() {return last;}
     }
     /* compatible means value is valid java type -- */
+
+    /**
+     *
+     * @param type
+     * @param preserve
+     * @param cl
+     * @return
+     */
+
     public static boolean isCompatible(int type, boolean preserve, Class cl) {
         if (cl == Long.TYPE) {
             if (((DataTypes.typeCategory[type] == DataTypes.SIGNED_INTEGER) ||
@@ -371,6 +416,10 @@ public abstract class BaseVarContainer implements Runnable {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCapacity() {
         int numberOfValues = pt[1] - pt[0] + 1;
         int words = elements*numberOfValues;
@@ -406,6 +455,11 @@ public abstract class BaseVarContainer implements Runnable {
         return true;
     }
 
+    /**
+     *
+     * @param stride
+     * @return
+     */
     public Object asSampledArray(Stride stride) {
         int[] range = getRecordRange();
         int numberOfValues = range[1] - range[0] + 1;
@@ -517,6 +571,12 @@ public abstract class BaseVarContainer implements Runnable {
         int getOffset() {return offset;}
     }
 */
+
+    /**
+     *
+     * @return
+     */
+
     public Object as1DArray() {
         ByteBuffer b = getBuffer();
         if (b == null) return null;
@@ -557,10 +617,28 @@ public abstract class BaseVarContainer implements Runnable {
         }
         return _cl;
     }
+
+    /**
+     *
+     * @return
+     */
     public Variable getVariable() {return var;}
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
     public Object asOneDArray(boolean cmtarget) {
         return asOneDArray(cmtarget, null);
     }
+
+    /**
+     *
+     * @param cmtarget
+     * @param stride
+     * @return
+     */
     public Object asOneDArray(boolean cmtarget, Stride stride) {
         int[] dim = var.getEffectiveDimensions();
         if ((dim.length <= 1) ||

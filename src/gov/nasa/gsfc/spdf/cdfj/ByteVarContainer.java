@@ -2,9 +2,24 @@ package gov.nasa.gsfc.spdf.cdfj;
 //import gov.nasa.gsfc.spdf.common.*;
 import java.nio.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public class ByteVarContainer extends BaseVarContainer implements 
     VDataContainer.CByte {
     final byte[] bpad;
+
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public ByteVarContainer(CDFImpl thisCDF, Variable var, int[] pt) throws
         IllegalAccessException, InvocationTargetException, Throwable {
         super(thisCDF, var, pt, true, ByteOrder.BIG_ENDIAN, Byte.TYPE);
@@ -38,6 +53,11 @@ public class ByteVarContainer extends BaseVarContainer implements
         return _buf;
     }
 
+    /**
+     *
+     * @param size
+     * @return
+     */
     @Override
     public Object allocateDataArray(int size) {
         return null;
@@ -72,6 +92,12 @@ public class ByteVarContainer extends BaseVarContainer implements
         _buf.put(needed);
     }
 
+    /**
+     *
+     * @param type
+     * @param preserve
+     * @return
+     */
     public static boolean isCompatible(int type, boolean preserve) {
 /*
         boolean stringType = DataTypes.isStringType(type);
@@ -80,6 +106,11 @@ public class ByteVarContainer extends BaseVarContainer implements
         return isCompatible(type, preserve, Byte.TYPE);
     }
 
+    /**
+     *
+     * @return
+     * @throws Throwable
+     */
     public Object _asArray() throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank > 4) {
@@ -144,6 +175,14 @@ public class ByteVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param array
+     * @param offset
+     * @param first
+     * @param last
+     * @throws Throwable
+     */
     public void fillArray(byte[] array, int offset, int first, int last)
         throws Throwable {
         if (buffers.size() == 0) throw new Throwable("buffer not available");
@@ -155,12 +194,29 @@ public class ByteVarContainer extends BaseVarContainer implements
     }
     @Override
     public byte[] as1DArray() {return (byte[])super.as1DArray();}
+
+    /**
+     *
+     * @return
+     */
     @Override
     public byte[] asOneDArray() {return (byte[])super.asOneDArray(true);}
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
     @Override
     public byte[] asOneDArray(boolean cmtarget) {
         return (byte[])super.asOneDArray(cmtarget);
     }
+
+    /**
+     *
+     * @return
+     * @throws Throwable
+     */
     @Override
     public AArray asArray() throws Throwable {
         return new ByteArray(_asArray());

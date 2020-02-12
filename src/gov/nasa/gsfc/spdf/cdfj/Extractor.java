@@ -2,10 +2,22 @@ package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
 import java.util.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public class Extractor {
     static int MAX_ARRAY = 3;
     static Hashtable numericMethodMap = new Hashtable();
     static Hashtable stringMethodMap = new Hashtable();
+
+    /**
+     *
+     * @param func
+     * @param cl
+     * @param args
+     */
     public static void addFunction(String func, Class cl, Class[][] args) {
         Method[] ma = new Method[MAX_ARRAY + 1];
         for (int j = 0; j <= MAX_ARRAY; j++) {
@@ -102,6 +114,14 @@ public class Extractor {
         }
     }
 
+    /**
+     *
+     * @param var
+     * @param func
+     * @return
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
     public static Method getMethod(Variable var, String func) throws 
         IllegalAccessException, InvocationTargetException {
         int rank = var.getEffectiveRank();
@@ -120,6 +140,15 @@ public class Extractor {
         return ma[rank];
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @return
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public static Object getSeries0(CDFImpl thisCDF, Variable var) throws 
         IllegalAccessException, InvocationTargetException, Throwable {
         if (var.isMissingRecords()) {
@@ -229,6 +258,13 @@ public class Extractor {
         if (longType) return ldata;
         return data;
     }
+
+    /**
+     *
+     * @param o
+     * @param longType
+     * @return
+     */
     public static double[] castToDouble(Object o, boolean longType) {
         double[] vdata;
         if (!longType) {
@@ -245,6 +281,13 @@ public class Extractor {
 
     // padValue when var.getPadValue() returns null
     // if fill
+
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @return
+     */
     public static Object getPadValue(CDFImpl thisCDF, Variable var) {
         Object o = var.getPadValue(true);
         if (o == null) {
@@ -288,6 +331,12 @@ public class Extractor {
         }
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @return
+     */
     public static Object getFillValue(CDFImpl thisCDF, Variable var) {
         Vector fill = (Vector)thisCDF.getAttribute(var.getName(), "FILLVAL");
         int type = var.getType();
@@ -316,6 +365,15 @@ public class Extractor {
         }
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @return
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public static double [][] getSeries1(CDFImpl thisCDF, Variable var) throws
         IllegalAccessException, InvocationTargetException, Throwable {
         int numberOfValues = var.getNumberOfValues();
@@ -542,6 +600,14 @@ public class Extractor {
         return index;
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param idx
+     * @return
+     * @throws Throwable
+     */
     public static Object getElement1(CDFImpl thisCDF, Variable var, Integer idx)
         throws Throwable {
         if (var.isMissingRecords()) {
@@ -633,6 +699,14 @@ public class Extractor {
         return data;
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param idx
+     * @return
+     * @throws Throwable
+     */
     public static Object getElements1(CDFImpl thisCDF, Variable var,
         int[] idx) throws Throwable {
         int numberOfValues = var.getNumberOfValues();
@@ -729,6 +803,13 @@ public class Extractor {
         return data;
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @return
+     * @throws Throwable
+     */
     public static double [][][] getSeries2(CDFImpl thisCDF, Variable var) throws 
         Throwable {
         int type = var.getType();
@@ -977,6 +1058,14 @@ public class Extractor {
         return data;
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param pt
+     * @return
+     * @throws Throwable
+     */
     public static Object getPoint0(CDFImpl thisCDF,Variable var, Integer pt) 
         throws Throwable {
         if (var.isMissingRecords()) {
@@ -1019,6 +1108,14 @@ public class Extractor {
         return null;
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param pt
+     * @return
+     * @throws Throwable
+     */
     public static double[] getPoint1(CDFImpl thisCDF,Variable var, Integer pt) 
         throws Throwable {
         int point = pt;
@@ -1075,6 +1172,14 @@ public class Extractor {
         return null;
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param pt
+     * @return
+     * @throws Throwable
+     */
     public static double[][] getPoint2(CDFImpl thisCDF, Variable var,
         Integer pt) throws Throwable {
         int point = pt;
@@ -1184,12 +1289,30 @@ public class Extractor {
         return null;
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param pt1
+     * @param pt2
+     * @return
+     * @throws Throwable
+     */
     public static double[] getElement2(CDFImpl thisCDF,Variable var,
         Integer pt1, Integer pt2) throws Throwable {
         throw new Throwable("getElement2 is not supported currently");
         //return null;
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param istart
+     * @param iend
+     * @return
+     * @throws Throwable
+     */
     public static Object getRange0(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend) throws Throwable {
         int start = istart;
@@ -1410,8 +1533,13 @@ public class Extractor {
 
     /**
      * returns values for the specified one
-     * dimensional variable for the specified range of records.
-     * long type not supported in this context - use getRangeForElements1
+     * dimensional variable for the specified range of records.long type not supported in this context - use getRangeForElements1
+     * @param thisCDF
+     * @param iend
+     * @param var
+     * @param istart
+     * @return
+     * @throws java.lang.Throwable
      */
     public static double [][] getRange1(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend) throws Throwable {
@@ -1558,6 +1686,9 @@ public class Extractor {
         return ecount;
     }
     /** good for rank 1
+     * @param var
+     * @param idx
+     * @return 
      */
     public static boolean validElement(Variable var, int[] idx) {
         int elements = (((Integer)elementCount(var).elementAt(0)));
@@ -1570,8 +1701,13 @@ public class Extractor {
 
     /**
      * returns range of values for the specified element of a one
-     * dimensional variable.
-     * returns null if the specified element is not valid.
+     * dimensional variable.returns null if the specified element is not valid.
+     * @param ielement
+     * @param var
+     * @param iend
+     * @param istart
+     * @return
+     * @throws java.lang.Throwable
      */
     public static Object getRangeForElement1(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend, Integer ielement) throws Throwable {
@@ -1696,10 +1832,14 @@ public class Extractor {
 
     /**
      * returns range of values for the specified elements of a one
-     * dimensional variable.
-     * returns null if any of the specified elements is not valid.
-     * -- does not respect 'previous' and cases where the requested
-     * range has partial overlap with the available range
+     * dimensional variable.returns null if any of the specified elements is not valid.-- does not respect 'previous' and cases where the requested
+ range has partial overlap with the available range
+     * @param idx
+     * @param var
+     * @param iend
+     * @param istart
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static Object getRangeForElements1(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend, int[] idx) throws Throwable {
@@ -1828,9 +1968,12 @@ public class Extractor {
 
     /**
      * returns String of length 'size' starting at current position
-     * in the given ByteBuffer. On return, the buffer position is 1
-     * advanced by the smaller of size, or the length of the null
-     * terminated string
+     * in the given ByteBuffer.On return, the buffer position is 1
+ advanced by the smaller of size, or the length of the null
+ terminated string
+     * @param bv
+     * @param size
+     * @return 
      */
     public static String getStringValue(ByteBuffer bv, int size) {
         byte [] ba = new byte[size];
@@ -1844,6 +1987,9 @@ public class Extractor {
 
     /**
       * 0D series of string
+     * @param thisCDF
+     * @param var
+     * @return 
       */
     public static String [] getStringSeries0(CDFImpl thisCDF, Variable var) {
         int numberOfValues = var.getNumberOfValues();
@@ -1871,6 +2017,9 @@ public class Extractor {
     }
     /**
       * 1D series of string
+     * @param thisCDF
+     * @param var
+     * @return 
       */
     public static String [][] getStringSeries1(CDFImpl thisCDF, Variable var) {
         int numberOfValues = var.getNumberOfValues();
@@ -1898,6 +2047,12 @@ public class Extractor {
         return data;
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @return
+     */
     public static String [][][] getStringSeries2(CDFImpl thisCDF, Variable var)
         {
         return null;
@@ -1905,6 +2060,11 @@ public class Extractor {
 
     /**
      * returns range of blocks containing the range of records (start, end).
+     * @param locations
+     * @param end
+     * @param recordVariance
+     * @param start
+     * @return 
      */
     public static int [] getBlockRange(Vector locations, boolean recordVariance,
         int start, int end) {
@@ -1988,6 +2148,10 @@ public class Extractor {
     }
     /**
       * 3D Series
+     * @param thisCDF
+     * @param var
+     * @return 
+     * @throws java.lang.Throwable 
       */
     public static double [][][][] getSeries3(CDFImpl thisCDF, Variable var) 
         throws Throwable {
@@ -2163,6 +2327,11 @@ public class Extractor {
     }
     /**
       * 3D Point
+     * @param thisCDF
+     * @param pt
+     * @param var
+     * @return 
+     * @throws java.lang.Throwable 
       */
     public static double[][][] getPoint3(CDFImpl thisCDF, Variable var,
         Integer pt) throws Throwable {
@@ -2290,6 +2459,11 @@ public class Extractor {
 
     /**
       * 1D 
+     * @param thisCDF
+     * @param pt
+     * @param var
+     * @return 
+     * @throws java.lang.Throwable 
       */
     public static double [] get1DSeries(CDFImpl thisCDF, Variable var, int[] pt)
         throws Throwable {
@@ -2359,11 +2533,30 @@ public class Extractor {
         }
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param pt
+     * @param preserve
+     * @return
+     * @throws Throwable
+     */
     public static Object get1DSeries(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve) throws Throwable {
         return get1DSeries(thisCDF, var, pt, preserve, false);
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param pt
+     * @param preserve
+     * @param swap
+     * @return
+     * @throws Throwable
+     */
     public static Object get1DSeries(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve, boolean swap) throws Throwable {
         
@@ -2555,6 +2748,13 @@ public class Extractor {
         return data;
     }
 
+    /**
+     *
+     * @param ldata
+     * @param padValue
+     * @param start
+     * @param count
+     */
     public static void do1DMissing(long[] ldata, long padValue, int start,
        int count) {
        int offset = start;
@@ -2563,14 +2763,32 @@ public class Extractor {
        }
     }
 
+    /**
+     *
+     * @param ldata
+     * @param padValue
+     */
     public static void do1DMissing(long[] ldata, long padValue) {
         do1DMissing(ldata, padValue, 0, ldata.length);
     }
 
+    /**
+     *
+     * @param ldata
+     * @param padValue
+     * @param start
+     */
     public static void do1DMissing(long[] ldata, long padValue, int start) {
         do1DMissing(ldata, padValue, start, ldata.length - start);
     }
 
+    /**
+     *
+     * @param data
+     * @param padValue
+     * @param start
+     * @param count
+     */
     public static void do1DMissing(double[] data, double padValue, int start,
        int count) {
        int offset = start;
@@ -2579,14 +2797,36 @@ public class Extractor {
        }
     }
 
+    /**
+     *
+     * @param data
+     * @param padValue
+     */
     public static void do1DMissing(double[] data, double padValue) {
         do1DMissing(data, padValue, 0, data.length);
     }
 
+    /**
+     *
+     * @param data
+     * @param padValue
+     * @param start
+     */
     public static void do1DMissing(double[] data, double padValue, int start) {
         do1DMissing(data, padValue, start, data.length - start);
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param pt
+     * @param stride
+     * @return
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public static double [] get1DSeries(CDFImpl thisCDF, Variable var, int[] pt,
         int[] stride) throws IllegalAccessException, InvocationTargetException,
         Throwable {
@@ -2752,6 +2992,17 @@ public class Extractor {
     }
 
     // not supported when there are gaps 
+
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param strideObject
+     * @return
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public static Object getSeries0(CDFImpl thisCDF, Variable var,
         Stride strideObject) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -2854,6 +3105,16 @@ public class Extractor {
         if (longType) return ldata;
         return data;
     }
+
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param idx
+     * @param strideObject
+     * @return
+     * @throws Throwable
+     */
     public static double [] getElement1(CDFImpl thisCDF, Variable var,
         Integer idx, Stride strideObject) throws Throwable {
         int type = var.getType();
@@ -2964,6 +3225,17 @@ public class Extractor {
         }
         return index;
     }
+
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param istart
+     * @param iend
+     * @param strideObject
+     * @return
+     * @throws Throwable
+     */
     public static Object getRange0(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend, Stride strideObject) throws Throwable {
         int begin = istart;
@@ -3075,6 +3347,18 @@ public class Extractor {
         if (longType) return ldata;
         return data;
     }
+
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param istart
+     * @param iend
+     * @param ielement
+     * @param strideObject
+     * @return
+     * @throws Throwable
+     */
     public static Object getRangeForElement1(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend, Integer ielement, Stride strideObject)
         throws Throwable {
@@ -3252,6 +3536,15 @@ public class Extractor {
         }
     }
 
+    /**
+     *
+     * @param thisCDF
+     * @param var
+     * @param pt
+     * @param cm
+     * @return
+     * @throws Throwable
+     */
     public static double [] getOneDSeries(CDFImpl thisCDF, Variable var,
         int[] pt, boolean cm) throws Throwable {
         boolean toswap = (cm)?thisCDF.rowMajority():!thisCDF.rowMajority();

@@ -1,14 +1,37 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
 import java.util.*;
+
+/**
+ *
+ * @author nand
+ */
 public class VDR {
     ByteBuffer record = ByteBuffer.allocate(8 + 4 + 8 + 4 + 4 +
         8 + 8 + 4 + 4 + 4 + 2*4 + 4 + 4 + 8 + 4 + 256 + 4);
     long vDRNext;
     long longMask = (1l << 32) - 1;
     byte[] padValues;
+
+    /**
+     *
+     */
     protected int position;
     String sname;
+
+    /**
+     *
+     * @param string
+     * @param i
+     * @param ints
+     * @param blns
+     * @param bln
+     * @param bln1
+     * @param o
+     * @param i1
+     * @param sro
+     * @throws Throwable
+     */
     public VDR(String name, int dataType, int[] dim, boolean[] varys,
         boolean recordVariance, boolean compressed, Object pad, int size,
         SparseRecordOption option) throws Throwable {
@@ -144,44 +167,112 @@ public class VDR {
         }
     }
 
+    /**
+     *
+     * @param string
+     * @param i
+     * @param ints
+     * @param blns
+     * @param bln
+     * @throws Throwable
+     */
     public VDR(String name, int dataType, int[] dim, boolean[] varys,
         boolean compressed) throws Throwable {
         this(name, dataType, dim, varys, true, compressed, null, 1,
         SparseRecordOption.NONE);
     }
+
+    /**
+     *
+     * @param string
+     * @param i
+     * @param ints
+     * @param blns
+     * @throws Throwable
+     */
     public VDR(String name, int dataType, int[] dim, boolean[] varys)
         throws Throwable {
         this(name, dataType, dim, varys, false);
     }
+
+    /**
+     *
+     * @param l
+     */
     public void setVDRNext(long l) {
         vDRNext = l;
     }
     int dataType;
+
+    /**
+     *
+     * @param n
+     */
     public void setDataType(int n) {
         dataType = n;
     }
     int maxRec = -1;
+
+    /**
+     *
+     * @param n
+     */
     public void setMaxRec(int n) {
         maxRec = n;
     }
     long vXRHead;
+
+    /**
+     *
+     * @param l
+     */
     public void setVXRHead(long l) {
         vXRHead = l;
     }
     long vXRTail = -1l;
+
+    /**
+     *
+     * @param l
+     */
     public void setVXRTail(long l) {
         vXRTail = l;
     }
     int flags;
+
+    /**
+     *
+     * @param n
+     */
     public void setFlags(int n) {
         flags = n;
     }
+
+    /**
+     *
+     * @return
+     */
     public boolean isCompressed() {return ((flags & 0x04) != 0);}
     int sRecords = 0;
+
+    /**
+     *
+     * @param option
+     */
     public void setSparseRecordOption(SparseRecordOption option) {
         sRecords = option.getValue();
     }
+
+    /**
+     *
+     */
     protected int numElems = 1;
+
+    /**
+     *
+     * @param dim
+     * @param varys
+     */
     public void setNumElems(int[] dim, boolean[] varys) {
         numElems = 1;
 /* This is always 1 for numeric data
@@ -191,19 +282,44 @@ public class VDR {
 */
     }
     int num;
+
+    /**
+     *
+     * @param n
+     */
     public void setNum(int n) {
         num = n;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getNum() {return num;}
     long cPROffset;
+
+    /**
+     *
+     * @param l
+     */
     public void setCPROffset(long l) {
         cPROffset = l;
     }
     int blockingFactor;
+
+    /**
+     *
+     * @param n
+     */
     public void setBlockingFactor(int n) {
         blockingFactor = n;
     }
     byte[] name = new byte[256];
+
+    /**
+     *
+     * @param s
+     */
     public void setName(String s) {
         byte[] bs = s.getBytes();
         int i = 0;
@@ -212,8 +328,23 @@ public class VDR {
     }
     int zNumDims;
     ByteBuffer dimBuf;
+
+    /**
+     *
+     */
     protected int itemsPerPoint = 1;
+
+    /**
+     *
+     */
     protected Vector<Integer> efdim;
+
+    /**
+     *
+     * @param dim
+     * @param varys
+     * @param dataType
+     */
     public void setDimensions(int[] dim, boolean[] varys, int dataType) {
         zNumDims = dim.length;
         if (dataType == 32) {
@@ -233,6 +364,11 @@ public class VDR {
         }
         dimBuf.position(0);
     }
+
+    /**
+     *
+     * @return
+     */
     public ByteBuffer get() {
         int capacity = record.capacity();
         if (padValues != null) capacity += padValues.length;
@@ -264,11 +400,21 @@ public class VDR {
         buf.position(0);
         return buf;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getSize() {
         int size = record.capacity();
         if (zNumDims > 0) size += dimBuf.capacity();
         if (padValues != null) size += padValues.length;
         return size;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getName() {return sname;}
 }

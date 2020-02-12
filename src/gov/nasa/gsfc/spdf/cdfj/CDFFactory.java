@@ -10,12 +10,28 @@ import java.util.*;
  * The source CDF can  be a file, a byte array, or a URL.
  */
 public final class CDFFactory {
+
+    /**
+     *
+     */
     public static final long CDF3_MAGIC =((long)0xcdf3 << 48) +
         ((long)0x0001 << 32) + 0x0000ffff;
+
+    /**
+     *
+     */
     public static final long CDF3_COMPRESSED_MAGIC =((long)0xcdf3 << 48) +
         ((long)0x0001 << 32) + 0x00000000cccc0001l;
+
+    /**
+     *
+     */
     public static final long CDF2_MAGIC =((long)0xcdf2 << 48) +
         ((long)0x0001 << 32) + 0x0000ffff;
+
+    /**
+     *
+     */
     public static final long CDF2_MAGIC_DOT5 = ((long)0x0000ffff << 32) +
          0x0000ffff;
     static Map cdfMap = Collections.synchronizedMap(new WeakHashMap());
@@ -86,6 +102,9 @@ public final class CDFFactory {
     }
     /**
      * creates  CDFImpl object from a file.
+     * @param fname
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static CDFImpl getCDF(String fname) throws Throwable {
         return getCDF(fname, false);
@@ -182,15 +201,46 @@ public final class CDFFactory {
         return ByteBuffer.wrap(udata);
     }
 
+    /**
+     *
+     */
     public static class ProcessingOption {
         String missingRecordsOption() {return "reject";}
     }
 
+    /**
+     *
+     */
     public static class CDFSource {
+
+        /**
+         *
+         * @return
+         */
         public String getName() {return "";};
+
+        /**
+         *
+         * @return
+         */
         public boolean isFile() {return false;};
+
+        /**
+         *
+         * @return
+         */
         public boolean isURL() {return false;};
+
+        /**
+         *
+         * @return
+         */
         public boolean isByteArray() {return false;};
+
+        /**
+         *
+         * @return
+         */
         public boolean isByteBuffer() {return false;};
     }
     private static long mappedMemoryUsed() {
@@ -203,12 +253,21 @@ public final class CDFFactory {
         }
         return size;
     }
+
+    /**
+     *
+     * @param value
+     */
     public static void setMaxMappedMemory(long value) {
         if (maxMappedMemory != null) {
             if (maxMappedMemory > value) return;
         }
         maxMappedMemory = value;
     }
+
+    /**
+     *
+     */
     public static void clean() {
         if (maxMappedMemory != null) {
             if (mappedMemoryUsed() > maxMappedMemory) {

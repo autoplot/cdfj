@@ -1,6 +1,11 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.util.*;
 import java.text.*;
+
+/**
+ *
+ * @author nand
+ */
 public class TimeUtil {
     static final long[] jtimes;
     static final int[] leapSecondIds;
@@ -8,6 +13,10 @@ public class TimeUtil {
     static final int highest;
     static SimpleDateFormat sdf =
         new SimpleDateFormat("y'-'M'-'dd'T'HH:mm:ss.SSS");
+
+    /**
+     *
+     */
     public static final long TT_JANUARY_1_1970 = -946727957816000000l;
     static final long JANUARY_1_1972 = Date.UTC(72,0,1,0,0,0);
     static final int lastLeapSecondId;
@@ -99,7 +108,12 @@ public class TimeUtil {
         lastLeapSecondId = leapSecondIds[leapSecondIds.length - 1];
     }
 
-
+    /**
+     *
+     * @param l
+     * @return
+     * @throws Throwable
+     */
     public static double getOffset(long l) throws Throwable {
         if (l < JANUARY_1_1972) throw new Throwable("Times before " +
             "January 1, 1972 are not supported at present");
@@ -125,6 +139,9 @@ public class TimeUtil {
     /**
      * converts a Date to number of milliseconds since 1970 (corrected for
      * leap seconds
+     * @param d
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static double milliSecondSince1970(Date d) throws Throwable {
         return milliSecondSince1970(d.getTime());
@@ -133,6 +150,9 @@ public class TimeUtil {
     /**
      * corrects (java Date returned) number of milliseconds since 1970 for
      * leap seconds
+     * @param javaMilliSecond
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static double milliSecondSince1970(long javaMilliSecond) throws
         Throwable {
@@ -150,6 +170,9 @@ public class TimeUtil {
     /**
      * returns tt2000 for
      * (java Date returned) number of milliseconds since 1970
+     * @param l
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static long tt2000(long l) throws Throwable {
         return  TT_JANUARY_1_1970 + 1000000*(long)milliSecondSince1970(l);
@@ -157,6 +180,9 @@ public class TimeUtil {
 
     /**
      * returns tt2000 for a Date
+     * @param d
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static long tt2000(Date d) throws Throwable {
         return  TT_JANUARY_1_1970 + 1000000*(long)milliSecondSince1970(d);
@@ -166,6 +192,9 @@ public class TimeUtil {
     /**
      * returns number of milliseconds since 1970 for given time ignoring
      * leap seconds
+     * @param time
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static long milliSecondSince1970(int[] time) throws Throwable {
         return milliSecondSince1970(time, false);
@@ -220,6 +249,9 @@ public class TimeUtil {
     }
     /**
      * returns tt2000 for the given time
+     * @param time
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static long tt2000(int[] time) throws Throwable {
         long msec = milliSecondSince1970(time, true);
@@ -230,7 +262,18 @@ public class TimeUtil {
         return adjust + tt2000(msec) + time[7]*1000 + time[8];
     }
         
+    /**
+     *
+     */
     public static class Validator {
+
+        /**
+         *
+         * @param varTime
+         * @param leapId
+         * @return
+         * @throws Throwable
+         */
         public static long correctedIfNecessary(long varTime, int leapId) throws
             Throwable {
             if (leapId == lastLeapSecondId) return varTime;

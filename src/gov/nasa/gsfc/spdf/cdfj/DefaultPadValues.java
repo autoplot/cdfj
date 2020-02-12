@@ -1,4 +1,9 @@
 package gov.nasa.gsfc.spdf.cdfj;
+
+/**
+ *
+ * @author nand
+ */
 public class DefaultPadValues {
     static Number[] padValues = new Number[50];
     static {
@@ -15,6 +20,12 @@ public class DefaultPadValues {
         padValues[32] = new Double(0);
         padValues[33] = -9223372036854775807L;
     }
+
+    /**
+     *
+     * @param type
+     * @return
+     */
     public static Object value(int type) {
         return padValues[type];
     }

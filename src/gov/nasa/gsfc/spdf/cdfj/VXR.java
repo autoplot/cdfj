@@ -1,17 +1,40 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
 import java.util.*;
+
+/**
+ *
+ * @author nand
+ */
 public class VXR {
     ByteBuffer record = ByteBuffer.allocate(8 + 4 + 8 + 4 + 4);
     long vXRNext = 0l;
+
+    /**
+     *
+     * @param l
+     */
     public void setVXRNext(long l) {
         vXRNext = l;
     }
+
+    /**
+     *
+     */
     protected int position;
+
+    /**
+     *
+     */
     protected int numEntries;
     ByteBuffer firstbuf;
     ByteBuffer lastbuf;
     ByteBuffer locbuf;
+
+    /**
+     *
+     * @param locs
+     */
     public void setLocations(Vector<int[]> locs) {
         numEntries = locs.size();
         firstbuf = ByteBuffer.allocate(4*numEntries);
@@ -27,6 +50,11 @@ public class VXR {
         lastbuf.position(0);
         locbuf.position(0);
     }
+
+    /**
+     *
+     * @return
+     */
     public ByteBuffer get() {
         int capacity = record.capacity() + 16*numEntries;
         ByteBuffer buf = ByteBuffer.allocate(capacity);
@@ -46,6 +74,11 @@ public class VXR {
 */
         return record;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getSize() {
         int size = record.capacity() + 16*numEntries;
         return size;

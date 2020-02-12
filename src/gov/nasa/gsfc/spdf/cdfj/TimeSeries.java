@@ -8,6 +8,8 @@ public interface TimeSeries {
      * Returns times according to the
      * {@link TimeInstantModel time instant model}
      * returned by {@link #getTimeInstantModel() getTimeInstantModel()}.
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      * @see CDFReader#timeModelInstance()
      */
     public double[] getTimes() throws CDFException.ReaderError;
@@ -21,12 +23,14 @@ public interface TimeSeries {
      *   <li>double[n][n1][n2][n3] for  3-d variable of dimension n1,n2,n3</li>
      * </ul> where n is the length of the array returned by
      * {@link #getTimes() getTimes()}
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public Object getValues() throws CDFException.ReaderError;
 
     /**
      * Returns time instant model used to derive times returned
      * by {@link #getTimes() getTimes()}.
+     * @return 
      */
     public TimeInstantModel getTimeInstantModel();
 }

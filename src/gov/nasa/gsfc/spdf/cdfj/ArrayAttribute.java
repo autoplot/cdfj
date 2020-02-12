@@ -1,9 +1,20 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.util.*;
+
+/**
+ *
+ * @author nand
+ */
 public class ArrayAttribute {
     Vector<Integer> dim = new Vector<>();
     Class<?> cl;
     Object o;
+
+    /**
+     *
+     * @param o
+     * @throws Throwable
+     */
     public ArrayAttribute(Object data) throws Throwable {
         cl = data.getClass();
         if (!cl.isArray()) throw new Throwable("AArray: Object " + data +
@@ -42,7 +53,17 @@ public class ArrayAttribute {
             dim.add(_o.length);                
         }
     }
+
+    /**
+     *
+     * @return
+     */
     public Class<?> getType() {return cl;}
+
+    /**
+     *
+     * @return
+     */
     public int[] getDimensions() {
         int[] ia = new int[dim.size()];
         for (int i = 0; i < ia.length; i++) {
@@ -50,6 +71,12 @@ public class ArrayAttribute {
         }
         return ia;
     }
+
+    /**
+     *
+     * @param sa
+     * @throws Throwable
+     */
     public  void toStringArray(String[] sa) throws Throwable {
         if (cl == String.class) {
             String[] sin = (String[]) o;
@@ -62,6 +89,12 @@ public class ArrayAttribute {
         }
         throw new Throwable("Method not appropriate for objects of type " + cl);
     }
+
+    /**
+     *
+     * @param la
+     * @throws Throwable
+     */
     public void  toLongArray(long[] la) throws Throwable {
         if (cl == Long.TYPE) {
             long[] lin = (long[]) o;
@@ -74,6 +107,12 @@ public class ArrayAttribute {
         }
         throw new Throwable("Method not appropriate for objects of type " + cl);
     }
+
+    /**
+     *
+     * @param da
+     * @throws Throwable
+     */
     public void  toDoubleArray(double[] da) throws Throwable {
         if (cl == Double.TYPE) {
             double[] din = (double[]) o;

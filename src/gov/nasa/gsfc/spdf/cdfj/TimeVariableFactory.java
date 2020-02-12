@@ -1,9 +1,18 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
 import java.util.*;
+
+/**
+ *
+ * @author nand
+ */
 public class TimeVariableFactory {
     private TimeVariableFactory() {
     }
+
+    /**
+     *
+     */
     public static final double JANUARY_1_1970;
     static final long longFill = -9223372036854775807L;
     static final double doubleFill = -1.0e31;
@@ -24,14 +33,31 @@ public class TimeVariableFactory {
     }
     private static TimeInstantModel defaultTimeInstantModel =
         new DefaultTimeInstantModelImpl();
+
+    /**
+     *
+     */
     public static final long JANUARY_1_1970_LONG = (long)JANUARY_1_1970;
+
+    /**
+     *
+     */
     public static final long TT2000_DATE = JANUARY_1_1970_LONG +
         Date.UTC(100, 0, 1, 12, 0, 0) - 42184;
 
+    /**
+     *
+     * @return
+     */
     public static TimeInstantModel getDefaultTimeInstantModel() {
         return (TimeInstantModel)defaultTimeInstantModel.clone();
     }
 
+    /**
+     *
+     * @param msec
+     * @return
+     */
     public static TimeInstantModel getDefaultTimeInstantModel(double msec) {
         TimeInstantModel tspec =
             (TimeInstantModel)defaultTimeInstantModel.clone();
@@ -39,6 +65,13 @@ public class TimeVariableFactory {
         return tspec;
     }
 
+    /**
+     *
+     * @param rdr
+     * @param vname
+     * @return
+     * @throws Throwable
+     */
     public static CDFTimeVariable getTimeVariable(MetaData rdr,
         String vname) throws Throwable {
         CDFImpl cdf = rdr.thisCDF;
@@ -117,6 +150,9 @@ public class TimeVariableFactory {
         return tv;
     }
 
+    /**
+     *
+     */
     public static abstract class CDFTimeVariable implements TimeVariableX {
         CDFImpl cdf;
         String name;
@@ -170,6 +206,11 @@ public class TimeVariableFactory {
             return getTimes(recordRange[0], recordRange[1],  ts);
         }
 
+        /**
+         *
+         * @param timeRange
+         * @return
+         */
         public double [] getTimes(double[] timeRange) {
             try {
                 return getTimes(timeRange, null);
@@ -220,6 +261,12 @@ public class TimeVariableFactory {
             return  getTimes(startTime, stopTime, null);
         }
 
+        /**
+         *
+         * @param timeRange
+         * @return
+         * @throws Throwable
+         */
         @Override
         public int[] getRecordRange(double[] timeRange) throws Throwable {
             return getRecordRange(timeRange, null);
@@ -231,6 +278,14 @@ public class TimeVariableFactory {
             return getRecordRange(startTime, stopTime, null);
         }
 
+        /**
+         *
+         * @param startTime
+         * @param stopTime
+         * @param ts
+         * @return
+         * @throws Throwable
+         */
         @Override
         public int [] getRecordRange(int[] startTime, int[] stopTime,
             TimeInstantModel ts) throws Throwable {
@@ -248,6 +303,13 @@ public class TimeVariableFactory {
                new double[]{(double)start, (double)stop}, ts);
         }
 
+        /**
+         *
+         * @param timeRange
+         * @param ts
+         * @return
+         * @throws Throwable
+         */
         public int[] getRecordRange(double[] timeRange, TimeInstantModel ts)
             throws Throwable {
             double[] temp = getTimes(0, recordCount - 1, ts);
@@ -290,6 +352,10 @@ public class TimeVariableFactory {
             return new int[] {low, last};
         }
 
+        /**
+         *
+         * @param count
+         */
         protected void setRecordCount(int count) {
             recordCount = count;
         }
@@ -316,10 +382,18 @@ public class TimeVariableFactory {
         abstract void reset();
         @Override
         public abstract boolean isTT2000();
+
+        /**
+         *
+         * @return
+         */
         @Override
         public ByteBuffer getRawBuffer() {return tbuf;}
     }
 
+    /**
+     *
+     */
     public static class CDFEpochVariable extends CDFTimeVariable {
         TimePrecision offsetUnits = TimePrecision.MILLISECOND;
         DoubleBuffer _dbuf;
@@ -328,6 +402,15 @@ public class TimeVariableFactory {
             precision = TimePrecision.MILLISECOND;
             _dbuf = tbuf.asDoubleBuffer();
         }
+
+        /**
+         *
+         * @param first
+         * @param last
+         * @param ts
+         * @return
+         * @throws Throwable
+         */
         @Override
         public double [] getTimes(int first, int last, TimeInstantModel ts)
             throws Throwable {
@@ -368,6 +451,10 @@ public class TimeVariableFactory {
             return tp == TimePrecision.MILLISECOND;
         }
     }
+
+    /**
+     *
+     */
     public static class CDFTT2000Variable extends CDFTimeVariable {
         LongBuffer _lbuf;
         CDFTT2000Variable(CDFImpl cdf, String name, ByteBuffer obuf) {
@@ -375,6 +462,15 @@ public class TimeVariableFactory {
             precision = TimePrecision.NANOSECOND;
             _lbuf = tbuf.asLongBuffer();
         }
+
+        /**
+         *
+         * @param first
+         * @param last
+         * @param ts
+         * @return
+         * @throws Throwable
+         */
         @Override
         public double [] getTimes(int first, int last, TimeInstantModel ts)
             throws Throwable {
@@ -444,6 +540,10 @@ public class TimeVariableFactory {
             return tp != TimePrecision.PICOSECOND;
         }
     }
+
+    /**
+     *
+     */
     public static class CDFEpoch16Variable extends CDFTimeVariable {
         DoubleBuffer _dbuf;
         CDFEpoch16Variable(CDFImpl cdf, String name, ByteBuffer obuf) {
@@ -451,6 +551,15 @@ public class TimeVariableFactory {
             precision = TimePrecision.PICOSECOND;
             _dbuf = tbuf.asDoubleBuffer();
         }
+
+        /**
+         *
+         * @param first
+         * @param last
+         * @param ts
+         * @return
+         * @throws Throwable
+         */
         @Override
         public double [] getTimes(int first, int last, TimeInstantModel ts)
             throws Throwable {
@@ -530,6 +639,10 @@ public class TimeVariableFactory {
         @Override
         public boolean canSupportPrecision(TimePrecision tp) {return true;}
     }
+
+    /**
+     *
+     */
     public static class UnixTimeVariable extends CDFTimeVariable {
         DoubleBuffer _dbuf;
         UnixTimeVariable(CDFImpl cdf, String name, ByteBuffer obuf) {
@@ -537,6 +650,15 @@ public class TimeVariableFactory {
             precision = TimePrecision.MICROSECOND;
             _dbuf = tbuf.asDoubleBuffer();
         }
+
+        /**
+         *
+         * @param first
+         * @param last
+         * @param ts
+         * @return
+         * @throws Throwable
+         */
         @Override
         public double [] getTimes(int first, int last, TimeInstantModel ts)
             throws Throwable {

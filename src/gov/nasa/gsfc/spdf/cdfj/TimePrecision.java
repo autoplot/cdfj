@@ -4,12 +4,28 @@ import java.util.*;
  * Time Precision Definition class
  */
 public final class TimePrecision {
+
+    /**
+     *
+     */
     public static final TimePrecision MILLISECOND =
         new TimePrecision(0);
+
+    /**
+     *
+     */
     public static final TimePrecision MICROSECOND =
         new TimePrecision(1);
+
+    /**
+     *
+     */
     public static final TimePrecision NANOSECOND =
         new TimePrecision(2);
+
+    /**
+     *
+     */
     public static final TimePrecision PICOSECOND =
         new TimePrecision(3);
     static Hashtable<String, TimePrecision> ht =
@@ -25,7 +41,18 @@ public final class TimePrecision {
     private TimePrecision(int precision) {
         this.precision = precision;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getValue() {return precision;}
+
+    /**
+     *
+     * @param s
+     * @return
+     */
     public static TimePrecision getPrecision(String s) {
         String _s = s.toLowerCase();
         int len = _s.length();

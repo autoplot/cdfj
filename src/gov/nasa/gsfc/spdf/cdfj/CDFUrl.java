@@ -16,6 +16,11 @@ import java.security.cert.CertificateFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
+
+/**
+ *
+ * @author nand
+ */
 public class CDFUrl {
     static {
         String certificate =
@@ -59,9 +64,20 @@ public class CDFUrl {
         }
     }
     URL url;
+
+    /**
+     *
+     * @param url
+     */
     public CDFUrl(URL u) {
         url = u;
     }
+
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
     public URLConnection openConnection() throws IOException {
         return url.openConnection();
     }

@@ -10,10 +10,16 @@ import java.lang.reflect.*;
 public class CDFReader extends GenericReader {
     Scalar scalar;
     CDFVector vector;
+
+    /**
+     *
+     */
     public CDFReader() {
     }
     /**
      * Constructs a reader for the given CDF file.
+     * @param string
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFReader(String cdfFile) throws CDFException.ReaderError {
         super(cdfFile);
@@ -25,6 +31,8 @@ public class CDFReader extends GenericReader {
 
     /**
      * Constructs a reader for the given URL for CDF file.
+     * @param url
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFReader(URL url) throws CDFException.ReaderError {
         super(url);
@@ -38,6 +46,9 @@ public class CDFReader extends GenericReader {
     /**
      * Returns {@link TimeSeries TimeSeries} of the specified variable
      * using the default {@link TimeInstantModel time instant model}.
+     * @param varName
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public TimeSeries getTimeSeries(String varName) throws
         CDFException.ReaderError {
@@ -50,6 +61,8 @@ public class CDFReader extends GenericReader {
      * @param    varName   variable name
      * @param    tspec  {@link TimeInstantModel time instant model}, May be
      * null, in which case the default model is used.
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public TimeSeries getTimeSeries(String varName, TimeInstantModel tspec)
         throws CDFException.ReaderError {
@@ -70,6 +83,8 @@ public class CDFReader extends GenericReader {
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the stop time is assumed to be later than the last available time.
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public TimeSeries getTimeSeries(String varName, int[] startTime,
         int[] stopTime) throws CDFException.ReaderError {
@@ -105,6 +120,7 @@ public class CDFReader extends GenericReader {
      * @param    tspec  {@link TimeInstantModel time instant model}, May be
      * null, in which case the default model is used.
      * @return   {@link TimeSeries time series}
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public TimeSeries getTimeSeries(String varName, int[] startTime,
         int[] stopTime, TimeInstantModel tspec) throws
@@ -159,6 +175,7 @@ public class CDFReader extends GenericReader {
      * @param    columnMajor specifies whether the first index of the
      * variable dimension varies the fastest, i.e. IDL like.
      * @return   {@link TimeSeriesOneD time series}
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public TimeSeriesOneD getTimeSeriesOneD(String varName, int[] startTime,
         int[] stopTime, TimeInstantModel tspec, boolean columnMajor) throws
@@ -190,6 +207,7 @@ public class CDFReader extends GenericReader {
      * @param    varName   variable name
      * @return   double[2] 0th element is the first available offset time; 
      *                     1st element is the last available offset time; 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public double [] getAvailableTimeRange(String varName) throws
         CDFException.ReaderError {
@@ -208,8 +226,8 @@ public class CDFReader extends GenericReader {
     }
 
     /**
-     * Returns first available time for a variable.
-     * Returned time has millisecond precision.
+     * Returns first available time for a variable.Returned time has millisecond precision.
+     * @param varName
      * @return  int[7] containing year, month, day, hour, minute, second and
      * millisecond, or null.
      * @throws CDFException.ReaderError if not a valid variable name.
@@ -221,8 +239,8 @@ public class CDFReader extends GenericReader {
 
     /**
      * Returns first available time which is not before the given time for a
-     * variable.
-     * Returned time has millisecond precision.
+     * variable.Returned time has millisecond precision.
+     * @param varName
      * @param start a 3 to 7 element int[], containing year,
      *  month (January is 1), day, hour, minute, second and millisecond.
      * @return  int[7] containing year, month, day, hour, minute, second and
@@ -259,8 +277,8 @@ public class CDFReader extends GenericReader {
         }
     }
     /**
-     * Returns last available time for a variable.
-     * Returned time has millisecond precision.
+     * Returns last available time for a variable.Returned time has millisecond precision.
+     * @param varName
      * @return  int[7] containing year, month, day, hour, minute, second and
      * millisecond, or null.
      * @throws CDFException.ReaderError if not a valid variable name.
@@ -272,8 +290,8 @@ public class CDFReader extends GenericReader {
 
     /**
      * Returns last available time which is not later than the given time
-     * for a variable.
-     * Returned time has millisecond precision.
+     * for a variable.Returned time has millisecond precision.
+     * @param varName
      * @param stop a 3 to 7 element int[], containing year,
      *  month (January is 1), day, hour, minute, second and millisecond.
      * @return  int[7] containing year, month, day, hour, minute, second and
@@ -323,6 +341,8 @@ public class CDFReader extends GenericReader {
      * @param baseTime a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond.
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public TimeInstantModel timeModelInstance(String varName, int[] baseTime)
         throws CDFException.ReaderError {
@@ -348,6 +368,9 @@ public class CDFReader extends GenericReader {
      * @param baseTime a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond.
+     * @param offsetUnits
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public TimeInstantModel timeModelInstance(String varName, int[] baseTime,
         TimePrecision offsetUnits) throws CDFException.ReaderError {
@@ -375,6 +398,7 @@ public class CDFReader extends GenericReader {
      * Returns default {@link TimeInstantModel time instant model}.
      * <p>
      * The base of default TimeInstantModel is January 1,1970 0:0:0
+     * @return 
      */
     public static TimeInstantModel timeModelInstance() {
         return TimeVariableFactory.getDefaultTimeInstantModel();
@@ -385,6 +409,8 @@ public class CDFReader extends GenericReader {
      * given units for the offset..
      * <p>
      * The base of default TimeInstantModel is January 1,1970 0:0:0
+     * @param offsetUnits
+     * @return 
      */
     public static TimeInstantModel timeModelInstance(String offsetUnits) {
         TimeInstantModel tim = TimeVariableFactory.getDefaultTimeInstantModel();
@@ -440,6 +466,7 @@ public class CDFReader extends GenericReader {
 
     /**
      * Returns names of variables that the specified  variable depends on.
+     * @param varName
      * @return String[] 
      */
     public String[] getDependent(String varName) {
@@ -463,6 +490,7 @@ public class CDFReader extends GenericReader {
      * @param    varName   variable name
      * @param    index     index whose name is required
      * @return  String
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public String getIndexName(String varName, int index) throws
         CDFException.ReaderError {
@@ -487,6 +515,8 @@ public class CDFReader extends GenericReader {
      * variable via the FILLVAL attribute, then points where the value is
      * equal to fill value are excluded.
      * </p>
+     * @param varName
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or
      * is not a scalar.
      */
@@ -513,6 +543,7 @@ public class CDFReader extends GenericReader {
      * </p>
      * For numeric variables of dimension other than 0, and for
      * character string variables an  exception is thrown.
+     * @param varName
      * @param    startTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
@@ -521,6 +552,7 @@ public class CDFReader extends GenericReader {
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the stop time is assumed to be later than the last available time.
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or
      * is not a scalar.
      */
@@ -543,6 +575,7 @@ public class CDFReader extends GenericReader {
      * attribute, then points where the value is equal to fill value are
      * excluded.
      * </p>
+     * @param varName
      * @param    startTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
@@ -553,6 +586,7 @@ public class CDFReader extends GenericReader {
      * the stop time is assumed to be later than the last available time.
      * @param    tspec  {@link TimeInstantModel time instant model}, May be
      * null, in which case the default model is used.
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or
      * is not a scalar.
      */
@@ -576,6 +610,9 @@ public class CDFReader extends GenericReader {
      * variable via the FILLVAL attribute, then points where the value is
      * equal to fill value are excluded if ignoreFill = true.
      * </p>
+     * @param varName
+     * @param ignoreFill
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or
      * is not a scalar.
      */
@@ -600,14 +637,17 @@ public class CDFReader extends GenericReader {
      * attribute, then if ignoreFill has the value true, points where the
      * value is equal to fill value are excluded if ignoreFill = true.
      * </p>
+     * @param varName
      * @param    startTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the first available time is used.
+     * @param ignoreFill
      * @param    stopTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the stop time is assumed to be later than the last available time.
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or
      * is not a scalar.
      */
@@ -632,16 +672,19 @@ public class CDFReader extends GenericReader {
      * attribute, then if ignoreFill has the value true, points where the
      * value is equal to fill value are excluded if ignoreFill = true.
      * </p>
+     * @param varName
      * @param    startTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the first available time is used.
+     * @param ignoreFill
      * @param    stopTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the stop time is assumed to be later than the last available time.
      * @param    tspec  {@link TimeInstantModel time instant model}, May be
      * null, in which case the default model is used.
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or
      * is not a scalar.
      */
@@ -746,6 +789,9 @@ public class CDFReader extends GenericReader {
      * variable via the FILLVAL attribute, then points where the value is
      * equal to fill value are excluded.
      * </p>
+     * @param varName
+     * @param component
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or is
      * not a vector.
      */
@@ -769,14 +815,17 @@ public class CDFReader extends GenericReader {
      * variable via the FILLVAL attribute, then points where the value is
      * equal to fill value are excluded.
      * </p>
+     * @param varName
      * @param    startTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the first available time is used.
+     * @param component
      * @param    stopTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the stop time is assumed to be later than the last available time.
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or is
      * not a vector.
      */
@@ -814,6 +863,7 @@ public class CDFReader extends GenericReader {
      * the stop time is assumed to be later than the last available time.
      * @param    tspec  {@link TimeInstantModel time instant model}, May be
      * null, in which case the default model is used.
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or is
      * not a vector.
      */
@@ -838,6 +888,10 @@ public class CDFReader extends GenericReader {
      * variable via the FILLVAL attribute, then points where the value is
      * equal to fill value are excluded if ignoreFill = true.
      * </p>
+     * @param varName
+     * @param ignoreFill
+     * @param component
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or is
      * not a vector.
      */
@@ -861,13 +915,17 @@ public class CDFReader extends GenericReader {
      * variable via the FILLVAL attribute, then points where the value is
      * equal to fill value are excluded if ignoreFill = true.
      * </p>
+     * @param varName
      * @param    startTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond.
+     * @param component
      * @param    stopTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the stop time is assumed to be later than the last available time.
+     * @param ignoreFill
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or is
      * not a vector.
      */
@@ -895,16 +953,19 @@ public class CDFReader extends GenericReader {
      * value is equal to fill value are excluded if ignoreFill = true.
      * </p>
      * @param    varName   variable name
+     * @param component
      * @param    startTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the first available time is used.
+     * @param ignoreFill
      * @param    stopTime   a 3 to 7 element int[], containing year,
      *  month (January is 1),
      * day,hour, minute, second and millisecond. May be null, in which case
      * the stop time is assumed to be later than the last available time.
      * @param    tspec  {@link TimeInstantModel time instant model}, May be
      * null, in which case the default model is used.
+     * @return 
      * @throws   CDFException.ReaderError  if variables is non-numeric, or
      * is not a vector.
      * Use {@link #getTimeSeries(String varName) getTimeSeries(

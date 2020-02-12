@@ -2,9 +2,26 @@ package gov.nasa.gsfc.spdf.cdfj;
 //import gov.nasa.gsfc.spdf.common.*;
 import java.nio.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public final class ShortVarContainer extends BaseVarContainer implements 
     VDataContainer.CShort {
     final short[] spad;
+
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @param bo
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public ShortVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve, ByteOrder bo) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -15,6 +32,16 @@ public final class ShortVarContainer extends BaseVarContainer implements
         for (int i = 0; i < dpad.length; i++) spad[i] = (short)dpad[i];
     }
 
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public ShortVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -28,6 +55,11 @@ public final class ShortVarContainer extends BaseVarContainer implements
         return _buf;
     }
 
+    /**
+     *
+     * @param size
+     * @return
+     */
     @Override
     public Object allocateDataArray(int size) {
         return new short[size];
@@ -141,10 +173,21 @@ public final class ShortVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param type
+     * @param preserve
+     * @return
+     */
     public static boolean isCompatible(int type, boolean preserve) {
         return isCompatible(type, preserve, Short.TYPE);
     }
 
+    /**
+     *
+     * @return
+     * @throws Throwable
+     */
     public Object _asArray() throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank > 4) throw new Throwable("Rank > 4 not supported yet.");
@@ -244,6 +287,15 @@ public final class ShortVarContainer extends BaseVarContainer implements
             throw new Throwable("Internal error");
         }
     }
+
+    /**
+     *
+     * @param array
+     * @param offset
+     * @param first
+     * @param last
+     * @throws Throwable
+     */
     public void fillArray(short[] array, int offset, int first, int last)
         throws Throwable {
         if (buffers.size() == 0) throw new Throwable("buffer not available");
@@ -255,8 +307,19 @@ public final class ShortVarContainer extends BaseVarContainer implements
     }
     @Override
     public short[] as1DArray() {return (short[])super.as1DArray();}
+
+    /**
+     *
+     * @return
+     */
     @Override
     public short[] asOneDArray() {return (short[])super.asOneDArray(true);}
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
     @Override
     public short[] asOneDArray(boolean cmtarget) {
         return (short[])super.asOneDArray(cmtarget);

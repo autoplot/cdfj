@@ -1,7 +1,16 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public final class DataTypes {
+
+    /**
+     *
+     */
     public static final int ENCODING_COUNT = 17;
     static final ByteOrder[] endian_ness = new ByteOrder[ENCODING_COUNT];
     static {
@@ -20,14 +29,49 @@ public final class DataTypes {
         endian_ness[16] = ByteOrder.LITTLE_ENDIAN;
     }
 
+    /**
+     *
+     */
     public static final int EPOCH16 = 32;
+
+    /**
+     *
+     */
     public static final int CDF_TIME_TT2000 = 33;
+
+    /**
+     *
+     */
     public static final int FLOAT = 0;
+
+    /**
+     *
+     */
     public static final int DOUBLE = 1;
+
+    /**
+     *
+     */
     public static final int SIGNED_INTEGER = 2;
+
+    /**
+     *
+     */
     public static final int UNSIGNED_INTEGER = 3;
+
+    /**
+     *
+     */
     public static final int STRING = 4;
+
+    /**
+     *
+     */
     public static final int LONG = 5;
+
+    /**
+     *
+     */
     public static final int LAST_TYPE = 53;
     static final Method[] method = new Method[LAST_TYPE];
     static final int[] typeCategory = new int[LAST_TYPE];
@@ -99,6 +143,10 @@ public final class DataTypes {
             if (size[i] <= 4) longInt[i] = ((long)1) << 8*size[i];
         }
     }
+
+    /**
+     *
+     */
     public DataTypes() {
         Class tc = getClass();
         try {
@@ -109,6 +157,13 @@ public final class DataTypes {
         } catch (NoSuchMethodException | SecurityException ex) {
         }
     }
+
+    /**
+     *
+     * @param buf
+     * @param nc
+     * @return
+     */
     public static String getString(ByteBuffer buf, Integer nc)  {
         ByteBuffer slice = buf.slice();
         byte [] ba = new byte[nc];
@@ -119,16 +174,41 @@ public final class DataTypes {
         }
         return new String(ba, 0, i);
     }
+
+    /**
+     *
+     * @param encoding
+     * @return
+     * @throws Throwable
+     */
     public static ByteOrder getByteOrder(int encoding) throws Throwable {
         if (endian_ness[encoding] != null) return endian_ness[encoding];
         throw new Throwable("Unsupported encoding " + encoding);
     }
+
+    /**
+     *
+     * @param type
+     * @return
+     */
     public static boolean isStringType(int type) {
         return (typeCategory[type] == STRING);
     }
+
+    /**
+     *
+     * @param type
+     * @return
+     */
     public static boolean isLongType(int type) {
         return (typeCategory[type] == LONG);
     }
+
+    /**
+     *
+     * @param type
+     * @return
+     */
     public static Object defaultPad(int type) {
         if (isLongType(type)) return -9223372036854775807L;
         if (isStringType(type)) return " ".getBytes()[0];

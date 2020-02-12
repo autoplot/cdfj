@@ -1,12 +1,35 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
+
+/**
+ *
+ * @author nand
+ */
 public class DoubleArray extends AArray {
+
+    /**
+     *
+     * @param o
+     * @throws Throwable
+     */
     public DoubleArray(Object o) throws Throwable {
         super(o);
     }
+
+    /**
+     *
+     * @param o
+     * @param bln
+     * @throws Throwable
+     */
     public DoubleArray(Object o, boolean rowMajority) throws Throwable {
         super(o, rowMajority);
     }
+
+    /**
+     *
+     * @return
+     */
     @Override
     public Object array() {
         switch (dim) {
@@ -24,6 +47,7 @@ public class DoubleArray extends AArray {
     
     /**
      * create a byte buffer of a compatible type.
+     * @param ignore
      */
     @Override
     public ByteBuffer buffer(Class<?> cl, int ignore) throws Throwable {

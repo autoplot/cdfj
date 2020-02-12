@@ -5,34 +5,47 @@ package gov.nasa.gsfc.spdf.cdfj;
 public interface TimeVariable {
     /**
      * Returns name of the variable.
+     * @return 
      */
     public String getName();
     /**
      * Returns {@link TimePrecision time precision} of the variable.
+     * @return 
      */
     public TimePrecision getPrecision();
 
     /**
      * Returns relative times using the default
      * {@link TimeInstantModel time instant model}.
+     * @return 
      */
     public double[] getTimes();
 
     /**
      * Returns relative times using the specified
      * {@link TimeInstantModel time instant model}.
+     * @param tspec
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public double[] getTimes(TimeInstantModel tspec) throws Throwable;
 
     /**
      * Returns relative times for the specified record range using the default
      * {@link TimeInstantModel time instant model}.
+     * @param recordRange
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public double[] getTimes(int[] recordRange) throws Throwable;
 
     /**
      * Returns relative times for the specified record range using the specified
      * {@link TimeInstantModel time instant model}.
+     * @param recordRange
+     * @param tspec
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public double[] getTimes(int[] recordRange, TimeInstantModel tspec) throws
         Throwable;
@@ -45,6 +58,8 @@ public interface TimeVariable {
      * day,hour, minute, second and millisecond.
      * @param    stopTime   a 3 to 7 element int[], containing year, month,
      * day,hour, minute, second and millisecond.
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public double[] getTimes(int[] startTime, int[] stopTime) throws Throwable;
 
@@ -56,6 +71,9 @@ public interface TimeVariable {
      * day,hour, minute, second and millisecond.
      * @param    stopTime   a 3 to 7 element int[], containing year, month,
      * day,hour, minute, second and millisecond.
+     * @param tspec
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public double[] getTimes(int[] startTime, int[] stopTime,
         TimeInstantModel tspec) throws Throwable;
@@ -68,6 +86,8 @@ public interface TimeVariable {
      * day,hour, minute, second and millisecond.
      * @param    stopTime   a 3 to 7 element int[], containing year, month,
      * day,hour, minute, second and millisecond.
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public int[] getRecordRange(int[] startTime, int[] stopTime) throws
         Throwable;
@@ -79,17 +99,20 @@ public interface TimeVariable {
      * <p>
      * This number may be useful as a base time for a time instant model
      * when looking at high time resolution data.
+     * @return 
      */
     public double getFirstMilliSecond();
 
     /**
      * Returns whether this is a TT2000 type variable
+     * @return 
      */
     public boolean isTT2000();
 
     /**
      * Returns whether the given {@link TimePrecision precision} is available
      * for this variable.
+     * @param tp
      * @return false if the required precision is finer than this variable's
      * resolution. 
      * Thus, for a variable of type EPOCH, this method will return false for
