@@ -25,16 +25,19 @@ public final class DoubleVarContainer extends BaseVarContainer implements
         this(thisCDF, var, pt, preserve, ByteOrder.nativeOrder());
     }
 
+    @Override
     ByteBuffer allocateBuffer(int words) {
         ByteBuffer _buf = ByteBuffer.allocateDirect(8*words);
         _buf.order(order);
         return _buf;
     }
 
+    @Override
     Object allocateDataArray(int size) {
         return new double[size];
     }
 
+    @Override
     void doMissing(int records, ByteBuffer _buf, Object _data, int rec) {
         double[] data = (double[])_data;
         double[] repl = null;
@@ -69,6 +72,7 @@ public final class DoubleVarContainer extends BaseVarContainer implements
         _buf.position(position);
     }
 
+    @Override
     void doData(ByteBuffer bv, int type, int elements, int toprocess,
         ByteBuffer _buf, Object _data) throws Throwable,
         IllegalAccessException, InvocationTargetException {
@@ -369,13 +373,17 @@ public final class DoubleVarContainer extends BaseVarContainer implements
         b.position(pos);
         b.asDoubleBuffer().get(array, offset, words);
     }
+    @Override
     public double[] as1DArray() {return (double[])super.as1DArray();}
+    @Override
     public double[] asOneDArray() {
         return (double[])super.asOneDArray(true);
     }
+    @Override
     public double[] asOneDArray(boolean cmtarget) {
         return (double[])super.asOneDArray(cmtarget);
     }
+    @Override
     public DoubleArray asArray() throws Throwable {
         return new DoubleArray(_asArray());
     }

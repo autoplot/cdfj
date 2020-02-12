@@ -109,6 +109,7 @@ final class CDF2Impl extends CDFImpl implements CDF2, java.io.Serializable {
         offset_CDATA = OFFSET_CDATA;
     }
 
+    @Override
     public String getString(long offset)  {
         if (fc == null) return getString(offset, MAX_STRING_SIZE);
         ByteBuffer _buf;
@@ -121,14 +122,17 @@ final class CDF2Impl extends CDFImpl implements CDF2, java.io.Serializable {
         return getString(_buf, MAX_STRING_SIZE);
     }
 
+    @Override
     public int lowOrderInt(ByteBuffer buf) {
         return buf.getInt();
     }
 
+    @Override
     public int lowOrderInt(ByteBuffer buf, int offset) {
         return buf.getInt(offset);
     }
 
+    @Override
     protected ByteBuffer getRecord(long offset)  {
         if (fc == null) return super.getRecord(offset);
         ByteBuffer lenBuf = ByteBuffer.allocate(4);
@@ -157,6 +161,7 @@ final class CDF2Impl extends CDFImpl implements CDF2, java.io.Serializable {
         return bb;
     }
 
+    @Override
     public long longInt(ByteBuffer buf) {
         return (long)buf.getInt();
     }

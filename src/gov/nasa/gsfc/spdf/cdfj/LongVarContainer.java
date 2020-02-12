@@ -23,16 +23,19 @@ public final class LongVarContainer extends BaseVarContainer implements
         this(thisCDF, var, pt, ByteOrder.nativeOrder());
     }
 
+    @Override
     ByteBuffer allocateBuffer(int words) {
         ByteBuffer _buf = ByteBuffer.allocateDirect(8*words);
         _buf.order(order);
         return _buf;
     }
 
+    @Override
     public Object allocateDataArray(int size) {
         return new long[size];
     }
 
+    @Override
     void doMissing(int records, ByteBuffer _buf, Object _data, int rec) {
         long[] data = (long[])_data;
         long[] repl = null;
@@ -63,6 +66,7 @@ public final class LongVarContainer extends BaseVarContainer implements
         _buf.position(position);
     }
 
+    @Override
     void doData(ByteBuffer bv, int type, int elements, int toprocess,
         ByteBuffer _buf, Object _data ) throws Throwable,
         IllegalAccessException, InvocationTargetException {
@@ -236,11 +240,15 @@ public final class LongVarContainer extends BaseVarContainer implements
         b.position(pos);
         b.asLongBuffer().get(array, offset, words);
     }
+    @Override
     public long[] as1DArray() {return (long[])super.as1DArray();}
+    @Override
     public long[] asOneDArray() {return (long[])super.asOneDArray(true);}
+    @Override
     public long[] asOneDArray(boolean cmtarget) {
         return (long[])super.asOneDArray(cmtarget);
     }
+    @Override
     public LongArray asArray() throws Throwable {
         return new LongArray(_asArray());
     }

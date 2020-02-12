@@ -7,6 +7,7 @@ public class StringArray extends AArray {
     public StringArray(Object o, boolean majority) throws Throwable {
         super(o, majority);
     }
+    @Override
     public Object array() {
         switch (dim) {
         case 1:
@@ -25,6 +26,7 @@ public class StringArray extends AArray {
     /**
      * create a byte buffer of a compatible type.
      */
+    @Override
     public ByteBuffer buffer(Class<?> cl, int size) throws Throwable {
         if (!(cl == String.class)) {
             throw new Throwable("Valid for String type only");

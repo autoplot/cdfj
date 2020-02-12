@@ -98,6 +98,7 @@ final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
         offset_CDATA = OFFSET_CDATA;
     }
 
+    @Override
     public String getString(long offset)  {
         if (fc == null) return getString(offset, MAX_STRING_SIZE);
         ByteBuffer _buf;
@@ -110,14 +111,17 @@ final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
         return getString(_buf, MAX_STRING_SIZE);
     }
 
+    @Override
     public int lowOrderInt(ByteBuffer buf) {
         return (int)buf.getLong();
     }
 
+    @Override
     public int lowOrderInt(ByteBuffer buf, int offset) {
         return (int)buf.getLong(offset);
     }
 
+    @Override
     protected ByteBuffer getRecord(long offset)  {
         if (fc == null) return super.getRecord(offset);
         ByteBuffer lenBuf = ByteBuffer.allocate(4);
@@ -146,6 +150,7 @@ final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
         return bb;
     }
 
+    @Override
     public long longInt(ByteBuffer buf) {
         return buf.getLong();
     }

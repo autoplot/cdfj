@@ -21,16 +21,19 @@ public final class IntVarContainer extends BaseVarContainer implements
         this(thisCDF, var, pt, preserve, ByteOrder.nativeOrder());
     }
 
+    @Override
     ByteBuffer allocateBuffer(int words) {
         ByteBuffer _buf = ByteBuffer.allocateDirect(4*words);
         _buf.order(order);
         return _buf;
     }
 
+    @Override
     public Object allocateDataArray(int size) {
         return new int[size];
     }
 
+    @Override
     void doMissing(int records, ByteBuffer _buf, Object _data, int rec) {
         int[] data = (int[])_data;
         int[] repl = null;
@@ -61,6 +64,7 @@ public final class IntVarContainer extends BaseVarContainer implements
         _buf.position(position);
     }
 
+    @Override
     void doData(ByteBuffer bv, int type, int elements, int toprocess,
         ByteBuffer _buf, Object _data) throws Throwable {
         int[] data = (int[])_data;
@@ -288,11 +292,15 @@ public final class IntVarContainer extends BaseVarContainer implements
         b.asIntBuffer().get(array, offset, words);
     }
 
+    @Override
     public int[] as1DArray() {return (int[])super.as1DArray();}
+    @Override
     public int[] asOneDArray() {return (int[])super.asOneDArray(true);}
+    @Override
     public int[] asOneDArray(boolean cmtarget) {
         return (int[])super.asOneDArray(cmtarget);
     }
+    @Override
     public IntArray asArray() throws Throwable {
         return new IntArray(_asArray());
     }

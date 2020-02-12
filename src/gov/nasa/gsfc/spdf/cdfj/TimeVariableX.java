@@ -17,5 +17,6 @@ public interface TimeVariableX extends TimeVariable {
     public int [] getRecordRange(int[] startTime, int[] stopTime,
             TimeInstantModel ts) throws Throwable;
     public ByteBuffer getRawBuffer();
+    @Override
     public TimePrecision getPrecision();
 }

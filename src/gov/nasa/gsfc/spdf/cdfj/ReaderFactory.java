@@ -30,7 +30,9 @@ public final class ReaderFactory {
         }
         final String _fname = file.getPath();
         cdf.setSource(new CDFFactory.CDFSource() {
+            @Override
             public String getName() {return _fname;};
+            @Override
             public boolean isFile() {return true;};
         });
         CDFReader rdr = new CDFReader();
@@ -65,7 +67,9 @@ public final class ReaderFactory {
         rdr.setImpl(cdf);
         final String _url = url.toString();
         cdf.setSource(new CDFFactory.CDFSource() {
+            @Override
             public String getName() {return _url;};
+            @Override
             public boolean isFile() {return false;};
         });
         return rdr;
@@ -129,7 +133,9 @@ public final class ReaderFactory {
         }
         final String _fname = file.getPath();
         cdf.setSource(new CDFFactory.CDFSource() {
+            @Override
             public String getName() {return _fname;};
+            @Override
             public boolean isFile() {return true;};
         });
         CDFReader rdr = new CDFReader();

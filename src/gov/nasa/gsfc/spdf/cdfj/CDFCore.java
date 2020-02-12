@@ -108,6 +108,7 @@ public interface CDFCore extends CDFMeta {
     public Object getOneD(String varName, boolean columnMajor) throws
         Throwable;
 
+    @Override
     Variable getVariable(String varName);
     public CDFFactory.CDFSource getSource();
 }

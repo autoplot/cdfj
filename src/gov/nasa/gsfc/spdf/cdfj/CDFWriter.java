@@ -723,27 +723,33 @@ public class CDFWriter extends GenericWriter {
         HashMap<String, Boolean> map = new HashMap<String, Boolean>();
         HashMap<String, SparseRecordOption> smap = 
            new HashMap<String, SparseRecordOption>();
+        @Override
         public void add(String vname, boolean compression) {
             map.put(vname, new Boolean(compression));
         }
+        @Override
         public void add(String vname, boolean compression,
             SparseRecordOption opt) {
             add(vname, compression);
             smap.put(vname, opt);
         }
+        @Override
         public boolean isCompressed(String name) {
             return ((Boolean)map.get(name)).booleanValue();
         }
+        @Override
         public SparseRecordOption getSparseRecordOption(String name) {
             if (smap.get(name) == null) return SparseRecordOption.PADDED;
             return smap.get(name);
         }
+        @Override
         public String[] getNames() {
             String[] names = new String[map.size()];
             Set set = map.keySet();
             set.toArray(names);
             return names;
         }
+        @Override
         public boolean hasVariable(String name) {
             return (map.get(name) != null);
         }

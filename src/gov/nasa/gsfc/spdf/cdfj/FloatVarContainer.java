@@ -27,16 +27,19 @@ public final class FloatVarContainer extends BaseVarContainer implements
         this(thisCDF, var, pt, preserve, ByteOrder.nativeOrder());
     }
 
+    @Override
     ByteBuffer allocateBuffer(int words) {
         ByteBuffer _buf = ByteBuffer.allocateDirect(4*words);
         _buf.order(order);
         return _buf;
     }
 
+    @Override
     public Object allocateDataArray(int size) {
         return new float[size];
     }
 
+    @Override
     void doMissing(int records, ByteBuffer _buf, Object _data, int rec) {
         float[] data = (float[])_data;
         float[] repl = null;
@@ -67,6 +70,7 @@ public final class FloatVarContainer extends BaseVarContainer implements
         _buf.position(position);
     }
 
+    @Override
     void doData(ByteBuffer bv, int type, int elements, int toprocess,
         ByteBuffer _buf, Object _data) throws
         IllegalAccessException, InvocationTargetException {
@@ -275,11 +279,15 @@ public final class FloatVarContainer extends BaseVarContainer implements
         b.position(pos);
         b.asFloatBuffer().get(array, offset, words);
     }
+    @Override
     public float[] as1DArray() {return (float[])super.as1DArray();}
+    @Override
     public float[] asOneDArray() {return (float[])super.asOneDArray(true);}
+    @Override
     public float[] asOneDArray(boolean cmtarget) {
         return (float[])super.asOneDArray(cmtarget);
     }
+    @Override
     public FloatArray asArray() throws Throwable {
         return new FloatArray(_asArray());
     }

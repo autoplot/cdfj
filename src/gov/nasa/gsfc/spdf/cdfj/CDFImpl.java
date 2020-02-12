@@ -247,18 +247,24 @@ import java.util.zip.*;
         if (!a.isGlobal()) throw new Throwable("No global attribute named " +
         atr);
         return new GlobalAttribute() {
+            @Override
             public String getName() {return a.getName();}
+            @Override
             public boolean isGlobal() {return true;}
+            @Override
             public int getNum() {return a.num;}
+            @Override
             public int getEntryCount() {
                 return a.gEntries.size();
             }
+            @Override
             public Object getEntry(int n) {
                 if (n > a.gEntries.size()) return null;
                 if (n < 0) return null;
                 AttributeEntry ae = (AttributeEntry)a.gEntries.elementAt(n);
                 return ae.getValue();
             }
+            @Override
             public boolean isStringType(int n) throws Throwable {
                 if ((n < 0) || (n > a.gEntries.size())) {
                     throw new Throwable("Invalid attribute index");
@@ -266,6 +272,7 @@ import java.util.zip.*;
                 AttributeEntry ae = (AttributeEntry)a.gEntries.elementAt(n);
                 return ae.isStringType();
             }
+            @Override
             public boolean isLongType(int n) throws Throwable {
                 if ((n < 0) || (n > a.gEntries.size())) {
                     throw new Throwable("Invalid attribute index");
@@ -396,6 +403,7 @@ import java.util.zip.*;
         /**
          * returns name of the attribute
          */
+        @Override
         public String getName() {return name;}
 
         /**
@@ -440,6 +448,7 @@ import java.util.zip.*;
         /**
          * is this a global attribute?
          */
+        @Override
         public boolean isGlobal() {
                 return !((scope == 2) || (scope == 4));
         }
@@ -496,20 +505,28 @@ import java.util.zip.*;
                 value = getNumberAttribute(type, nelement, _buf, byteOrder);
             }
         }
+        @Override
         public int getType() {return type;}
+        @Override
         public int getNumberOfElements() {return nelement;}
+        @Override
         public boolean isLongType() {
             return (DataTypes.typeCategory[type] == DataTypes.LONG);
         }
+        @Override
         public boolean isStringType() {
             return DataTypes.isStringType(type);
         }
+        @Override
         public Object getValue() {
             return (isStringType())?(stringValues!=null?stringValues:
                                                         stringValue):value;
         }
+        @Override
         public String getAttributeName() {return attribute;}
+        @Override
         public int getVariableNumber() {return variableNumber;}
+        @Override
         public boolean isSameAs(AttributeEntry ae) {
             if (getType() != ae.getType()) return false;
             if (getNumberOfElements() != ae.getNumberOfElements()) return false;
@@ -674,12 +691,14 @@ import java.util.zip.*;
             }
         }
 
+        @Override
         public boolean isTypeR() {return (vtype.equals("r"));}
 
         /**
          * Return whether the missing record should be assigned the last
          * seen value. If none has been seen, pad value is assigned.
          */
+        @Override
         public boolean missingRecordValueIsPrevious() {
             return (sRecords == 2);
         }
@@ -688,6 +707,7 @@ import java.util.zip.*;
          * Return whether the missing record should be assigned the pad
          * value.
          */
+        @Override
         public boolean missingRecordValueIsPad() {
             return (sRecords == 1);
         }
@@ -696,6 +716,7 @@ import java.util.zip.*;
          * Shows whether one or more records (in the range returned by
          * getRecordRange()) are missing.
          */
+        @Override
         public boolean isMissingRecords() {
             if (!completed) complete();
             return recordGap;
@@ -708,6 +729,7 @@ import java.util.zip.*;
          * in the region, record number of last point in the
          * region, and offset of the start of region.
          */
+        @Override
         public VariableDataLocator getLocator() {
             if (!completed) complete();
             return locator;
@@ -722,6 +744,7 @@ import java.util.zip.*;
          * records. getFirstRecord() and getLastRecord() define the
          * range of records.
          */
+        @Override
         public VariableDataBuffer[] getDataBuffers(boolean raw) throws
             Throwable {
             if (!completed) complete();
@@ -761,6 +784,7 @@ import java.util.zip.*;
             dbufs.toArray(vdbuf);
             return vdbuf;
         }
+        @Override
         public VariableDataBuffer[] getDataBuffers() throws Throwable {
             return getDataBuffers(false);
         }
@@ -768,6 +792,7 @@ import java.util.zip.*;
         /**
          * returns whether row major ordering is in use
          */
+        @Override
         public boolean rowMajority() {
             return CDFImpl.this.rowMajority();
         }
@@ -775,6 +800,7 @@ import java.util.zip.*;
         /**
          * returns whether value of this variable can vary from record to record
          */
+        @Override
         public boolean recordVariance() {
             return ((flags & 1) != 0);
         }
@@ -789,6 +815,7 @@ import java.util.zip.*;
         /**
          * returns whether variable values have been compressed
          */
+        @Override
         public boolean isCompressed() {
             if (!completed) complete();
             if (locator == null) return false;
@@ -798,6 +825,7 @@ import java.util.zip.*;
         /**
          * returns pad value
          */
+        @Override
         public Object getPadValue() {
             if (padValue == null) return null;
             if (DataTypes.isStringType(type)) return padValue;
@@ -810,6 +838,7 @@ import java.util.zip.*;
          * A double[] is returned, unless the variable type is long and
          * preservePrecision is set to true;
          */
+        @Override
         public Object getPadValue(boolean preservePrecision) {
             if (padValue == null) return null;
             if (DataTypes.isStringType(type)) return padValue;
@@ -833,21 +862,25 @@ import java.util.zip.*;
             return da;
         }
 
+        @Override
         public CDFImpl getCDF() {return CDFImpl.this;}
 
         /**
          * returns type of values of this variable
          */
+        @Override
         public int getType() {return type;}
 
         /**
          * returns blocking factor used in compression
          */
+        @Override
         public int getBlockingFactor() {return blockingFactor;}
 
         /**
          * returns effective rank
          */
+        @Override
         public int getEffectiveRank() {
             int rank = 0;
             for (int i = 0; i < dimensions.length; i++) {
@@ -861,6 +894,7 @@ import java.util.zip.*;
         /**
          * Returns effective dimensions
          */
+        @Override
         public int[] getEffectiveDimensions() {
             int rank = getEffectiveRank();
             if (rank == 0) return new int[0];
@@ -877,6 +911,7 @@ import java.util.zip.*;
         /**
          * returns size of value of this variable
          */
+        @Override
         public int getDataItemSize() {
             int size = dataItemSize;
             for (int i = 0; i < dimensions.length; i++) {
@@ -888,26 +923,31 @@ import java.util.zip.*;
         /**
          * returns number of elements in the value of this variable
          */
+        @Override
         public int getNumberOfElements() {return numberOfElements;}
 
         /**
          * returns number of values
          */
+        @Override
         public int getNumberOfValues() {return numberOfValues;}
 
         /**
          * Gets the name of this of this variable
          */
+        @Override
         public String getName() {return name;}
 
         /**
          * Gets the sequence number of the variable inside the CDF.
          */
+        @Override
         public int getNumber() {return number;}
 
         /**
          * Gets the dimensions.
          */
+        @Override
         public int[] getDimensions() {
             int [] ia = new int[dimensions.length];
             System.arraycopy(dimensions, 0, ia, 0, dimensions.length);
@@ -917,6 +957,7 @@ import java.util.zip.*;
         /**
          * Returns record range for this variable
          */
+        @Override
         public int[] getRecordRange() {
             if (!completed) complete();
             if (locator == null) return null;
@@ -929,6 +970,7 @@ import java.util.zip.*;
          * Gets the dimensional variance. This determines the effective
          * dimensionality of values of the variable.
          */
+        @Override
         public boolean[] getVarys() {
             boolean [] ba = new boolean[varies.length];
             System.arraycopy(varies, 0, ba, 0, varies.length);
@@ -955,6 +997,7 @@ import java.util.zip.*;
          * If 'preserve' is * false, compatible conversions will be made even
          * if it results in loss of precision.
          */
+        @Override
         public ByteBuffer getBuffer(Class cl, int[] recordRange,
             boolean preserve, ByteOrder bo) throws Throwable {
             if (!completed) complete();
@@ -1018,6 +1061,7 @@ import java.util.zip.*;
          * cl is supported while preserving precision.
          * equivalent to isCompatible(Class cl, true)
          */
+        @Override
         public boolean isCompatible(Class cl) {
             return BaseVarContainer.isCompatible(getType(), true, cl);
         }
@@ -1026,10 +1070,12 @@ import java.util.zip.*;
          * returns whether conversion of this variable to type specified by
          * cl is supported under the given precision preserving constraint.
          */
+        @Override
         public boolean isCompatible(Class cl, boolean preserve) {
             return BaseVarContainer.isCompatible(getType(), preserve, cl);
         }
 
+        @Override
         public VDataContainer.CByte getByteContainer(int[] pt) throws
             Throwable {
             VDataContainer.CByte container;
@@ -1045,6 +1091,7 @@ import java.util.zip.*;
          * variable type is byte,  unsigned byte or char. Otherwise, throws
          * Throwable
          */
+        @Override
         public byte[] asByteArray(int[] pt) throws
             Throwable {
             VDataContainer.CByte container;
@@ -1061,6 +1108,7 @@ import java.util.zip.*;
          * Returns this variable's values as byte[] if variable type is byte,
          * unsigned byte or char. Otherwise, throws Throwable
          */
+        @Override
         public byte[] asByteArray() throws Throwable {
             return asByteArray(null);
         }
@@ -1077,6 +1125,7 @@ import java.util.zip.*;
             "byte[].");
         }
 
+        @Override
         public VDataContainer.CString getStringContainer(int[] pt) throws
             Throwable {
             VDataContainer.CString container;
@@ -1087,6 +1136,7 @@ import java.util.zip.*;
             "VDataContainer.CString."); 
         }
 
+        @Override
         public VDataContainer.CFloat getFloatContainer(int[] pt,
             boolean preserve, ByteOrder bo) throws Throwable {
             VDataContainer.CFloat container;
@@ -1098,6 +1148,7 @@ import java.util.zip.*;
             "VDataContainer.Float."); 
         }
 
+        @Override
         public VDataContainer.CFloat getFloatContainer(int[] pt,
             boolean preserve) throws Throwable {
             return getFloatContainer(pt, preserve, ByteOrder.nativeOrder());
@@ -1110,6 +1161,7 @@ import java.util.zip.*;
          * If preserve is true, a Throwable is thrown for variables of type
          * double, long or int to signal possible loss of precision.
          */
+        @Override
         public float[] asFloatArray(boolean preserve, int[] pt) throws
             Throwable {
             VDataContainer.CFloat container;
@@ -1128,6 +1180,7 @@ import java.util.zip.*;
          * Returns this variable's values as float[].
          * If variable type cannot be cast to float, a Throwable is thrown.
          */
+        @Override
         public float[] asFloatArray() throws Throwable {
             return asFloatArray(false, null);
         }
@@ -1137,10 +1190,12 @@ import java.util.zip.*;
          * float[].
          * If variable type cannot be cast to float, a Throwable is thrown.
          */
+        @Override
         public float[] asFloatArray(int[] pt) throws Throwable {
             return asFloatArray(false, pt);
         }
 
+        @Override
         public VDataContainer.CDouble getDoubleContainer(int[] pt,
             boolean preserve, ByteOrder bo) throws Throwable {
             VDataContainer.CDouble container;
@@ -1152,6 +1207,7 @@ import java.util.zip.*;
             "VDataContainer.CDouble."); 
         }
 
+        @Override
         public VDataContainer.CDouble getDoubleContainer(int[] pt,
             boolean preserve) throws Throwable {
             return getDoubleContainer(pt, preserve, ByteOrder.nativeOrder());
@@ -1164,6 +1220,7 @@ import java.util.zip.*;
          * If preserve is true, a Throwable is thrown for variables of type long
          * to signal possible loss of precision.
          */
+        @Override
         public double[] asDoubleArray(boolean preserve, int[] pt) throws
             Throwable {
             TargetAttribute ta = new TargetAttribute(preserve, false);
@@ -1187,6 +1244,7 @@ import java.util.zip.*;
          * Returns this variable's values as double[].
          * If variable type cannot be cast to double, a Throwable is thrown.
          */
+        @Override
         public double[] asDoubleArray() throws Throwable {
             return asDoubleArray(false, null);
         }
@@ -1196,10 +1254,12 @@ import java.util.zip.*;
          * double[].
          * If variable type cannot be cast to double, a Throwable is thrown.
          */
+        @Override
         public double[] asDoubleArray(int[] pt) throws Throwable {
             return asDoubleArray(false, pt);
         }
 
+        @Override
         public VDataContainer.CLong getLongContainer(int[] pt,
             ByteOrder bo) throws Throwable {
             VDataContainer.CLong container;
@@ -1211,6 +1271,7 @@ import java.util.zip.*;
             "VDataContainer.CLong."); 
         }
 
+        @Override
         public VDataContainer.CLong getLongContainer(int[] pt) throws
             Throwable {
             return getLongContainer(pt, ByteOrder.nativeOrder());
@@ -1232,6 +1293,7 @@ import java.util.zip.*;
          * Returns this variable's values as long[] for variables of type long.
          * throws Throwable for variables of other types.
          */
+        @Override
         public long[] asLongArray() throws Throwable {
             return asLongArray(false, null);
         }
@@ -1241,10 +1303,12 @@ import java.util.zip.*;
          * long[] for variables of type long.
          * throws Throwable for variables of other types.
          */
+        @Override
         public long[] asLongArray(int[] pt) throws Throwable {
             return asLongArray(false, pt);
         }
 
+        @Override
         public VDataContainer.CInt getIntContainer(int[] pt,
             boolean preserve, ByteOrder bo) throws Throwable {
             VDataContainer.CInt container;
@@ -1256,6 +1320,7 @@ import java.util.zip.*;
             "VDataContainer.CInt."); 
         }
 
+        @Override
         public VDataContainer.CInt getIntContainer(int[] pt,
             boolean preserve) throws Throwable {
             return getIntContainer(pt, preserve, ByteOrder.nativeOrder());
@@ -1267,6 +1332,7 @@ import java.util.zip.*;
          * unsigned byte, or unsigned int (only if preserve is false).
          * throws Throwable for variables of other types.
          */
+        @Override
         public int[] asIntArray(boolean preserve, int[] pt) throws Throwable {
             VDataContainer.CInt container;
             try {
@@ -1285,6 +1351,7 @@ import java.util.zip.*;
          * int, short or unsigned short, byte or unsigned byte.
          * throws Throwable for variables of other types.
          */
+        @Override
         public int[] asIntArray() throws Throwable {
             return asIntArray(true, null);
         }
@@ -1295,10 +1362,12 @@ import java.util.zip.*;
          * unsigned byte.
          * throws Throwable for variables of other types.
          */
+        @Override
         public int[] asIntArray(int[] pt) throws Throwable {
             return asIntArray(true, pt);
         }
 
+        @Override
         public VDataContainer.CShort getShortContainer(int[] pt,
             boolean preserve, ByteOrder bo) throws Throwable {
             VDataContainer.CShort container;
@@ -1310,6 +1379,7 @@ import java.util.zip.*;
             "VDataContainer.CShort."); 
         }
 
+        @Override
         public VDataContainer.CShort getShortContainer(int[] pt,
             boolean preserve) throws Throwable {
             return getShortContainer(pt, preserve, ByteOrder.nativeOrder());
@@ -1321,6 +1391,7 @@ import java.util.zip.*;
          * unsigned short (only if preserve is false).
          * throws Throwable for variables of other types.
          */
+        @Override
         public short[] asShortArray(boolean preserve, int[] pt) throws
             Throwable {
             VDataContainer.CShort container;
@@ -1339,6 +1410,7 @@ import java.util.zip.*;
          * Returns this variable's values as long[] for variables of type long.
          * throws Throwable for variables of other types.
          */
+        @Override
         public short[] asShortArray() throws Throwable {
             return asShortArray(true, null);
         }
@@ -1348,6 +1420,7 @@ import java.util.zip.*;
          * short[] for variables of type short, byte or unsigned byte.
          * throws Throwable for variables of other types.
          */
+        @Override
         public short[] asShortArray(int[] pt) throws Throwable {
             return asShortArray(true, pt);
         }
@@ -1355,6 +1428,7 @@ import java.util.zip.*;
         /**
          * Return element count for this variable's dimensions.
          */
+        @Override
         public Vector getElementCount() {
             int [] dimensions = getDimensions();
             Vector ecount = new Vector();
@@ -1387,6 +1461,7 @@ import java.util.zip.*;
 
         public boolean isReallyCompressed() {return compressed;}
 
+        @Override
         public long[][] getLocations() {
             long[][] loc = new long[locations.size()][3];
             for (int i = 0; i < locations.size(); i++) {

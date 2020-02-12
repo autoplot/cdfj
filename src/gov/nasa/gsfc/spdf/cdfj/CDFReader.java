@@ -404,6 +404,7 @@ public class CDFReader extends GenericReader {
             columnMajor = ts.isColumnMajor();
         }
 
+        @Override
         public double[] getValues() throws CDFException.ReaderError {
             return (double[])values;
         }
@@ -412,6 +413,7 @@ public class CDFReader extends GenericReader {
             return (double[])values;
         }
 
+        @Override
         public boolean isColumnMajor() {return columnMajor;}
     }
 
@@ -424,10 +426,13 @@ public class CDFReader extends GenericReader {
             values = ts.getValues();
             tspec = ts.getTimeInstantModel();
         }
+        @Override
         public TimeInstantModel getTimeInstantModel() {return tspec;}
+        @Override
         public double[] getTimes() throws CDFException.ReaderError {
             return times;
         }
+        @Override
         public Object getValues() throws CDFException.ReaderError {
             return values;
         }

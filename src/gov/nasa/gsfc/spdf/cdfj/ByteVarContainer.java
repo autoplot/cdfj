@@ -31,16 +31,19 @@ public class ByteVarContainer extends BaseVarContainer implements
         }
     }
 
+    @Override
     ByteBuffer allocateBuffer(int words) {
         ByteBuffer _buf = ByteBuffer.allocateDirect(words);
         _buf.order(order);
         return _buf;
     }
 
+    @Override
     public Object allocateDataArray(int size) {
         return null;
     }
 
+    @Override
     void doMissing(int records, ByteBuffer buf, Object _data, int rec) {
         byte[] repl = null;
         try {
@@ -61,6 +64,7 @@ public class ByteVarContainer extends BaseVarContainer implements
         buf.put(ba, 0, rem*elements);
     }
 
+    @Override
     void doData(ByteBuffer bv, int type, int elements, int toprocess,
         ByteBuffer _buf, Object _data) {
         ByteBuffer needed = bv.slice();
@@ -149,11 +153,15 @@ public class ByteVarContainer extends BaseVarContainer implements
         b.position(pos);
         b.get(array, offset, words);
     }
+    @Override
     public byte[] as1DArray() {return (byte[])super.as1DArray();}
+    @Override
     public byte[] asOneDArray() {return (byte[])super.asOneDArray(true);}
+    @Override
     public byte[] asOneDArray(boolean cmtarget) {
         return (byte[])super.asOneDArray(cmtarget);
     }
+    @Override
     public AArray asArray() throws Throwable {
         return new ByteArray(_asArray());
     }

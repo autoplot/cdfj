@@ -7,6 +7,7 @@ public class FloatArray extends AArray {
     public FloatArray(Object o, boolean majority) throws Throwable {
         super(o, majority);
     }
+    @Override
     public Object array() {
         switch (dim) {
         case 1:
@@ -21,6 +22,7 @@ public class FloatArray extends AArray {
         return null;
     }
     
+    @Override
     public ByteBuffer buffer(Class<?> cl, int ignore) throws Throwable {
         if (!(cl == Float.TYPE)) {
             throw new Throwable("Only float targets supported");

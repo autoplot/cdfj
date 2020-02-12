@@ -7,6 +7,7 @@ public class DoubleArray extends AArray {
     public DoubleArray(Object o, boolean rowMajority) throws Throwable {
         super(o, rowMajority);
     }
+    @Override
     public Object array() {
         switch (dim) {
         case 1:
@@ -24,6 +25,7 @@ public class DoubleArray extends AArray {
     /**
      * create a byte buffer of a compatible type.
      */
+    @Override
     public ByteBuffer buffer(Class<?> cl, int ignore) throws Throwable {
         if (!((cl == Double.TYPE) || (cl == Float.TYPE))) {
             throw new Throwable("Only float and double targets supported");

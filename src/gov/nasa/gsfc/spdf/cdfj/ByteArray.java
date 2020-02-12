@@ -7,6 +7,7 @@ public class ByteArray extends AArray {
     public ByteArray(Object o, boolean rowMajority) throws Throwable {
         super(o, rowMajority);
     }
+    @Override
     public Object array() {
         switch (dim) {
         case 1:
@@ -21,6 +22,7 @@ public class ByteArray extends AArray {
         return null;
     }
     
+    @Override
     public ByteBuffer buffer(Class<?> cl, int ignore) throws Throwable {
         if (!(cl == Byte.TYPE)) {
             throw new Throwable("Only byte targets supported");

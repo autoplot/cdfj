@@ -130,10 +130,13 @@ public class TimeVariableFactory {
             tbuf = obuf;
         }
 
+        @Override
         public String getName() {return name;}
 
+        @Override
         public TimePrecision getPrecision() {return precision;}
 
+        @Override
         public double [] getTimes() {
             try {
                 return getTimes(0, recordCount - 1, null);
@@ -143,10 +146,12 @@ public class TimeVariableFactory {
             }
         }
 
+        @Override
         public double [] getTimes(TimeInstantModel ts) throws Throwable {
             return getTimes(0, recordCount - 1, ts);
         }
 
+        @Override
         public double [] getTimes(int[] recordRange) throws Throwable {
             try {
                 return getTimes(recordRange, defaultTimeInstantModel);
@@ -159,6 +164,7 @@ public class TimeVariableFactory {
         abstract double [] getTimes(int first, int last, TimeInstantModel ts)
             throws Throwable;
 
+        @Override
         public double [] getTimes(int[] recordRange, TimeInstantModel ts) throws
             Throwable {
             return getTimes(recordRange[0], recordRange[1],  ts);
@@ -173,6 +179,7 @@ public class TimeVariableFactory {
             }
         }
 
+        @Override
         public double [] getTimes(double[] timeRange, TimeInstantModel ts) throws
             Throwable {
             if (timeRange == null) {
@@ -183,6 +190,7 @@ public class TimeVariableFactory {
             return getTimes(rr[0], rr[1], ts);
         }
 
+        @Override
         public double [] getTimes(int[] startTime, int[] stopTime,
             TimeInstantModel ts) throws Throwable {
             if (startTime == null) {
@@ -206,20 +214,24 @@ public class TimeVariableFactory {
             return getTimes(new double[]{(double)start, (double)stop}, ts);
         }
 
+        @Override
         public double [] getTimes(int[] startTime, int[] stopTime) throws
             Throwable {
             return  getTimes(startTime, stopTime, null);
         }
 
+        @Override
         public int[] getRecordRange(double[] timeRange) throws Throwable {
             return getRecordRange(timeRange, null);
         }
 
+        @Override
         public int [] getRecordRange(int[] startTime, int[] stopTime) throws
             Throwable {
             return getRecordRange(startTime, stopTime, null);
         }
 
+        @Override
         public int [] getRecordRange(int[] startTime, int[] stopTime,
             TimeInstantModel ts) throws Throwable {
             if (startTime.length < 3) throw new Throwable(
@@ -282,6 +294,7 @@ public class TimeVariableFactory {
             recordCount = count;
         }
 
+        @Override
         public double getFirstMilliSecond() {
             TimeInstantModel tspec = getDefaultTimeInstantModel();
             ((DefaultTimeInstantModelImpl)tspec).setBaseTime((double)0);
@@ -301,7 +314,9 @@ public class TimeVariableFactory {
             }
         }
         abstract void reset();
+        @Override
         public abstract boolean isTT2000();
+        @Override
         public ByteBuffer getRawBuffer() {return tbuf;}
     }
 
@@ -313,6 +328,7 @@ public class TimeVariableFactory {
             precision = TimePrecision.MILLISECOND;
             _dbuf = tbuf.asDoubleBuffer();
         }
+        @Override
         public double [] getTimes(int first, int last, TimeInstantModel ts)
             throws Throwable {
             double base = (double)JANUARY_1_1970_LONG;
@@ -341,10 +357,13 @@ public class TimeVariableFactory {
             }
             return da;
         }
+        @Override
         void reset() {
             _dbuf.position(0);
         }
+        @Override
         public boolean isTT2000() {return false;}
+        @Override
         public boolean canSupportPrecision(TimePrecision tp) {
             return tp == TimePrecision.MILLISECOND;
         }
@@ -356,6 +375,7 @@ public class TimeVariableFactory {
             precision = TimePrecision.NANOSECOND;
             _lbuf = tbuf.asLongBuffer();
         }
+        @Override
         public double [] getTimes(int first, int last, TimeInstantModel ts)
             throws Throwable {
             TimePrecision offsetUnits = TimePrecision.MILLISECOND;
@@ -413,10 +433,13 @@ public class TimeVariableFactory {
             }
             return da;
         }
+        @Override
         void reset() {
             _lbuf.position(0);
         }
+        @Override
         public boolean isTT2000() {return true;}
+        @Override
         public boolean canSupportPrecision(TimePrecision tp) {
             return tp != TimePrecision.PICOSECOND;
         }
@@ -428,6 +451,7 @@ public class TimeVariableFactory {
             precision = TimePrecision.PICOSECOND;
             _dbuf = tbuf.asDoubleBuffer();
         }
+        @Override
         public double [] getTimes(int first, int last, TimeInstantModel ts)
             throws Throwable {
             TimePrecision offsetUnits = TimePrecision.MILLISECOND;
@@ -497,10 +521,13 @@ public class TimeVariableFactory {
             }
             return da;
         }
+        @Override
         void reset() {
             _dbuf.position(0);
         }
+        @Override
         public boolean isTT2000() {return false;}
+        @Override
         public boolean canSupportPrecision(TimePrecision tp) {return true;}
     }
     public static class UnixTimeVariable extends CDFTimeVariable {
@@ -510,6 +537,7 @@ public class TimeVariableFactory {
             precision = TimePrecision.MICROSECOND;
             _dbuf = tbuf.asDoubleBuffer();
         }
+        @Override
         public double [] getTimes(int first, int last, TimeInstantModel ts)
             throws Throwable {
             TimePrecision offsetUnits = TimePrecision.MILLISECOND;
@@ -572,10 +600,13 @@ public class TimeVariableFactory {
             }
             return da;
         }
+        @Override
         void reset() {
             _dbuf.position(0);
         }
+        @Override
         public boolean isTT2000() {return false;}
+        @Override
         public boolean canSupportPrecision(TimePrecision tp) {
             if (tp == TimePrecision.MICROSECOND) return true;
             return tp == TimePrecision.MILLISECOND;
@@ -586,13 +617,18 @@ public class TimeVariableFactory {
         double baseTime = JANUARY_1_1970;
         TimePrecision baseTimeUnits = TimePrecision.MILLISECOND;
         TimePrecision offsetUnits = TimePrecision.MILLISECOND;
+        @Override
         public double getBaseTime() {return baseTime;}
+        @Override
         public TimePrecision getBaseTimeUnits() {return baseTimeUnits;}
+        @Override
         public TimePrecision getOffsetUnits() {return offsetUnits;}
+        @Override
         public void setOffsetUnits(TimePrecision offsetUnits) {
             this.offsetUnits = offsetUnits;
         }
         void setBaseTime(double msec) {baseTime = msec;}
+        @Override
         public Object clone() {
             try {
                 return super.clone();

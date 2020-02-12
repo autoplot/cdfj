@@ -7,6 +7,7 @@ public class IntArray extends AArray {
     public IntArray(Object o, boolean majority) throws Throwable {
         super(o, majority);
     }
+    @Override
     public Object array() {
         switch (dim) {
         case 1:
@@ -24,6 +25,7 @@ public class IntArray extends AArray {
     /**
      * create a byte buffer of a compatible type.
      */
+    @Override
     public ByteBuffer buffer(Class<?> cl, int ignore) throws Throwable {
         if (!((cl == Integer.TYPE) || (cl == Short.TYPE))) {
             throw new Throwable("Only int and short targets supported");

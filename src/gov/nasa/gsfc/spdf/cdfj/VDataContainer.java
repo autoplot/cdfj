@@ -35,13 +35,16 @@ public interface VDataContainer extends Runnable {
         /**
          * Returns the one dimensional array representation.
          */
+        @Override
         public double[] as1DArray();
         public double[] asOneDArray();
+        @Override
         public double[] asOneDArray(boolean cmtarget);
 
         /**
          * Returns the multi dimensional array representation.
          */
+        @Override
         public DoubleArray asArray() throws Throwable ;
     }
 
@@ -52,13 +55,16 @@ public interface VDataContainer extends Runnable {
         /**
          * Returns the one dimensional array representation.
          */
+        @Override
         public float[] as1DArray();
         public float[] asOneDArray();
+        @Override
         public float[] asOneDArray(boolean cmtarget);
 
         /**
          * Returns the multi dimensional array representation.
          */
+        @Override
         public FloatArray asArray() throws Throwable ;
     }
 
@@ -69,13 +75,16 @@ public interface VDataContainer extends Runnable {
         /**
          * Returns the one dimensional array representation.
          */
+        @Override
         public int[] as1DArray();
         public int[] asOneDArray();
+        @Override
         public int[] asOneDArray(boolean cmtarget);
 
         /**
          * Returns the multi dimensional array representation.
          */
+        @Override
         public IntArray asArray() throws Throwable ;
     }
 
@@ -86,13 +95,16 @@ public interface VDataContainer extends Runnable {
         /**
          * Returns the one dimensional array representation.
          */
+        @Override
         public short[] as1DArray();
         public short[] asOneDArray();
+        @Override
         public short[] asOneDArray(boolean cmtarget);
 
         /**
          * Returns the multi dimensional array representation.
          */
+        @Override
         public ShortArray asArray() throws Throwable ;
     }
 
@@ -103,13 +115,16 @@ public interface VDataContainer extends Runnable {
         /**
          * Returns the one dimensional array representation.
          */
+        @Override
         public long[] as1DArray();
         public long[] asOneDArray();
+        @Override
         public long[] asOneDArray(boolean cmtarget);
 
         /**
          * Returns the multi dimensional array representation.
          */
+        @Override
         public LongArray asArray() throws Throwable ;
     }
 
@@ -120,8 +135,10 @@ public interface VDataContainer extends Runnable {
         /**
          * Returns the one dimensional array representation.
          */
+        @Override
         public byte[] as1DArray();
         public byte[] asOneDArray();
+        @Override
         public byte[] asOneDArray(boolean cmtarget);
 
         /**
@@ -137,8 +154,10 @@ public interface VDataContainer extends Runnable {
         /**
          * Returns the one dimensional array representation.
          */
+        @Override
         public byte[] as1DArray();
         public byte[] asOneDArray();
+        @Override
         public byte[] asOneDArray(boolean cmtarget);
 
         /**

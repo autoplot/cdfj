@@ -730,6 +730,7 @@ public class GenericReader extends MetaData {
      * @return  String   user supplied name, or null if none 
      * @throws   CDFException.ReaderError  if variable does not exist
      */
+    @Override
     public String userTimeVariableName(String varName) throws
         CDFException.ReaderError {
         if (!existsVariable(varName)) throw new CDFException.ReaderError(

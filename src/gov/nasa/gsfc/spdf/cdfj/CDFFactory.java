@@ -108,7 +108,9 @@ public final class CDFFactory {
             }
         });
         ((CDFImpl)cdf).setSource(new CDFSource() {
+            @Override
             public String getName() {return _fname;};
+            @Override
             public boolean isFile() {return true;};
         });
         cdfMap.put(cdf, _fname);
@@ -131,7 +133,9 @@ public final class CDFFactory {
         }
         CDFImpl cdf = getCDF(ba);
         cdf.setSource(new CDFSource() {
+            @Override
             public String getName() {return _url;};
+            @Override
             public boolean isFile() {return false;};
         });
         return cdf;

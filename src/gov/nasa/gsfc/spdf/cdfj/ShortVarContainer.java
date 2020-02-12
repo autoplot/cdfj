@@ -21,16 +21,19 @@ public final class ShortVarContainer extends BaseVarContainer implements
         this(thisCDF, var, pt, preserve, ByteOrder.nativeOrder());
     }
 
+    @Override
     ByteBuffer allocateBuffer(int words) {
         ByteBuffer _buf = ByteBuffer.allocateDirect(2*words);
         _buf.order(order);
         return _buf;
     }
 
+    @Override
     public Object allocateDataArray(int size) {
         return new short[size];
     }
 
+    @Override
     void doMissing(int records, ByteBuffer _buf, Object _data, int rec) {
         short[] data = (short[])_data;
         short[] repl = null;
@@ -61,6 +64,7 @@ public final class ShortVarContainer extends BaseVarContainer implements
         _buf.position(position);
     }
 
+    @Override
     void doData(ByteBuffer bv, int type, int elements, int toprocess,
         ByteBuffer _buf, Object _data) throws Throwable {
         short[] data = (short[])_data;
@@ -249,11 +253,15 @@ public final class ShortVarContainer extends BaseVarContainer implements
         b.position(pos);
         b.asShortBuffer().get(array, offset, words);
     }
+    @Override
     public short[] as1DArray() {return (short[])super.as1DArray();}
+    @Override
     public short[] asOneDArray() {return (short[])super.asOneDArray(true);}
+    @Override
     public short[] asOneDArray(boolean cmtarget) {
         return (short[])super.asOneDArray(cmtarget);
     }
+    @Override
     public ShortArray asArray() throws Throwable {
         return new ShortArray(_asArray());
     }

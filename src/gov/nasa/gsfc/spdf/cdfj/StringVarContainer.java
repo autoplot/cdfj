@@ -15,6 +15,7 @@ public final class StringVarContainer extends ByteVarContainer implements
         return false;
     }
 
+    @Override
     public Object _asArray() throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank > 1) {
@@ -52,12 +53,16 @@ public final class StringVarContainer extends ByteVarContainer implements
         }
     }
 
+    @Override
     public byte[] as1DArray() {return (byte[])super.as1DArray();}
+    @Override
     public byte[] asOneDArray() {return (byte[])super.asOneDArray();}
+    @Override
     public byte[] asOneDArray(boolean cmtarget) {
         return (byte[])super.asOneDArray(cmtarget);
     }
 
+    @Override
     public AArray asArray() throws Throwable {
         return new StringArray(_asArray());
     }

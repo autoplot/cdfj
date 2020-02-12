@@ -125,17 +125,20 @@ public interface Variable extends VariableMetaData {
      * Return whether the missing record should be assigned the last 
      * seen value. If none has been seen, pad value is assigned.
      */
+    @Override
     public boolean missingRecordValueIsPrevious();
 
     /**
      * Return whether the missing record should be assigned the pad 
      * value.
      */
+    @Override
     public boolean missingRecordValueIsPad();
 
     /**
      * Return element count for this variable's dimensions.
      */
+    @Override
     public Vector getElementCount();
 
     /**
@@ -243,5 +246,6 @@ public interface Variable extends VariableMetaData {
     /**
      * Returns effective dimensions
      */
+    @Override
     public int[] getEffectiveDimensions();
 }

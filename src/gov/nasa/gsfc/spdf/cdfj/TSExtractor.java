@@ -432,12 +432,15 @@ public class TSExtractor extends Extractor {
                 }
             }
         }
+        @Override
         public double[] getTimes() {
             return (filtered != null)?filtered[0]:times;
         }
+        @Override
         public double[] getValues() {
             return (filtered != null)?filtered[1]:vdata;
         }
+        @Override
         public TimeInstantModel getTimeInstantModel() {return tspec;}
     }
 
@@ -469,6 +472,7 @@ public class TSExtractor extends Extractor {
             this.columnMajor = columnMajor;
         }
 
+        @Override
         public double[] getTimes() throws CDFException.ReaderError {
             try {
                 if (timeRange == null)  return tv.getTimes(tspec);
@@ -478,6 +482,7 @@ public class TSExtractor extends Extractor {
             }
         }
 
+        @Override
         public Object getValues() throws CDFException.ReaderError {
             try {
                 if (timeRange == null)  {
@@ -500,10 +505,13 @@ public class TSExtractor extends Extractor {
             }
         }
 
+        @Override
         public TimeInstantModel getTimeInstantModel() {return tspec;}
 
+        @Override
         public boolean isOneD() {return oned;}
 
+        @Override
         public boolean isColumnMajor() {return columnMajor;}
     }
       
