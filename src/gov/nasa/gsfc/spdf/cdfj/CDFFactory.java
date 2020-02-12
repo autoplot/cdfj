@@ -204,13 +204,13 @@ public final class CDFFactory {
     }
     public static void setMaxMappedMemory(long value) {
         if (maxMappedMemory != null) {
-            if (maxMappedMemory.longValue() > value) return;
+            if (maxMappedMemory > value) return;
         }
         maxMappedMemory = new Long(value);
     }
     public static void clean() {
         if (maxMappedMemory != null) {
-            if (mappedMemoryUsed() > maxMappedMemory.longValue()) {
+            if (mappedMemoryUsed() > maxMappedMemory) {
                 System.gc();
             }
         }

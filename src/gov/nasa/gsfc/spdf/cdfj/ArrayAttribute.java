@@ -46,7 +46,7 @@ public class ArrayAttribute {
     public int[] getDimensions() {
         int[] ia = new int[dim.size()];
         for (int i = 0; i < ia.length; i++) {
-            ia[i] = (dim.get(i)).intValue();
+            ia[i] = (dim.get(i));
         }
         return ia;
     }

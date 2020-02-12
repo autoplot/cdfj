@@ -958,7 +958,7 @@ public class CDFReader extends GenericReader {
                 Throwable(varName + " is not a vector.");
             Integer dim = (Integer)
                 (thisCDF.getVariable(varName).getElementCount().get(0));
-            if ((component < 0) || (component > dim.intValue())) throw new
+            if ((component < 0) || (component > dim)) throw new
                 Throwable("Invalid component " + component + " for " +
                 varName);
             double[] trange = getAvailableTimeRange(varName);
@@ -973,7 +973,7 @@ public class CDFReader extends GenericReader {
                 Throwable(varName + " is not a vector.");
             Integer dim = (Integer)
                 (thisCDF.getVariable(varName).getElementCount().get(0));
-            if ((component < 0) || (component > dim.intValue())) throw new
+            if ((component < 0) || (component > dim)) throw new
                 Throwable("Invalid component " + component + " for " +
                 varName);
             double[] trange = getAvailableTimeRange(varName);
@@ -987,7 +987,7 @@ public class CDFReader extends GenericReader {
                 Throwable(varName + " is not a vector.");
             Integer dim = (Integer)
                 (thisCDF.getVariable(varName).getElementCount().get(0));
-            if ((component < 0) || (component > dim.intValue())) throw new
+            if ((component < 0) || (component > dim)) throw new
                 Throwable("Invalid component " + component + " for " +
                 varName);
             return _getTimeSeries(varName, component, ignoreFill, null);
@@ -999,7 +999,7 @@ public class CDFReader extends GenericReader {
                 Throwable(varName + " is not a vector.");
             Integer dim = (Integer)
                 (thisCDF.getVariable(varName).getElementCount().get(0));
-            if ((component < 0) || (component > dim.intValue())) throw new
+            if ((component < 0) || (component > dim)) throw new
                 Throwable("Invalid component " + component + " for " +
                 varName);
             double[] trange = getAvailableTimeRange(varName);
@@ -1014,7 +1014,7 @@ public class CDFReader extends GenericReader {
                 Throwable(varName + " is not a vector.");
             Integer dim = (Integer)
                (thisCDF.getVariable(varName).getElementCount().get(0));
-            if ((component < 0) || (component > dim.intValue())) throw new
+            if ((component < 0) || (component > dim)) throw new
                 Throwable("Invalid component " + component + " for " +
                 varName);
             double[] trange = getAvailableTimeRange(varName);

@@ -87,8 +87,8 @@ public class TimeUtil {
         tt_times = new long[times.size()];
         leapSecondIds = new int[times.size()];
         for (int i = 0; i < jtimes.length; i++) {
-            jtimes[i] = times.get(i).longValue();
-            leapSecondIds[i] = ids.get(i).intValue();
+            jtimes[i] = times.get(i);
+            leapSecondIds[i] = ids.get(i);
             try {
                 tt_times[i] = tt2000(jtimes[i]);
             } catch (Throwable t) {

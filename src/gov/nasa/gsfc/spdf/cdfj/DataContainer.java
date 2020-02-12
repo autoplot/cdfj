@@ -167,7 +167,7 @@ public class DataContainer {
                 int[] dcheck = new int[1 + vdim.size()];
                 dcheck[0] = npt;
                 for (int i = 0; i < vdim.size(); i++) {
-                    dcheck[i + 1] = (vdim.get(i)).intValue();
+                    dcheck[i + 1] = (vdim.get(i));
                 }
                 //if (!(new AArray(data)).validateDimensions(dcheck)) {
                 if (!Arrays.equals(aa.getDimensions(), dcheck)) {
@@ -356,7 +356,7 @@ public class DataContainer {
             int nbuf = bufs.size() - 1;
             while (nbuf >= 0) {
                 if (bufs.get(nbuf) != null) {
-                    last = lastRecords.get(nbuf).intValue();
+                    last = lastRecords.get(nbuf);
                     break;
                 }
                 nbuf--;
@@ -482,11 +482,11 @@ public class DataContainer {
             for (int v = 0; v < vxrs.length; v++) {
                 buf.put(vxrs[v].get());
                 for (int e = 0; e < vxrs[v].numEntries; e++) {
-                    int n = _firstRecords.get(nbuf + e).intValue();
+                    int n = _firstRecords.get(nbuf + e);
                     buf.putInt(n);
                 }
                 for (int e = 0; e < vxrs[v].numEntries; e++) {
-                    int n = _lastRecords.get(nbuf + e).intValue();
+                    int n = _lastRecords.get(nbuf + e);
                     buf.putInt(n);
                 }
                 for (int e = 0; e < vxrs[v].numEntries; e++) {
@@ -516,7 +516,7 @@ public class DataContainer {
     int getBlockingFactor() {
         int n = -1;
         for (int i = 0; i < points.size(); i++) {
-            int p = points.get(i).intValue();
+            int p = points.get(i);
             if (p > n) n = p;
         }
         return n;
@@ -630,11 +630,11 @@ public class DataContainer {
             for (int v = 0; v < vxrs.length; v++) {
                 channel.write(vxrs[v].get());
                 for (int e = 0; e < vxrs[v].numEntries; e++) {
-                    int n = _firstRecords.get(nbuf + e).intValue();
+                    int n = _firstRecords.get(nbuf + e);
                     writeInt(channel, intbuf, n);
                 }
                 for (int e = 0; e < vxrs[v].numEntries; e++) {
-                    int n = _lastRecords.get(nbuf + e).intValue();
+                    int n = _lastRecords.get(nbuf + e);
                     writeInt(channel, intbuf, n);
                 }
                 for (int e = 0; e < vxrs[v].numEntries; e++) {

@@ -531,7 +531,7 @@ public class CDFWriter extends GenericWriter {
         for (int n = 0; n < vnames.length; n++) {
             String vn = vnames[n];
             Hashtable vmap = (Hashtable)variableMap.get(vn);
-            if (((Boolean)vmap.get("variance")).booleanValue()) {
+            if (((Boolean)vmap.get("variance"))) {
                 if (timeVariableList.contains(vn)) {
                      DataContainer dc = dataContainers.get(vn);
                      if (cdf.getNumberOfValues(vn) > 0) {
@@ -638,9 +638,9 @@ public class CDFWriter extends GenericWriter {
             cdf.getDimensions(vn));
         if (!failed) failed = !Arrays.equals((boolean[])vmap.get("varys"),
             cdf.getVarys(vn));
-        if (!failed) failed = (((Boolean)vmap.get("variance")).booleanValue() != 
+        if (!failed) failed = (((Boolean)vmap.get("variance")) != 
             cdf.recordVariance(vn));
-        if (!failed) failed = (((Integer)vmap.get("numberOfElements")).intValue() != 
+        if (!failed) failed = (((Integer)vmap.get("numberOfElements")) != 
             cdf.getNumberOfElements(vn));
         //vmap.put("padValue", cdf.getPadValue(vn, true));
         if (failed) throw new Throwable("Properties of variable " + vn +
@@ -735,7 +735,7 @@ public class CDFWriter extends GenericWriter {
         }
         @Override
         public boolean isCompressed(String name) {
-            return ((Boolean)map.get(name)).booleanValue();
+            return ((Boolean)map.get(name));
         }
         @Override
         public SparseRecordOption getSparseRecordOption(String name) {

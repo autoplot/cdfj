@@ -38,7 +38,7 @@ public final class StringVarContainer extends ByteVarContainer implements
             return sa;
         case 1:
             int n0 =
-                (((Integer)var.getElementCount().elementAt(0))).intValue();
+                    (((Integer)var.getElementCount().elementAt(0)));
             records = words/(n0*len);
             String[][] sa1 = new String[records][n0];
             for (int r = 0; r < records; r++) {

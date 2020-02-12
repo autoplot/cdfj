@@ -61,7 +61,7 @@ public class TSExtractor extends Extractor {
         Integer which, Boolean ignoreFill, double[] timeRange) throws Throwable
         {
         if (var.getNumberOfValues() == 0) return null;
-        boolean ignore = ignoreFill.booleanValue();
+        boolean ignore = ignoreFill;
         double [] vdata;
         int [] recordRange = null;
         TimeVariable tv = TimeVariableFactory.getTimeVariable(rdr,
@@ -70,7 +70,7 @@ public class TSExtractor extends Extractor {
         if (times == null) return null;
         boolean longType = false;
         int type = var.getType();
-        int element = (which == null)?0:which.intValue();
+        int element = (which == null)?0:which;
         Number pad;
         if (DataTypes.typeCategory[type] == DataTypes.LONG) {
             longType = true;
@@ -271,7 +271,7 @@ public class TSExtractor extends Extractor {
         Integer which, Boolean ignoreFill, double[] timeRange, int[] stride)
         throws Throwable {
         if (var.getNumberOfValues() == 0) return null;
-        boolean ignore = ignoreFill.booleanValue();
+        boolean ignore = ignoreFill;
         double [] vdata;
         int [] recordRange = null;
         TimeVariable tv = TimeVariableFactory.getTimeVariable(rdr,
@@ -377,7 +377,7 @@ public class TSExtractor extends Extractor {
         public GeneralTimeSeries(MetaData rdr, Variable var, Integer which,
             Boolean ignoreFill, double[] timeRange, TimeInstantModel ts) throws
             Throwable {
-            boolean ignore = ignoreFill.booleanValue();
+            boolean ignore = ignoreFill;
             int [] recordRange = null;
             if (ts != null) {
                 synchronized (ts) {
@@ -455,7 +455,7 @@ public class TSExtractor extends Extractor {
         public GeneralTimeSeriesX(MetaData rdr, Variable var,
             Boolean ignoreFill, final double[] timeRange, TimeInstantModel ts,
             boolean oned, boolean columnMajor) throws Throwable {
-            boolean ignore = ignoreFill.booleanValue();
+            boolean ignore = ignoreFill;
             if (ts != null) {
                 synchronized (ts) {
                     tspec = (TimeInstantModel)ts.clone();

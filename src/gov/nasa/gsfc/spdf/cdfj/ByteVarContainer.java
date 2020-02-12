@@ -96,14 +96,14 @@ public class ByteVarContainer extends BaseVarContainer implements
             buf.get(ba);
             return ba;
         case 1:
-            int n = (((Integer)var.getElementCount().elementAt(0))).intValue();
+            int n = (((Integer)var.getElementCount().elementAt(0)));
             records = words/n;
             byte[][] ba1 = new byte[records][n];
             for (int r = 0; r < records; r++) buf.get(ba1[r]);
             return (singlePoint)?ba1[0]:ba1;
         case 2:
-            int n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            int n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
+            int n0 = (((Integer)var.getElementCount().elementAt(0)));
+            int n1 = (((Integer)var.getElementCount().elementAt(1)));
             records = words/(n0*n1);
             byte[][][] ba2 = new byte[records][n0][n1];
             for (int r = 0; r < records; r++) {
@@ -111,9 +111,9 @@ public class ByteVarContainer extends BaseVarContainer implements
             }
             return (singlePoint)?ba2[0]:ba2;
         case 3:
-            n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
-            int n2 = (((Integer)var.getElementCount().elementAt(2))).intValue();
+            n0 = (((Integer)var.getElementCount().elementAt(0)));
+            n1 = (((Integer)var.getElementCount().elementAt(1)));
+            int n2 = (((Integer)var.getElementCount().elementAt(2)));
             records = words/(n0*n1*n2);
             byte[][][][] ba3 = new byte[records][n0][n1][n2];
             for (int r = 0; r < records; r++) {
@@ -123,10 +123,10 @@ public class ByteVarContainer extends BaseVarContainer implements
             }
             return (singlePoint)?ba3[0]:ba3;
         case 4:
-            n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
-            n2 = (((Integer)var.getElementCount().elementAt(2))).intValue();
-            int n3 = (((Integer)var.getElementCount().elementAt(3))).intValue();
+            n0 = (((Integer)var.getElementCount().elementAt(0)));
+            n1 = (((Integer)var.getElementCount().elementAt(1)));
+            n2 = (((Integer)var.getElementCount().elementAt(2)));
+            int n3 = (((Integer)var.getElementCount().elementAt(3)));
             records = words/(n0*n1*n2*n3);
             byte[][][][][] ba4 = new byte[records][n0][n1][n2][n3];
             for (int r = 0; r < records; r++) {

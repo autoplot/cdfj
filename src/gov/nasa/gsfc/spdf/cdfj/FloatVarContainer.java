@@ -185,14 +185,14 @@ public final class FloatVarContainer extends BaseVarContainer implements
             _buf.get(_a0);
             return (singlePoint)?new Float(_a0[0]):_a0;
         case 1:
-            int n = (((Integer)var.getElementCount().elementAt(0))).intValue();
+            int n = (((Integer)var.getElementCount().elementAt(0)));
             records = words/n;
             float[][] _a1 = new float[records][n];
             for (int r = 0; r < records; r++) _buf.get(_a1[r]);
             return (singlePoint)?_a1[0]:_a1;
         case 2:
-            int n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            int n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
+            int n0 = (((Integer)var.getElementCount().elementAt(0)));
+            int n1 = (((Integer)var.getElementCount().elementAt(1)));
             records = words/(n0*n1);
             float[][][] _a2 = new float[records][n0][n1];
             if (var.rowMajority()) {
@@ -210,9 +210,9 @@ public final class FloatVarContainer extends BaseVarContainer implements
             }
             return (singlePoint)?_a2[0]:_a2;
         case 3:
-            n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
-            int n2 = (((Integer)var.getElementCount().elementAt(2))).intValue();
+            n0 = (((Integer)var.getElementCount().elementAt(0)));
+            n1 = (((Integer)var.getElementCount().elementAt(1)));
+            int n2 = (((Integer)var.getElementCount().elementAt(2)));
             records = words/(n0*n1*n2);
             float[][][][] _a3 = new float[records][n0][n1][n2];
             if (var.rowMajority()) {
@@ -236,10 +236,10 @@ public final class FloatVarContainer extends BaseVarContainer implements
             }
             return (singlePoint)?_a3[0]:_a3;
         case 4:
-            n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
-            n2 = (((Integer)var.getElementCount().elementAt(2))).intValue();
-            int n3 = (((Integer)var.getElementCount().elementAt(3))).intValue();
+            n0 = (((Integer)var.getElementCount().elementAt(0)));
+            n1 = (((Integer)var.getElementCount().elementAt(1)));
+            n2 = (((Integer)var.getElementCount().elementAt(2)));
+            int n3 = (((Integer)var.getElementCount().elementAt(3)));
             records = words/(n0*n1*n2*n3);
             float[][][][][] _a4 = new float[records][n0][n1][n2][n3];
             if (var.rowMajority()) {

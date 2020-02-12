@@ -321,7 +321,7 @@ public class Extractor {
         int numberOfValues = var.getNumberOfValues();
         if (numberOfValues == 0) return null;
         if (!var.recordVariance()) numberOfValues = 1;
-        int elements = (((Integer)elementCount(var).elementAt(0))).intValue();
+        int elements = (((Integer)elementCount(var).elementAt(0)));
         double [][] data = new double[numberOfValues][elements];
 
         int type = var.getType();
@@ -545,9 +545,9 @@ public class Extractor {
     public static Object getElement1(CDFImpl thisCDF, Variable var, Integer idx)
         throws Throwable {
         if (var.isMissingRecords()) {
-             return thisCDF.get(var.getName(), idx.intValue());
+             return thisCDF.get(var.getName(), idx);
         }
-        int element = idx.intValue();
+        int element = idx;
         int numberOfValues = var.getNumberOfValues();
         if (numberOfValues == 0) return null;
         if (!var.recordVariance()) numberOfValues = 1;
@@ -739,8 +739,8 @@ public class Extractor {
         int numberOfValues = var.getNumberOfValues();
         if (numberOfValues == 0) return null;
         if (!var.recordVariance()) numberOfValues = 1;
-        int n0 = (((Integer)elementCount(var).elementAt(0))).intValue();
-        int n1 = (((Integer)elementCount(var).elementAt(1))).intValue();
+        int n0 = (((Integer)elementCount(var).elementAt(0)));
+        int n1 = (((Integer)elementCount(var).elementAt(1)));
         double [][][] data = new double[numberOfValues][n0][n1];
         double[] padValue = (double[])getPadValue(thisCDF, var);
         Vector locations =
@@ -980,9 +980,9 @@ public class Extractor {
     public static Object getPoint0(CDFImpl thisCDF,Variable var, Integer pt) 
         throws Throwable {
         if (var.isMissingRecords()) {
-             return thisCDF.getPoint(var.getName(), pt.intValue());
+             return thisCDF.getPoint(var.getName(), pt);
         }
-        int point = pt.intValue();
+        int point = pt;
         int type = var.getType();
         int itemSize = var.getDataItemSize();
         Vector locations =
@@ -1021,7 +1021,7 @@ public class Extractor {
 
     public static double[] getPoint1(CDFImpl thisCDF,Variable var, Integer pt) 
         throws Throwable {
-        int point = pt.intValue();
+        int point = pt;
         int type = var.getType();
         if (DataTypes.typeCategory[type] == DataTypes.LONG) {
             throw new Throwable("Only scalar variables of type int8 " +
@@ -1038,7 +1038,7 @@ public class Extractor {
                 (int)(loc[1] - loc[0] + 1));
             int pos = bv.position() + (point - (int)loc[0])*itemSize;
             bv.position(pos);
-            int n = (((Integer)elementCount(var).elementAt(0))).intValue();
+            int n = (((Integer)elementCount(var).elementAt(0)));
             double [] da = new double[n];
             Method method;
             switch (DataTypes.typeCategory[type]) {
@@ -1077,7 +1077,7 @@ public class Extractor {
 
     public static double[][] getPoint2(CDFImpl thisCDF, Variable var,
         Integer pt) throws Throwable {
-        int point = pt.intValue();
+        int point = pt;
         int type = var.getType();
         if (DataTypes.typeCategory[type] == DataTypes.LONG) {
             throw new Throwable("Only scalar variables of type int8 " +
@@ -1094,8 +1094,8 @@ public class Extractor {
                 (int)(loc[1] - loc[0] + 1));
             int pos = bv.position() + (point - (int)loc[0])*itemSize;
             bv.position(pos);
-            int n0 = (((Integer)elementCount(var).elementAt(0))).intValue();
-            int n1 = (((Integer)elementCount(var).elementAt(1))).intValue();
+            int n0 = (((Integer)elementCount(var).elementAt(0)));
+            int n1 = (((Integer)elementCount(var).elementAt(1)));
             double [][] da = new double[n0][n1];
             Method method;
             switch (DataTypes.typeCategory[type]) {
@@ -1192,8 +1192,8 @@ public class Extractor {
 
     public static Object getRange0(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend) throws Throwable {
-        int start = istart.intValue();
-        int end = iend.intValue();
+        int start = istart;
+        int end = iend;
         if (var.isMissingRecords()) {
              return thisCDF.getRange(var.getName(), start, end);
         }
@@ -1316,7 +1316,7 @@ public class Extractor {
                 break;
             }
             ByteBuffer bv = (ByteBuffer)oa[0];
-            int first = ((Integer)oa[1]).intValue();
+            int first = ((Integer)oa[1]);
             // fill if necessary
             substitute = var.missingRecordValueIsPrevious();
             if (blk == firstBlock) substitute = false;
@@ -1343,7 +1343,7 @@ public class Extractor {
                     }
                 }
             }
-            last = ((Integer)oa[2]).intValue();
+            last = ((Integer)oa[2]);
             Method method;
             switch (DataTypes.typeCategory[type]) {
             case 0:
@@ -1419,11 +1419,11 @@ public class Extractor {
         if (DataTypes.typeCategory[type] == DataTypes.LONG) {
             throw new Throwable("Long type not supported in this context");
         }
-        int start = istart.intValue();
-        int end = iend.intValue();
+        int start = istart;
+        int end = iend;
         int numberOfValues = var.getNumberOfValues();
         int itemSize = var.getDataItemSize();
-        int elements = (((Integer)elementCount(var).elementAt(0))).intValue();
+        int elements = (((Integer)elementCount(var).elementAt(0)));
         double [][] data = new double[end - start + 1][elements];
         double [] padValue = (double[])getPadValue(thisCDF, var);
 
@@ -1485,8 +1485,8 @@ public class Extractor {
                 break;
             }
             ByteBuffer bv = (ByteBuffer)oa[0];
-            int first = ((Integer)oa[1]).intValue();
-            int last = ((Integer)oa[2]).intValue();
+            int first = ((Integer)oa[1]);
+            int last = ((Integer)oa[2]);
             // fill if necessary
             while (offset < (first - start)) {
                 for (int m = 0; m < elements; m++) {
@@ -1560,7 +1560,7 @@ public class Extractor {
     /** good for rank 1
      */
     public static boolean validElement(Variable var, int[] idx) {
-        int elements = (((Integer)elementCount(var).elementAt(0))).intValue();
+        int elements = (((Integer)elementCount(var).elementAt(0)));
         for (int i = 0; i < idx.length; i++) {
             if ((idx[i] >= 0) && (idx[i] < elements)) continue;
             return false;
@@ -1575,10 +1575,10 @@ public class Extractor {
      */
     public static Object getRangeForElement1(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend, Integer ielement) throws Throwable {
-        int element = ielement.intValue();
+        int element = ielement;
         if (!validElement(var, new int[] {element})) return null;
-        int start = istart.intValue();
-        int end = iend.intValue();
+        int start = istart;
+        int end = iend;
         if (var.isMissingRecords()) {
              return ((CDFImpl)thisCDF).getRange(var.getName(), start, end,
              element);
@@ -1623,7 +1623,7 @@ public class Extractor {
                 break;
             }
             ByteBuffer bv = (ByteBuffer)oa[0];
-            int first = ((Integer)oa[1]).intValue();
+            int first = ((Integer)oa[1]);
             if (!longType) {
                 while (offset < (first - start)) {
                     data[offset++] = padValue[element];
@@ -1633,7 +1633,7 @@ public class Extractor {
                         ldata[offset++] = longPadValue[element];
                 }
             }
-            int last = ((Integer)oa[2]).intValue();
+            int last = ((Integer)oa[2]);
             int pos = bv.position() + loff;
             switch (DataTypes.typeCategory[type]) {
             case 0:
@@ -1704,8 +1704,8 @@ public class Extractor {
     public static Object getRangeForElements1(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend, int[] idx) throws Throwable {
         if (!validElement(var, idx)) return null;
-        int start = istart.intValue();
-        int end = iend.intValue();
+        int start = istart;
+        int end = iend;
         int numberOfValues = var.getNumberOfValues();
         int size = var.getDataItemSize();
         int ne = idx.length;
@@ -1759,8 +1759,8 @@ public class Extractor {
                 break;
             }
             ByteBuffer bv = (ByteBuffer)oa[0];
-            int first = ((Integer)oa[1]).intValue();
-            int last = ((Integer)oa[2]).intValue();
+            int first = ((Integer)oa[1]);
+            int last = ((Integer)oa[2]);
             int pos = bv.position();
             switch (DataTypes.typeCategory[type]) {
             case 0:
@@ -1876,7 +1876,7 @@ public class Extractor {
         int numberOfValues = var.getNumberOfValues();
         if (numberOfValues == 0) return null;
         if (!var.recordVariance()) numberOfValues = 1;
-        int elements = (((Integer)elementCount(var).elementAt(0))).intValue();
+        int elements = (((Integer)elementCount(var).elementAt(0)));
         String [][] data = new String[numberOfValues][elements];
         int size = var.getDataItemSize();
         int len = var.getNumberOfElements();
@@ -1999,9 +1999,9 @@ public class Extractor {
         int numberOfValues = var.getNumberOfValues();
         if (numberOfValues == 0) return null;
         if (!var.recordVariance()) numberOfValues = 1;
-        int n0 = (((Integer)elementCount(var).elementAt(0))).intValue();
-        int n1 = (((Integer)elementCount(var).elementAt(1))).intValue();
-        int n2 = (((Integer)elementCount(var).elementAt(2))).intValue();
+        int n0 = (((Integer)elementCount(var).elementAt(0)));
+        int n1 = (((Integer)elementCount(var).elementAt(1)));
+        int n2 = (((Integer)elementCount(var).elementAt(2)));
         double [][][][] data = new double[numberOfValues][n0][n1][n2];
         double [] fill = (double[])getFillValue(thisCDF, var);
         double fillValue = (fill[0] != 0)?Double.NaN:fill[1];
@@ -2166,7 +2166,7 @@ public class Extractor {
       */
     public static double[][][] getPoint3(CDFImpl thisCDF, Variable var,
         Integer pt) throws Throwable {
-        int point = pt.intValue();
+        int point = pt;
         int type = var.getType();
         int itemSize = var.getDataItemSize();
         Vector locations =
@@ -2179,9 +2179,9 @@ public class Extractor {
                 (int)(loc[1] - loc[0] + 1));
             int pos = bv.position() + (point - (int)loc[0])*itemSize;
             bv.position(pos);
-            int n0 = (((Integer)elementCount(var).elementAt(0))).intValue();
-            int n1 = (((Integer)elementCount(var).elementAt(1))).intValue();
-            int n2 = (((Integer)elementCount(var).elementAt(2))).intValue();
+            int n0 = (((Integer)elementCount(var).elementAt(0)));
+            int n1 = (((Integer)elementCount(var).elementAt(1)));
+            int n2 = (((Integer)elementCount(var).elementAt(2)));
             double [][][] da = new double[n0][n1][n2];
             Method method;
             switch (DataTypes.typeCategory[type]) {
@@ -2861,7 +2861,7 @@ public class Extractor {
             throw new Throwable("Only scalar variables of type int8 " +
               "are supported at this time.");
         }
-        int element = idx.intValue();
+        int element = idx;
         int numberOfValues = var.getNumberOfValues();
         if (numberOfValues == 0) return null;
         if (!var.recordVariance()) numberOfValues = 1;
@@ -2966,9 +2966,9 @@ public class Extractor {
     }
     public static Object getRange0(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend, Stride strideObject) throws Throwable {
-        int begin = istart.intValue();
+        int begin = istart;
         if (begin < 0) throw new Throwable("getRange0 start < 0");
-        int end = iend.intValue();
+        int end = iend;
         int numberOfValues = var.getNumberOfValues();
         if (end > numberOfValues) {
             throw new Throwable("getRange0 end > available " + numberOfValues);
@@ -3005,8 +3005,8 @@ public class Extractor {
             Object[] oa = positionBuffer((CDFImpl)thisCDF, var, blks, blk,
                 begin, end);
             ByteBuffer bv = (ByteBuffer)oa[0];
-            int first = ((Integer)oa[1]).intValue();
-            int last = ((Integer)oa[2]).intValue() - first;
+            int first = ((Integer)oa[1]);
+            int last = ((Integer)oa[2]) - first;
             int n;
             if (_stride > 1) {
                 if (blk > firstBlock) {
@@ -3078,10 +3078,10 @@ public class Extractor {
     public static Object getRangeForElement1(CDFImpl thisCDF, Variable var,
         Integer istart, Integer iend, Integer ielement, Stride strideObject)
         throws Throwable {
-        int element = ielement.intValue();
+        int element = ielement;
         if (!validElement(var, new int[] {element})) return null;
-        int begin = istart.intValue();
-        int end = iend.intValue();
+        int begin = istart;
+        int end = iend;
         int numberOfValues = var.getNumberOfValues();
         if (end > numberOfValues) {
             throw new Throwable("getRange0 end > available " + numberOfValues);
@@ -3122,8 +3122,8 @@ public class Extractor {
             Object[] oa = positionBuffer((CDFImpl)thisCDF, var, blks, blk,
                 begin, end);
             ByteBuffer bv = (ByteBuffer)oa[0];
-            int first = ((Integer)oa[1]).intValue();
-            int last = ((Integer)oa[2]).intValue();
+            int first = ((Integer)oa[1]);
+            int last = ((Integer)oa[2]);
             int pos = bv.position() + loff;
             int n = first;
             if (_stride > 1) {

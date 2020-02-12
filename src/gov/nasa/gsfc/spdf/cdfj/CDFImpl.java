@@ -619,7 +619,7 @@ import java.util.zip.*;
                     }
                 } else {
                     for (int i = 0; i < numberOfElements; i++) {
-                        ba[i] = ((Byte)_padValue).byteValue();
+                        ba[i] = ((Byte)_padValue);
                     }
                 }
                 _padValue = new String(ba);
@@ -637,7 +637,7 @@ import java.util.zip.*;
                     if (padValueSpecified()) {
                         lpad[0] = ((long[])_padValue)[0];
                     } else {
-                        lpad[0] = ((Long)_padValue).longValue();
+                        lpad[0] = ((Long)_padValue);
                     }
                     for (int i = 1; i < padValueSize; i++) {
                         lpad[i] = lpad[0];
@@ -648,7 +648,7 @@ import java.util.zip.*;
                     if (padValueSpecified()) {
                         dpad[0] = ((double[])_padValue)[0];
                     } else {
-                        dpad[0] = ((Double)_padValue).doubleValue();
+                        dpad[0] = ((Double)_padValue);
                     }
                     for (int i = 1; i < padValueSize; i++) {
                         dpad[i] = dpad[0];
