@@ -748,22 +748,22 @@ public class GenericReader extends MetaData {
         if (cl == null) throw new Throwable("Invalid type " + type);
         BaseVarContainer container = null;
         Variable var = thisCDF.getVariable(varName);
-        if (type == "float") {
+        if ("float".equals(type)) {
             container = new FloatVarContainer(thisCDF, var, range, preserve);
         }
-        if (type == "double") {
+        if ("double".equals(type)) {
             container = new DoubleVarContainer(thisCDF, var, range, preserve);
         }
-        if (type == "int") {
+        if ("int".equals(type)) {
             container = new IntVarContainer(thisCDF, var, range, preserve);
         }
-        if (type == "short") {
+        if ("short".equals(type)) {
             container = new ShortVarContainer(thisCDF, var, range, preserve);
         }
-        if (type == "byte") {
+        if ("byte".equals(type)) {
             container = new ByteVarContainer(thisCDF, var, range);
         }
-        if (type == "long") {
+        if ("long".equals(type)) {
             container = new LongVarContainer(thisCDF, var, range);
         }
 /*
@@ -845,11 +845,11 @@ public class GenericReader extends MetaData {
         }
     }
 
-    private static final boolean coreNeeded(Variable var) {
+    private static boolean coreNeeded(Variable var) {
         return var.isMissingRecords();
     }
 
-    private static final boolean coreNeeded(Variable var, int[] range) {
+    private static boolean coreNeeded(Variable var, int[] range) {
         int[] available = var.getRecordRange();
         if (range.length == 1) {
             if (range[0] >= available[0]) {

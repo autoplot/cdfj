@@ -130,7 +130,7 @@ public class DataContainer {
         int last = -1;
         if (!done && (buf != null)) {
             if (recordRange == null) {
-                npt = buf.remaining()/DataTypes.size[vdr.dataType];;
+                npt = buf.remaining()/DataTypes.size[vdr.dataType];
                 npt /= vdr.itemsPerPoint;
                 last = first + npt -1;
             } else {

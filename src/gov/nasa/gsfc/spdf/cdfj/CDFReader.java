@@ -204,8 +204,7 @@ public class CDFReader extends GenericReader {
     }
     boolean overlaps(double[] t) {
         if (t[0] == Double.MIN_VALUE) return false;
-        if (t[0] == Double.MAX_VALUE) return false;
-        return true;
+        return t[0] != Double.MAX_VALUE;
     }
 
     /**

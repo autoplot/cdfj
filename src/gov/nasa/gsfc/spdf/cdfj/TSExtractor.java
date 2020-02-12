@@ -584,7 +584,7 @@ public class TSExtractor extends Extractor {
     public static double[] getOverlap(MetaData rdr, double[] trange,
         String varName,
         int[] startTime, int[] stopTime) throws Throwable {
-        double[] overlap = new double[] {Double.MIN_VALUE, Double.MAX_VALUE};;
+        double[] overlap = new double[] {Double.MIN_VALUE, Double.MAX_VALUE};
         if (startTime != null) {
             if (startTime.length < 3) throw new Throwable("incomplete start" +
                 " time " + "definition.");

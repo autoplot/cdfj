@@ -862,7 +862,7 @@ import java.util.zip.*;
          * Returns effective dimensions
          */
         public int[] getEffectiveDimensions() {
-            int rank = getEffectiveRank();;
+            int rank = getEffectiveRank();
             if (rank == 0) return new int[0];
             int[] edim = new int[rank];
             int n = 0;

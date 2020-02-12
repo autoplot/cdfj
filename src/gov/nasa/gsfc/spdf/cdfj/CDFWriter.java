@@ -13,7 +13,7 @@ public class CDFWriter extends GenericWriter {
     Hashtable variableMap = new Hashtable();
     Hashtable gamap = new Hashtable();
     SelectedVariableCollection vcol = new Selector();
-    static Logger anonymousLogger = Logger.getAnonymousLogger();
+    static final Logger anonymousLogger = Logger.getAnonymousLogger();
     static Logger logger = Logger.getLogger("cdfj.cdfwriter");
     static List<String> doNotCheckListGlobal = new ArrayList<String>();
     static {
@@ -598,9 +598,7 @@ public class CDFWriter extends GenericWriter {
                 }
                 if (!found) {
                     if (!doNotCheckListGlobal.contains(gan[a])) {
-                        logger.fine("Global attribute " +
-                        "entry for attribute " + gan[a] + " not in base," +
-                        " or differs from the value in base.");
+                        logger.log(Level.FINE, "Global attribute entry for attribute {0} not in base, or differs from the value in base.", gan[a]);
                     }
                 }
             }
@@ -624,9 +622,7 @@ public class CDFWriter extends GenericWriter {
                     found |= _entry.isSameAs(entry);
                     if (found) break;
                 }
-                if (!found) logger.fine("Attribute " +
-                "entry for attribute " + anames[i] + " for variable " +
-                vn + " not in base.");
+                if (!found) logger.log(Level.FINE, "Attribute entry for attribute {0} for variable {1} not in base.", new Object[]{anames[i], vn});
             }
         }
     }

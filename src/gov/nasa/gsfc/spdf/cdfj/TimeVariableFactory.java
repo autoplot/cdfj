@@ -346,8 +346,7 @@ public class TimeVariableFactory {
         }
         public boolean isTT2000() {return false;}
         public boolean canSupportPrecision(TimePrecision tp) {
-            if (tp == TimePrecision.MILLISECOND) return true;
-            return false;
+            return tp == TimePrecision.MILLISECOND;
         }
     }
     public static class CDFTT2000Variable extends CDFTimeVariable {
@@ -419,8 +418,7 @@ public class TimeVariableFactory {
         }
         public boolean isTT2000() {return true;}
         public boolean canSupportPrecision(TimePrecision tp) {
-            if (tp == TimePrecision.PICOSECOND) return false;
-            return true;
+            return tp != TimePrecision.PICOSECOND;
         }
     }
     public static class CDFEpoch16Variable extends CDFTimeVariable {
@@ -580,8 +578,7 @@ public class TimeVariableFactory {
         public boolean isTT2000() {return false;}
         public boolean canSupportPrecision(TimePrecision tp) {
             if (tp == TimePrecision.MICROSECOND) return true;
-            if (tp == TimePrecision.MILLISECOND) return true;
-            return false;
+            return tp == TimePrecision.MILLISECOND;
         }
     }
 

@@ -53,9 +53,9 @@ public class ByteVarContainer extends BaseVarContainer implements
         byte[] ba = new byte[rem*elements];
         int n = 0;
         for (int i = 0; i < rem; i++) {
-            ba[n++] = repl[0];;
+            ba[n++] = repl[0];
             for (int j = 1; j < repl.length; j++) {
-                ba[n++] = repl[j];;
+                ba[n++] = repl[j];
             }
         }
         buf.put(ba, 0, rem*elements);
@@ -69,14 +69,11 @@ public class ByteVarContainer extends BaseVarContainer implements
     }
 
     public static boolean isCompatible(int type, boolean preserve) {
-        if  (isCompatible(type, preserve, Byte.TYPE)) {
 /*
-            boolean stringType = DataTypes.isStringType(type);
-            if (stringType) return false;
-*/
-            return true;
-        }
-        return false;
+        boolean stringType = DataTypes.isStringType(type);
+        if (stringType) return false;
+         */ 
+        return isCompatible(type, preserve, Byte.TYPE);
     }
 
     public Object _asArray() throws Throwable {

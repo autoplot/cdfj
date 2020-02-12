@@ -10,8 +10,7 @@ public final class StringVarContainer extends ByteVarContainer implements
     public static boolean isCompatible(int type, boolean preserve) {
         if  (isCompatible(type, preserve, Byte.TYPE)) {
             boolean stringType = DataTypes.isStringType(type);
-            if (!stringType) return false;
-            return true;
+            return stringType;
         }
         return false;
     }

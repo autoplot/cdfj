@@ -358,14 +358,12 @@ public abstract class BaseVarContainer implements Runnable {
             if (type > 50) return false;
             if ((type == 1) || (type == 41) || (type == 2)) return true;
             if (type == 11) return true;
-            if ((type == 12) && !preserve) return true;
-            return false;
+            return (type == 12) && !preserve;
         }
         if (cl == Byte.TYPE) {
             if (preserve) {
                 if ((type == 1) || (type == 41) || (type == 11)) return true;
-                if (type > 50) return true;
-                return false;
+                return type > 50;
             }
             return true;
         }
@@ -390,7 +388,7 @@ public abstract class BaseVarContainer implements Runnable {
     int getLength() {
         if (_class == Long.TYPE) return 8;
         if (_class == Double.TYPE) return 8;
-        if (_class == Float.TYPE) return 4;;
+        if (_class == Float.TYPE) return 4;
         if (_class == Integer.TYPE) return 4;
         if (_class == Short.TYPE) return 2;
         if (_class == Byte.TYPE) return 1;

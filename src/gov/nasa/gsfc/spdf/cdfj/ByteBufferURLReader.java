@@ -91,7 +91,6 @@ public class ByteBufferURLReader {
     public void transfer() throws IOException {
         _read(buffer);
         cacheFileChannel.write(buffer);
-        return;
     }
 
     private void _read(ByteBuffer buffer) throws IOException {
