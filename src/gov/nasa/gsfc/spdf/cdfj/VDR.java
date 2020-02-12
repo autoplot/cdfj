@@ -220,7 +220,7 @@ public class VDR {
             itemsPerPoint = 2;
             zNumDims = 0;
         }
-        efdim = new Vector<Integer>();
+        efdim = new Vector<>();
         if (zNumDims == 0) return;
         for (int i = 0; i < dim.length; i++) {
             if (varys[i]) itemsPerPoint *= dim[i];

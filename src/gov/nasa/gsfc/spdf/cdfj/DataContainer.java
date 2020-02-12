@@ -7,10 +7,10 @@ import java.util.zip.*;
 public class DataContainer {
     VDR vdr;
     VXR vxr;
-    Vector<Integer> firstRecords = new Vector<Integer>();
-    Vector<Integer> lastRecords = new Vector<Integer>();
-    Vector<ByteBuffer> bufs = new Vector<ByteBuffer>();
-    Vector<Integer> points = new Vector<Integer>();
+    Vector<Integer> firstRecords = new Vector<>();
+    Vector<Integer> lastRecords = new Vector<>();
+    Vector<ByteBuffer> bufs = new Vector<>();
+    Vector<Integer> points = new Vector<>();
     protected long position;
     static final int VVR_PREAMBLE = 12;
     static final int CVVR_PREAMBLE = 24;
@@ -158,7 +158,7 @@ public class DataContainer {
             }
             Vector<Integer> vdim = null;
             if (vdr.dataType == 32) {
-                vdim = new Vector<Integer>();
+                vdim = new Vector<>();
                 vdim.add(2);
             } else {
                 vdim = vdr.efdim;
@@ -369,9 +369,9 @@ public class DataContainer {
         }
         vdr.setVXRHead(position + size);
         
-        _firstRecords = new Vector<Integer>();
-        _lastRecords = new Vector<Integer>();
-        _bufs = new Vector<ByteBuffer>();
+        _firstRecords = new Vector<>();
+        _lastRecords = new Vector<>();
+        _bufs = new Vector<>();
         if (timeContainer == null) {
             int nbuf = 0;
             while (nbuf < bufs.size()) {

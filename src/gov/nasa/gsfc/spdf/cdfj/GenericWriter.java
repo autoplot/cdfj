@@ -10,11 +10,11 @@ import java.security.MessageDigest;
  * which includes user selected data from existing CDFs.
  */
 public class GenericWriter {
-    LinkedHashMap<String, ADR> attributes = new LinkedHashMap<String, ADR>();
+    LinkedHashMap<String, ADR> attributes = new LinkedHashMap<>();
     LinkedHashMap<String, Vector<AEDR>> attributeEntries = 
-        new LinkedHashMap<String, Vector<AEDR>>();
+        new LinkedHashMap<>();
     LinkedHashMap<String, VDR> variableDescriptors =
-        new LinkedHashMap<String, VDR>();
+        new LinkedHashMap<>();
     int lastLeapSecondId = -1;
     CDR cdr = new CDR();
     GDR gdr = new GDR();
@@ -69,7 +69,7 @@ public class GenericWriter {
         ADR adr = getAttribute(name, true);
         Vector<AEDR> values = attributeEntries.get(name);
         if (values == null) {
-            values = new Vector<AEDR>();
+            values = new Vector<>();
             attributeEntries.put(name, values);
         }
         GlobalAttributeEntry gae;
@@ -99,7 +99,7 @@ public class GenericWriter {
             " has not been defined.");
         }
         Vector<VariableAttributeEntry> result =
-            new Vector<VariableAttributeEntry>();
+            new Vector<>();
         Vector<AEDR> entries = attributeEntries.get(aname);
         if (entries == null) return result;
         for (int i = 0; i < entries.size(); i++) {
@@ -194,7 +194,7 @@ public class GenericWriter {
         currentEntries = findVariableAttributeEntries(vname, aname);
         if (currentEntries.size() == 0) {
             if (!attributeEntries.containsKey(aname)) {
-                attributeEntries.put(aname, new Vector<AEDR>());
+                attributeEntries.put(aname, new Vector<>());
             }
         } else {
             if (value.getClass() != String.class) {
@@ -358,7 +358,7 @@ public class GenericWriter {
     }
 
     LinkedHashMap<String, DataContainer> dataContainers =
-        new LinkedHashMap<String, DataContainer>();
+        new LinkedHashMap<>();
 
     /**
      * Adds an NRV record of string type.

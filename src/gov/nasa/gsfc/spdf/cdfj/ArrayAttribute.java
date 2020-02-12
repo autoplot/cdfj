@@ -1,7 +1,7 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.util.*;
 public class ArrayAttribute {
-    Vector<Integer> dim = new Vector<Integer>();
+    Vector<Integer> dim = new Vector<>();
     Class<?> cl;
     Object o;
     public ArrayAttribute(Object data) throws Throwable {

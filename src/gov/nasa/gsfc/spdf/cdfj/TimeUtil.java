@@ -71,8 +71,8 @@ public class TimeUtil {
             "Using existing table for version 3.6");
         }
 */
-        Vector<Long> times = new Vector<Long>();
-        Vector<Integer> ids = new Vector<Integer>();
+        Vector<Long> times = new Vector<>();
+        Vector<Integer> ids = new Vector<>();
         for (int i = 0; i < transition.length; i++) {
             if (transition[i][0]) {
                 times.add(Date.UTC(70 + i, 5, 30, 23, 59, 59));

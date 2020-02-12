@@ -51,7 +51,7 @@ public class ByteBufferURLReader {
     }
 
     public ByteBuffer getBuffer() throws IOException {
-        Vector<ByteBuffer> buffers = new Vector<ByteBuffer>();
+        Vector<ByteBuffer> buffers = new Vector<>();
         while (!eof) {
             if (cacheFileChannel == null) {
                 buffers.add(read());

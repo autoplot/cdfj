@@ -558,7 +558,7 @@ public class CDFWriter extends GenericWriter {
     }
 
     List getTimeVariableList(GenericReader cdf) {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         String[] vnames = vcol.getNames();
         for (String vname : vnames) {
             String tvar;
@@ -719,9 +719,9 @@ public class CDFWriter extends GenericWriter {
     }
 
     static class Selector implements SelectedVariableCollection {
-        HashMap<String, Boolean> map = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> map = new HashMap<>();
         HashMap<String, SparseRecordOption> smap = 
-           new HashMap<String, SparseRecordOption>();
+           new HashMap<>();
         @Override
         public void add(String vname, boolean compression) {
             map.put(vname, compression);
