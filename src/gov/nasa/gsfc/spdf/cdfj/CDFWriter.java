@@ -78,7 +78,7 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = null;
         try {
             cdf = new GenericReader(url);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         try {
@@ -112,7 +112,7 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = getFileReader(fname);
         try {
             _addCDF(cdf, variableNames(cdf, col));
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError | CDFException.WriterError th) {
             throw new CDFException.WriterError(th.getMessage());
         }
     }
@@ -145,12 +145,12 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = null;
         try {
             cdf = new GenericReader(url);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         try {
             _addCDF(cdf, variableNames(cdf, col));
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError | CDFException.WriterError th) {
             throw new CDFException.WriterError(th.getMessage());
         }
     }
@@ -216,7 +216,7 @@ public class CDFWriter extends GenericWriter {
 
                 cdf = new GenericReader(fname);
             }
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         return cdf;
@@ -241,7 +241,7 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = null;
         try {
             cdf = new GenericReader(url);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         try {
@@ -273,7 +273,7 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = getFileReader(fname);
         try {
             _addCDF(cdf, variableNames(cdf, col));
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError | CDFException.WriterError th) {
             throw new CDFException.WriterError(th.getMessage());
         }
     }
@@ -303,12 +303,12 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = null;
         try {
             cdf = new GenericReader(url);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         try {
             _addCDF(cdf, variableNames(cdf, col));
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError | CDFException.WriterError th) {
             throw new CDFException.WriterError(th.getMessage());
         }
     }
@@ -344,7 +344,7 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = null;
         try {
             cdf = new GenericReader(url);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         addCDF(cdf);
@@ -403,7 +403,7 @@ public class CDFWriter extends GenericWriter {
             Vector entries = null;
             try {
                 entries = cdf.getAttributeEntries(gan1);
-            }catch (Throwable th) {
+            }catch (CDFException.ReaderError th) {
                 throw new CDFException.ReaderError(th.getMessage());
             }
             gamap.put(gan1, entries);
@@ -444,7 +444,7 @@ public class CDFWriter extends GenericWriter {
         defineVariable(vn, ctype, /*cdf.getDimensions(vn)*/dims,
             /*cdf.getVarys(vn)*/varys, cdf.recordVariance(vn), compressed,
             cdf.getPadValue(vn,true), cdf.getNumberOfElements(vn), sro);
-        } catch (Exception ex) {
+        } catch (CDFException.ReaderError | CDFException.WriterError ex) {
             ex.printStackTrace();
             throw new CDFException.WriterError("Failed to define " + vn);
         }
@@ -454,7 +454,7 @@ public class CDFWriter extends GenericWriter {
             Vector entries = null;
             try {
                 entries = cdf.getAttributeEntries(vn, aname);
-            }catch (Throwable th) {
+            }catch (CDFException.ReaderError th) {
                 throw new CDFException.ReaderError(th.getMessage());
             }
             amap.put(aname, entries);
@@ -539,7 +539,7 @@ public class CDFWriter extends GenericWriter {
                                 firstTime = cdf.getOneDArray(vn, "long",
                                         new int[]{0,0}, true, !rowMajority);
                             }
-                        } catch (Throwable th) {
+                        } catch (CDFException.ReaderError th) {
                             throw new CDFException.WriterError(th.getMessage());
                         }
                         if (!dc.timeOrderOK(firstTime)) {
@@ -580,7 +580,7 @@ public class CDFWriter extends GenericWriter {
             Vector entries = null;
             try {
                 entries = cdf.getAttributeEntries(gan1);
-            }catch (Throwable th) {
+            }catch (CDFException.ReaderError th) {
                 throw new CDFException.ReaderError(th.getMessage());
             }
             for (int e = 0; e < entries.size(); e++) {

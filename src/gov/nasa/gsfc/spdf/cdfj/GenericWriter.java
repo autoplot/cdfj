@@ -4,6 +4,7 @@ import java.nio.channels.*;
 import java.util.*;
 import java.io.*;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 /**
  * Base class for creating a version 3.6 CDF.
  * Derived class CDFWriter provides methods for creating a CDF
@@ -987,7 +988,7 @@ public class GenericWriter {
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("MD5");
-        } catch (Exception nsa) {
+        } catch (NoSuchAlgorithmException nsa) {
             nsa.printStackTrace();
             return null;
         }
@@ -1125,7 +1126,7 @@ public class GenericWriter {
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("MD5");
-        } catch (Exception nsa) {
+        } catch (NoSuchAlgorithmException nsa) {
             nsa.printStackTrace();
             return;
         }

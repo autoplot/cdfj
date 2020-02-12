@@ -93,7 +93,7 @@ public final class DataTypes {
             typeCategory[41] = SIGNED_INTEGER;
             typeCategory[51] = STRING;
             typeCategory[52] = STRING;
-        } catch (Exception ex) {
+        } catch (NoSuchMethodException | SecurityException ex) {
         }
         for (int i = 0; i < LAST_TYPE; i++) {
             if (size[i] <= 4) longInt[i] = ((long)1) << 8*size[i];
@@ -106,7 +106,7 @@ public final class DataTypes {
                 new Class[] {ByteBuffer.class, Integer.class});
             method[51] = meth;
             method[52] = meth;
-        } catch (Exception ex) {
+        } catch (NoSuchMethodException | SecurityException ex) {
         }
     }
     public static String getString(ByteBuffer buf, Integer nc)  {

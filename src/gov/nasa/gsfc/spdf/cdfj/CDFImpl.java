@@ -1,5 +1,6 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -1688,7 +1689,7 @@ import java.util.zip.*;
                     value[i] = (n >= 0)?(double)n:(double)(longInt + n);
                 }
             }
-        } catch(Exception ex) {
+        } catch(IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             System.out.println("getNumberAttribute: " + vbuf);
             System.out.println("type: " + type);
             ex.printStackTrace();

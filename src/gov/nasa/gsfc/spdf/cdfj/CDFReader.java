@@ -473,7 +473,7 @@ public class CDFReader extends GenericReader {
             Vector attr = 
                (Vector)getAttribute(varName, "DEPEND_" + (1 + index));
             return (String)attr.get(0);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
     }

@@ -175,7 +175,7 @@ public class GenericReader extends MetaData {
                     ndim + "(" + varName + ") for " + ndim +
                     "-dimensional variable " + varName);
             return (double[][])get(varName);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
     }
@@ -196,7 +196,7 @@ public class GenericReader extends MetaData {
                     ndim + "(" + varName + ") for " + ndim +
                     "-dimensional variable " + varName);
             return (double[][][])get(varName);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
     }
@@ -217,7 +217,7 @@ public class GenericReader extends MetaData {
                     ndim + "(" + varName + ") for " + ndim +
                     "-dimensional variable " + varName);
             return (double[][][][])get(varName);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
     }

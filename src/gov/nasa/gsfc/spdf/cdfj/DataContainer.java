@@ -459,7 +459,7 @@ public class DataContainer {
                         _bufs.setElementAt(b, nbuf);
                         int len = CVVR_PREAMBLE + b.limit();
                         size += len;
-                    } catch (Exception ex) {
+                    } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                     nbuf++;
