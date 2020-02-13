@@ -1,18 +1,25 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.util.*;
-import java.io.*;
-import java.net.*;
 import java.text.*;
+
+/**
+ *
+ * @author nand
+ */
 public class TimeUtil {
     static final long[] jtimes;
     static final int[] leapSecondIds;
     static final long[] tt_times;;
-    static final int highest;
+    static final int HIGHEST;
     static SimpleDateFormat sdf =
         new SimpleDateFormat("y'-'M'-'dd'T'HH:mm:ss.SSS");
+
+    /**
+     *
+     */
     public static final long TT_JANUARY_1_1970 = -946727957816000000l;
     static final long JANUARY_1_1972 = Date.UTC(72,0,1,0,0,0);
-    static final int lastLeapSecondId;
+    static final int LAST_LEAP_SECOND_ID;
     static {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         boolean[][] transition = new boolean[100][2];
@@ -73,35 +80,40 @@ public class TimeUtil {
             "Using existing table for version 3.6");
         }
 */
-        Vector<Long> times = new Vector<Long>();
-        Vector<Integer> ids = new Vector<Integer>();
+        Vector<Long> times = new Vector<>();
+        Vector<Integer> ids = new Vector<>();
         for (int i = 0; i < transition.length; i++) {
             if (transition[i][0]) {
-                times.add(new Long(Date.UTC(70 + i, 5, 30, 23, 59, 59)));
-                ids.add(new Integer((1970 + i)*10000 + 701));
+                times.add(Date.UTC(70 + i, 5, 30, 23, 59, 59));
+                ids.add((1970 + i)*10000 + 701);
             }
             if (transition[i][1]) {
-                times.add(new Long(Date.UTC(70 + i, 11, 31, 23, 59, 59)));
-                ids.add(new Integer((1971 + i)*10000 + 101));
+                times.add(Date.UTC(70 + i, 11, 31, 23, 59, 59));
+                ids.add((1971 + i)*10000 + 101);
             }
         }
         jtimes = new long[times.size()];
         tt_times = new long[times.size()];
         leapSecondIds = new int[times.size()];
         for (int i = 0; i < jtimes.length; i++) {
-            jtimes[i] = times.get(i).longValue();
-            leapSecondIds[i] = ids.get(i).intValue();
+            jtimes[i] = times.get(i);
+            leapSecondIds[i] = ids.get(i);
             try {
                 tt_times[i] = tt2000(jtimes[i]);
             } catch (Throwable t) {
                 System.out.println("Internal error.");
             }
         }
-        highest = 1000*jtimes.length;
-        lastLeapSecondId = leapSecondIds[leapSecondIds.length - 1];
+        HIGHEST = 1000*jtimes.length;
+        LAST_LEAP_SECOND_ID = leapSecondIds[leapSecondIds.length - 1];
     }
 
-
+    /**
+     *
+     * @param l
+     * @return
+     * @throws Throwable
+     */
     public static double getOffset(long l) throws Throwable {
         if (l < JANUARY_1_1972) throw new Throwable("Times before " +
             "January 1, 1972 are not supported at present");
@@ -119,7 +131,7 @@ public class TimeUtil {
                 }
                 i++;
             }
-            if (start < 0) start = (double)(l + highest);
+            if (start < 0) start = (double)(l + HIGHEST);
         }
         return start;
     }
@@ -127,6 +139,9 @@ public class TimeUtil {
     /**
      * converts a Date to number of milliseconds since 1970 (corrected for
      * leap seconds
+     * @param d
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static double milliSecondSince1970(Date d) throws Throwable {
         return milliSecondSince1970(d.getTime());
@@ -135,6 +150,9 @@ public class TimeUtil {
     /**
      * corrects (java Date returned) number of milliseconds since 1970 for
      * leap seconds
+     * @param javaMilliSecond
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static double milliSecondSince1970(long javaMilliSecond) throws
         Throwable {
@@ -152,6 +170,9 @@ public class TimeUtil {
     /**
      * returns tt2000 for
      * (java Date returned) number of milliseconds since 1970
+     * @param l
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static long tt2000(long l) throws Throwable {
         return  TT_JANUARY_1_1970 + 1000000*(long)milliSecondSince1970(l);
@@ -159,6 +180,9 @@ public class TimeUtil {
 
     /**
      * returns tt2000 for a Date
+     * @param d
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static long tt2000(Date d) throws Throwable {
         return  TT_JANUARY_1_1970 + 1000000*(long)milliSecondSince1970(d);
@@ -168,6 +192,9 @@ public class TimeUtil {
     /**
      * returns number of milliseconds since 1970 for given time ignoring
      * leap seconds
+     * @param time
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static long milliSecondSince1970(int[] time) throws Throwable {
         return milliSecondSince1970(time, false);
@@ -222,6 +249,9 @@ public class TimeUtil {
     }
     /**
      * returns tt2000 for the given time
+     * @param time
+     * @return 
+     * @throws java.lang.Throwable 
      */
     public static long tt2000(int[] time) throws Throwable {
         long msec = milliSecondSince1970(time, true);
@@ -232,11 +262,22 @@ public class TimeUtil {
         return adjust + tt2000(msec) + time[7]*1000 + time[8];
     }
         
+    /**
+     *
+     */
     public static class Validator {
+
+        /**
+         *
+         * @param varTime
+         * @param leapId
+         * @return
+         * @throws Throwable
+         */
         public static long correctedIfNecessary(long varTime, int leapId) throws
             Throwable {
-            if (leapId == lastLeapSecondId) return varTime;
-            if (leapId < lastLeapSecondId) { //
+            if (leapId == LAST_LEAP_SECOND_ID) return varTime;
+            if (leapId < LAST_LEAP_SECOND_ID) { //
                 int id = -1;
                 for (int i = (leapSecondIds.length - 1); i >= 0; i--) {
                     if (leapId == leapSecondIds[i]) {

@@ -1,11 +1,27 @@
 package gov.nasa.gsfc.spdf.cdfj;
 //import gov.nasa.gsfc.spdf.common.*;
 import java.nio.*;
-import java.util.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public final class FloatVarContainer extends BaseVarContainer implements
     VDataContainer.CFloat {
     final float[] fpad;
+
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @param bo
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public FloatVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve, ByteOrder bo) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -22,22 +38,40 @@ public final class FloatVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public FloatVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve) throws IllegalAccessException,
         InvocationTargetException, Throwable {
         this(thisCDF, var, pt, preserve, ByteOrder.nativeOrder());
     }
 
+    @Override
     ByteBuffer allocateBuffer(int words) {
         ByteBuffer _buf = ByteBuffer.allocateDirect(4*words);
         _buf.order(order);
         return _buf;
     }
 
+    /**
+     *
+     * @param size
+     * @return
+     */
+    @Override
     public Object allocateDataArray(int size) {
         return new float[size];
     }
 
+    @Override
     void doMissing(int records, ByteBuffer _buf, Object _data, int rec) {
         float[] data = (float[])_data;
         float[] repl = null;
@@ -68,6 +102,7 @@ public final class FloatVarContainer extends BaseVarContainer implements
         _buf.position(position);
     }
 
+    @Override
     void doData(ByteBuffer bv, int type, int elements, int toprocess,
         ByteBuffer _buf, Object _data) throws
         IllegalAccessException, InvocationTargetException {
@@ -164,10 +199,22 @@ public final class FloatVarContainer extends BaseVarContainer implements
             break;
         }
     }
+
+    /**
+     *
+     * @param type
+     * @param preserve
+     * @return
+     */
     public static boolean isCompatible(int type, boolean preserve) {
         return isCompatible(type, preserve, Float.TYPE);
     }
 
+    /**
+     *
+     * @return
+     * @throws Throwable
+     */
     public Object _asArray() throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank > 4) throw new Throwable("Rank > 4 not supported yet.");
@@ -182,14 +229,14 @@ public final class FloatVarContainer extends BaseVarContainer implements
             _buf.get(_a0);
             return (singlePoint)?new Float(_a0[0]):_a0;
         case 1:
-            int n = (((Integer)var.getElementCount().elementAt(0))).intValue();
+            int n = (((Integer)var.getElementCount().elementAt(0)));
             records = words/n;
             float[][] _a1 = new float[records][n];
             for (int r = 0; r < records; r++) _buf.get(_a1[r]);
             return (singlePoint)?_a1[0]:_a1;
         case 2:
-            int n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            int n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
+            int n0 = (((Integer)var.getElementCount().elementAt(0)));
+            int n1 = (((Integer)var.getElementCount().elementAt(1)));
             records = words/(n0*n1);
             float[][][] _a2 = new float[records][n0][n1];
             if (var.rowMajority()) {
@@ -207,9 +254,9 @@ public final class FloatVarContainer extends BaseVarContainer implements
             }
             return (singlePoint)?_a2[0]:_a2;
         case 3:
-            n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
-            int n2 = (((Integer)var.getElementCount().elementAt(2))).intValue();
+            n0 = (((Integer)var.getElementCount().elementAt(0)));
+            n1 = (((Integer)var.getElementCount().elementAt(1)));
+            int n2 = (((Integer)var.getElementCount().elementAt(2)));
             records = words/(n0*n1*n2);
             float[][][][] _a3 = new float[records][n0][n1][n2];
             if (var.rowMajority()) {
@@ -233,10 +280,10 @@ public final class FloatVarContainer extends BaseVarContainer implements
             }
             return (singlePoint)?_a3[0]:_a3;
         case 4:
-            n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
-            n2 = (((Integer)var.getElementCount().elementAt(2))).intValue();
-            int n3 = (((Integer)var.getElementCount().elementAt(3))).intValue();
+            n0 = (((Integer)var.getElementCount().elementAt(0)));
+            n1 = (((Integer)var.getElementCount().elementAt(1)));
+            n2 = (((Integer)var.getElementCount().elementAt(2)));
+            int n3 = (((Integer)var.getElementCount().elementAt(3)));
             records = words/(n0*n1*n2*n3);
             float[][][][][] _a4 = new float[records][n0][n1][n2][n3];
             if (var.rowMajority()) {
@@ -267,6 +314,15 @@ public final class FloatVarContainer extends BaseVarContainer implements
             throw new Throwable("Internal error");
         }
     }
+
+    /**
+     *
+     * @param array
+     * @param offset
+     * @param first
+     * @param last
+     * @throws Throwable
+     */
     public void fillArray(float[] array, int offset, int first, int last)
         throws Throwable {
         if (buffers.size() == 0) throw new Throwable("buffer not available");
@@ -276,11 +332,26 @@ public final class FloatVarContainer extends BaseVarContainer implements
         b.position(pos);
         b.asFloatBuffer().get(array, offset, words);
     }
+    @Override
     public float[] as1DArray() {return (float[])super.as1DArray();}
+
+    /**
+     *
+     * @return
+     */
+    @Override
     public float[] asOneDArray() {return (float[])super.asOneDArray(true);}
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
+    @Override
     public float[] asOneDArray(boolean cmtarget) {
         return (float[])super.asOneDArray(cmtarget);
     }
+    @Override
     public FloatArray asArray() throws Throwable {
         return new FloatArray(_asArray());
     }

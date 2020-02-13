@@ -1,22 +1,36 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.net.*;
 import java.io.*;
-import java.nio.*;
 import java.util.*;
 import java.util.zip.*;
 import java.nio.channels.FileChannel;
 import java.nio.ByteBuffer;
 /**
+ * @author nand
 */
 public class ByteBufferURLReader {
     InputStream is;
     boolean eof = false;
+
+    /**
+     *
+     */
     public int total;
+
+    /**
+     *
+     */
     public int len = -1;
     Chunk chunk = new Chunk();
     byte[] block = chunk.getBlock();
     FileChannel cacheFileChannel;
     ByteBuffer buffer;
+
+    /**
+     *
+     * @param url
+     * @throws IOException
+     */
     public ByteBufferURLReader(URL url) throws IOException {
         URLConnection con = url.openConnection();
         con.connect();
@@ -27,11 +41,24 @@ public class ByteBufferURLReader {
         if (gzipped) is = new GZIPInputStream(is);
     }
 
+    /**
+     *
+     * @param url
+     * @param chunk
+     * @throws IOException
+     */
     public ByteBufferURLReader(URL url, Chunk chunk) throws IOException {
         this(url);
         setChunk(chunk);
     }
 
+    /**
+     *
+     * @param url
+     * @param fc
+     * @param chunk
+     * @throws IOException
+     */
     public ByteBufferURLReader(URL url, FileChannel fileChannel, Chunk chunk)
         throws IOException {
         this(url, chunk);
@@ -39,6 +66,12 @@ public class ByteBufferURLReader {
         buffer = chunk.allocateBuffer();
     }
 
+    /**
+     *
+     * @param url
+     * @param fc
+     * @throws IOException
+     */
     public ByteBufferURLReader(URL url, FileChannel fileChannel) throws
         IOException {
         this(url);
@@ -46,13 +79,22 @@ public class ByteBufferURLReader {
         buffer = chunk.allocateBuffer();
     }
 
+    /**
+     *
+     * @param chunk
+     */
     public void setChunk(Chunk chunk) {
         this.chunk = chunk;
         block = chunk.getBlock();
     }
 
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
     public ByteBuffer getBuffer() throws IOException {
-        Vector<ByteBuffer> buffers = new Vector<ByteBuffer>();
+        Vector<ByteBuffer> buffers = new Vector<>();
         while (!eof) {
             if (cacheFileChannel == null) {
                 buffers.add(read());
@@ -83,16 +125,24 @@ public class ByteBufferURLReader {
         return ball.asReadOnlyBuffer();
     }
 
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
     public ByteBuffer read() throws IOException {
         ByteBuffer buf = chunk.allocateBuffer();
         _read(buf);
         return buf;
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void transfer() throws IOException {
         _read(buffer);
         cacheFileChannel.write(buffer);
-        return;
     }
 
     private void _read(ByteBuffer buffer) throws IOException {
@@ -130,14 +180,31 @@ public class ByteBufferURLReader {
         buffer.position(0);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean endOfFile() {return eof;}
 
+    /**
+     *
+     */
     public static class Chunk {
         int chunkSize = 1024*1024;
         int blockSize = 64*1024;
         int len = -1;
+
+        /**
+         *
+         */
         public Chunk() {}
 
+        /**
+         *
+         * @param i
+         * @param i1
+         * @throws Throwable
+         */
         public Chunk(int blockSize, int chunkSize) throws Throwable {
             if (chunkSize < blockSize) {
                 throw new Throwable("Chunk size must be >= block size");

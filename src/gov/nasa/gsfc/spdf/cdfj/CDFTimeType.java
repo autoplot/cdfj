@@ -30,10 +30,17 @@ public final class CDFTimeType {
     private CDFTimeType(int _type) {
         this._type = _type;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getValue() {return _type;}
 
     /**
      * Returns CDFTimeType of the named time type.
+     * @param s
+     * @return 
      */
     public static CDFTimeType getType(String s) {
         return ht.get(s.toLowerCase());

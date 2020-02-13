@@ -1,10 +1,6 @@
 package gov.nasa.gsfc.spdf.cdfj;
-import java.io.*;
 import java.nio.*;
-import java.util.*;
-import java.io.*;
 import java.nio.channels.*;
-import java.util.zip.*;
 final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
     public long GDROffset;
     FileChannel fc;
@@ -76,8 +72,8 @@ final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
         offset_NEXT_ADR = OFFSET_NEXT_ADR;
         offset_ATTR_NAME = ATTR_OFFSET_NAME;
         offset_SCOPE = OFFSET_SCOPE;
-        offset_AgrEDRHead = AgrEDRHead_OFFSET;
-        offset_AzEDRHead = AzEDRHead_OFFSET;
+        offset_AgrEDRHead = AGR_EDRHEAD_OFFSET;
+        offset_AzEDRHead = AZ_EDRHEAD_OFFSET;
         offset_NEXT_AEDR = OFFSET_NEXT_AEDR;
         offset_ENTRYNUM = OFFSET_ENTRYNUM;
         offset_ATTR_DATATYPE = ATTR_OFFSET_DATATYPE;
@@ -87,10 +83,10 @@ final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
         offset_VAR_NUM_ELEMENTS = VAR_OFFSET_NUM_ELEMENTS;
         offset_NUM = OFFSET_NUM;
         offset_FLAGS = OFFSET_FLAGS;
-        offset_sRecords = OFFSET_sRecords;
+        offset_sRecords = OFFSET_SRECORDS;
         offset_BLOCKING_FACTOR = OFFSET_BLOCKING_FACTOR;
         offset_VAR_DATATYPE = VAR_OFFSET_DATATYPE;
-        offset_zNumDims = OFFSET_zNumDims;
+        offset_zNumDims = OFFSET_Z_NUMDIMS;
         offset_FIRST_VXR = OFFSET_FIRST_VXR;
         offset_NEXT_VXR = OFFSET_NEXT_VXR;
         offset_NENTRIES = OFFSET_NENTRIES;
@@ -102,6 +98,7 @@ final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
         offset_CDATA = OFFSET_CDATA;
     }
 
+    @Override
     public String getString(long offset)  {
         if (fc == null) return getString(offset, MAX_STRING_SIZE);
         ByteBuffer _buf;
@@ -114,14 +111,17 @@ final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
         return getString(_buf, MAX_STRING_SIZE);
     }
 
+    @Override
     public int lowOrderInt(ByteBuffer buf) {
         return (int)buf.getLong();
     }
 
+    @Override
     public int lowOrderInt(ByteBuffer buf, int offset) {
         return (int)buf.getLong(offset);
     }
 
+    @Override
     protected ByteBuffer getRecord(long offset)  {
         if (fc == null) return super.getRecord(offset);
         ByteBuffer lenBuf = ByteBuffer.allocate(4);
@@ -150,6 +150,7 @@ final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
         return bb;
     }
 
+    @Override
     public long longInt(ByteBuffer buf) {
         return buf.getLong();
     }

@@ -1,5 +1,10 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
+
+/**
+ *
+ * @author nand
+ */
 public class VariableDataBuffer {
     int firstRecord;
     int lastRecord;
@@ -11,8 +16,28 @@ public class VariableDataBuffer {
         buffer = buf;
         compressed = comp;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getFirstRecord() {return firstRecord;}
+
+    /**
+     *
+     * @return
+     */
     public int getLastRecord() {return lastRecord;}
+
+    /**
+     *
+     * @return
+     */
     public ByteBuffer getBuffer() {return buffer;}
+
+    /**
+     *
+     * @return
+     */
     public boolean isCompressed() {return compressed;}
 }

@@ -1,12 +1,36 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
+
+/**
+ *
+ * @author nand
+ */
 public class FloatArray extends AArray {
+
+    /**
+     *
+     * @param o
+     * @throws Throwable
+     */
     public FloatArray(Object o) throws Throwable {
         super(o, true);
     }
+
+    /**
+     *
+     * @param o
+     * @param bln
+     * @throws Throwable
+     */
     public FloatArray(Object o, boolean majority) throws Throwable {
         super(o, majority);
     }
+
+    /**
+     *
+     * @return
+     */
+    @Override
     public Object array() {
         switch (dim) {
         case 1:
@@ -21,6 +45,14 @@ public class FloatArray extends AArray {
         return null;
     }
     
+    /**
+     *
+     * @param cl
+     * @param ignore
+     * @return
+     * @throws Throwable
+     */
+    @Override
     public ByteBuffer buffer(Class<?> cl, int ignore) throws Throwable {
         if (!(cl == Float.TYPE)) {
             throw new Throwable("Only float targets supported");

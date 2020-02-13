@@ -1,26 +1,26 @@
 package gov.nasa.gsfc.spdf.cdfj;
-import java.net.*;
-import java.io.*;
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.FileInputStream;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.security.cert.PKIXParameters;
-import java.security.cert.TrustAnchor;
-import java.security.cert.X509Certificate;
 
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.TrustManagerFactory;
+
+/**
+ *
+ * @author nand
+ */
 public class CDFUrl {
     static {
         String certificate =
@@ -59,14 +59,25 @@ public class CDFUrl {
             SSLContext sslContext = SSLContext.getInstance("TLS");
             sslContext.init(null, tmf.getTrustManagers(), null);
             SSLContext.setDefault(sslContext);
-        } catch (Exception e) {
+        } catch (IOException | KeyManagementException | KeyStoreException | NoSuchAlgorithmException | CertificateException e) {
             throw new RuntimeException(e);
         }
     }
     URL url;
+
+    /**
+     *
+     * @param url
+     */
     public CDFUrl(URL u) {
         url = u;
     }
+
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
     public URLConnection openConnection() throws IOException {
         return url.openConnection();
     }

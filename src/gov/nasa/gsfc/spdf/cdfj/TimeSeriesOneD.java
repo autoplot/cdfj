@@ -5,11 +5,17 @@ package gov.nasa.gsfc.spdf.cdfj;
  * CDFReader.
  */
 public interface TimeSeriesOneD {
-    public boolean oned = true;
+
+    /**
+     *
+     */
+    public boolean ONED = true;
     /**
      * Returns times according to the
      * {@link TimeInstantModel time instant model}
      * returned by {@link #getTimeInstantModel() getTimeInstantModel()}.
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      * @see CDFReader#timeModelInstance()
      */
     public double[] getTimes() throws CDFException.ReaderError;
@@ -22,12 +28,15 @@ public interface TimeSeriesOneD {
      * determined by the value returned by {@link #isColumnMajor()
      * isColumnMajor()} method.
      * </p>
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public double[] getValues() throws CDFException.ReaderError;
 
     /**
      * Returns time instant model used to derive times returned
      * by {@link #getTimes() getTimes()}.
+     * @return 
      */
     public TimeInstantModel getTimeInstantModel();
 
@@ -35,6 +44,7 @@ public interface TimeSeriesOneD {
      * Returns whether the array returned by getValues() is to be
      * interpreted as having the first index of variable's dimension varying
      * the fastest, as in IDL
+     * @return 
      */
     public boolean isColumnMajor();
 }

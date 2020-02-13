@@ -1,11 +1,27 @@
 package gov.nasa.gsfc.spdf.cdfj;
 //import gov.nasa.gsfc.spdf.common.*;
 import java.nio.*;
-import java.util.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public final class ShortVarContainer extends BaseVarContainer implements 
     VDataContainer.CShort {
     final short[] spad;
+
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @param bo
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public ShortVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve, ByteOrder bo) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -16,22 +32,40 @@ public final class ShortVarContainer extends BaseVarContainer implements
         for (int i = 0; i < dpad.length; i++) spad[i] = (short)dpad[i];
     }
 
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public ShortVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve) throws IllegalAccessException,
         InvocationTargetException, Throwable {
         this(thisCDF, var, pt, preserve, ByteOrder.nativeOrder());
     }
 
+    @Override
     ByteBuffer allocateBuffer(int words) {
         ByteBuffer _buf = ByteBuffer.allocateDirect(2*words);
         _buf.order(order);
         return _buf;
     }
 
+    /**
+     *
+     * @param size
+     * @return
+     */
+    @Override
     public Object allocateDataArray(int size) {
         return new short[size];
     }
 
+    @Override
     void doMissing(int records, ByteBuffer _buf, Object _data, int rec) {
         short[] data = (short[])_data;
         short[] repl = null;
@@ -62,6 +96,7 @@ public final class ShortVarContainer extends BaseVarContainer implements
         _buf.position(position);
     }
 
+    @Override
     void doData(ByteBuffer bv, int type, int elements, int toprocess,
         ByteBuffer _buf, Object _data) throws Throwable {
         short[] data = (short[])_data;
@@ -138,10 +173,21 @@ public final class ShortVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param type
+     * @param preserve
+     * @return
+     */
     public static boolean isCompatible(int type, boolean preserve) {
         return isCompatible(type, preserve, Short.TYPE);
     }
 
+    /**
+     *
+     * @return
+     * @throws Throwable
+     */
     public Object _asArray() throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank > 4) throw new Throwable("Rank > 4 not supported yet.");
@@ -156,14 +202,14 @@ public final class ShortVarContainer extends BaseVarContainer implements
             _buf.get(_a0);
             return (singlePoint)?new Short(_a0[0]):_a0;
         case 1:
-            int n = (((Integer)var.getElementCount().elementAt(0))).intValue();
+            int n = (((Integer)var.getElementCount().elementAt(0)));
             records = words/n;
             short[][] _a1 = new short[records][n];
             for (int r = 0; r < records; r++) _buf.get(_a1[r]);
             return (singlePoint)?_a1[0]:_a1;
         case 2:
-            int n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            int n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
+            int n0 = (((Integer)var.getElementCount().elementAt(0)));
+            int n1 = (((Integer)var.getElementCount().elementAt(1)));
             records = words/(n0*n1);
             short[][][] _a2 = new short[records][n0][n1];
             if (var.rowMajority()) {
@@ -181,9 +227,9 @@ public final class ShortVarContainer extends BaseVarContainer implements
             }
             return (singlePoint)?_a2[0]:_a2;
         case 3:
-            n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
-            int n2 = (((Integer)var.getElementCount().elementAt(2))).intValue();
+            n0 = (((Integer)var.getElementCount().elementAt(0)));
+            n1 = (((Integer)var.getElementCount().elementAt(1)));
+            int n2 = (((Integer)var.getElementCount().elementAt(2)));
             records = words/(n0*n1*n2);
             short[][][][] _a3 = new short[records][n0][n1][n2];
             if (var.rowMajority()) {
@@ -207,10 +253,10 @@ public final class ShortVarContainer extends BaseVarContainer implements
             }
             return (singlePoint)?_a3[0]:_a3;
         case 4:
-            n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
-            n2 = (((Integer)var.getElementCount().elementAt(2))).intValue();
-            int n3 = (((Integer)var.getElementCount().elementAt(3))).intValue();
+            n0 = (((Integer)var.getElementCount().elementAt(0)));
+            n1 = (((Integer)var.getElementCount().elementAt(1)));
+            n2 = (((Integer)var.getElementCount().elementAt(2)));
+            int n3 = (((Integer)var.getElementCount().elementAt(3)));
             records = words/(n0*n1*n2*n3);
             short[][][][][] _a4 = new short[records][n0][n1][n2][n3];
             if (var.rowMajority()) {
@@ -241,6 +287,15 @@ public final class ShortVarContainer extends BaseVarContainer implements
             throw new Throwable("Internal error");
         }
     }
+
+    /**
+     *
+     * @param array
+     * @param offset
+     * @param first
+     * @param last
+     * @throws Throwable
+     */
     public void fillArray(short[] array, int offset, int first, int last)
         throws Throwable {
         if (buffers.size() == 0) throw new Throwable("buffer not available");
@@ -250,11 +305,26 @@ public final class ShortVarContainer extends BaseVarContainer implements
         b.position(pos);
         b.asShortBuffer().get(array, offset, words);
     }
+    @Override
     public short[] as1DArray() {return (short[])super.as1DArray();}
+
+    /**
+     *
+     * @return
+     */
+    @Override
     public short[] asOneDArray() {return (short[])super.asOneDArray(true);}
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
+    @Override
     public short[] asOneDArray(boolean cmtarget) {
         return (short[])super.asOneDArray(cmtarget);
     }
+    @Override
     public ShortArray asArray() throws Throwable {
         return new ShortArray(_asArray());
     }

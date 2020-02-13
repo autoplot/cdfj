@@ -1,12 +1,36 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
+
+/**
+ *
+ * @author nand
+ */
 public class StringArray extends AArray {
+
+    /**
+     *
+     * @param o
+     * @throws Throwable
+     */
     public StringArray(Object o) throws Throwable {
         super(o);
     }
+
+    /**
+     *
+     * @param o
+     * @param bln
+     * @throws Throwable
+     */
     public StringArray(Object o, boolean majority) throws Throwable {
         super(o, majority);
     }
+
+    /**
+     *
+     * @return
+     */
+    @Override
     public Object array() {
         switch (dim) {
         case 1:
@@ -25,6 +49,7 @@ public class StringArray extends AArray {
     /**
      * create a byte buffer of a compatible type.
      */
+    @Override
     public ByteBuffer buffer(Class<?> cl, int size) throws Throwable {
         if (!(cl == String.class)) {
             throw new Throwable("Valid for String type only");
@@ -90,7 +115,9 @@ public class StringArray extends AArray {
     }
 
     void addString(ByteBuffer buf, String[] sa, int max) throws Throwable {
-        for (int i = 0; i < sa.length; i++) addString(buf, sa[i], max);
+        for (String sa1 : sa) {
+            addString(buf, sa1, max);
+        }
     }
 /*
     void addString(ByteBuffer buf, String[] sa, int max) throws Throwable {

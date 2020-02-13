@@ -13,6 +13,13 @@ public final class ReaderFactory {
      * creates  CDFReader object from a file using array backed ByteBuffer.
      */
     static int preamble = 3000;
+
+    /**
+     *
+     * @param fname
+     * @return
+     * @throws CDFException.ReaderError
+     */
     public static CDFReader getReader(String fname) throws
         CDFException.ReaderError {
         CDFImpl cdf = null;
@@ -30,7 +37,9 @@ public final class ReaderFactory {
         }
         final String _fname = file.getPath();
         cdf.setSource(new CDFFactory.CDFSource() {
+            @Override
             public String getName() {return _fname;};
+            @Override
             public boolean isFile() {return true;};
         });
         CDFReader rdr = new CDFReader();
@@ -40,6 +49,9 @@ public final class ReaderFactory {
 
     /**
      * creates  CDFReader object from a URL using array backed ByteBuffer.
+     * @param url
+     * @return 
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError 
      */
     public static CDFReader getReader(URL url) throws
         CDFException.ReaderError {
@@ -65,7 +77,9 @@ public final class ReaderFactory {
         rdr.setImpl(cdf);
         final String _url = url.toString();
         cdf.setSource(new CDFFactory.CDFSource() {
+            @Override
             public String getName() {return _url;};
+            @Override
             public boolean isFile() {return false;};
         });
         return rdr;
@@ -107,6 +121,14 @@ public final class ReaderFactory {
         }
         return null;
     }
+
+    /**
+     *
+     * @param fname
+     * @param map
+     * @return
+     * @throws CDFException.ReaderError
+     */
     public static CDFReader getReader(String fname, boolean map) throws
         CDFException.ReaderError {
         CDFImpl cdf = null;
@@ -115,21 +137,23 @@ public final class ReaderFactory {
             int len = (int)file.length();
             byte[] ba = new byte[len];
             int rem = len;
-            FileInputStream fis = new FileInputStream(file);
-            int n = 0;
-            while (rem > 0) {
-                len = fis.read(ba, n, rem);
-                n += len;
-                rem -= len;
+            try (FileInputStream fis = new FileInputStream(file)) {
+                int n = 0;
+                while (rem > 0) {
+                    len = fis.read(ba, n, rem);
+                    n += len;
+                    rem -= len;
+                }
             }
-            fis.close();
             cdf = CDFFactory.getCDF(ba);
         } catch (Throwable th) {
             throw new CDFException.ReaderError("I/O Error reading " + fname);
         }
         final String _fname = file.getPath();
         cdf.setSource(new CDFFactory.CDFSource() {
+            @Override
             public String getName() {return _fname;};
+            @Override
             public boolean isFile() {return true;};
         });
         CDFReader rdr = new CDFReader();

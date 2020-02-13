@@ -1,5 +1,10 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
+
+/**
+ *
+ * @author nand
+ */
 public class AEDR {
     static int INT_TYPE = 4;
     static int FLOAT_TYPE = 21;
@@ -12,9 +17,12 @@ public class AEDR {
     ByteBuffer record = ByteBuffer.allocate(8 + 4 + 8 + 4 + 4 +
         4 + 4 + 3*4 + 2*4);
     /**
-     * Constructs AEDR of a given type and value for an ADR.
-     * Specification of type is deferred if type = -1. Once set,
-     * data type cannot be changed.
+     * Constructs AEDR of a given type and value for an ADR.Specification of type is deferred if type = -1.Once set,
+ data type cannot be changed.
+     * @param adr
+     * @param type
+     * @param value
+     * @throws java.lang.Throwable
      */
     public AEDR(ADR adr, int type, Object value) throws Throwable {
         setAttrNum(adr.num);
@@ -72,38 +80,91 @@ public class AEDR {
         }
         throw new Throwable("Arrays of type " + c + " not supported");
     }
+
+    /**
+     *
+     * @param adr
+     * @param o
+     * @throws Throwable
+     */
     public AEDR(ADR adr, Object value) throws Throwable {
         this(adr, -1, value);
     }
     long aEDRNext;
+
+    /**
+     *
+     */
     protected long position;
+
+    /**
+     *
+     * @param l
+     */
     public void setAEDRNext(long l) {
         aEDRNext = l;
     }
     int attributeType;
+
+    /**
+     *
+     * @param n
+     */
     public void setAttributeType(int n) {
         attributeType = n;
     }
     int attrNum;
+
+    /**
+     *
+     * @param n
+     */
     public void setAttrNum(int n) {
         attrNum = n;
     }
     int dataType = -1;
+
+    /**
+     *
+     * @param n
+     * @throws Throwable
+     */
     public void setDataType(int n) throws Throwable {
         if (dataType != -1) throw new Throwable("Data type is already defined");
         dataType = n;
     }
     int num;
+
+    /**
+     *
+     * @param n
+     */
     public void setNum(int n) {
         num = n;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getNum() {return  num;}
 
     int numElems;
+
+    /**
+     *
+     * @param n
+     */
     public void setNumElems(int n) {
         numElems = n;
     }
     byte[] values;
+
+    /**
+     *
+     * @param s
+     * @throws Throwable
+     */
     public void setValues(String s) throws Throwable {
         setNumElems(s.length());
         if ( dataType == -1) {
@@ -115,6 +176,11 @@ public class AEDR {
         values = s.getBytes();
     }
 
+    /**
+     *
+     * @param s
+     * @throws Throwable
+     */
     public void setValues(String[] s) throws Throwable {
         int x = s.length;
         int i;
@@ -126,6 +192,11 @@ public class AEDR {
         this.setValues(str.toString());
     }
 
+    /**
+     *
+     * @param ba
+     * @throws Throwable
+     */
     public void setValues(byte[] ba) throws Throwable {
         if ( dataType == -1) {
             setDataType(BYTE_TYPE);
@@ -138,6 +209,11 @@ public class AEDR {
         setNumElems(ba.length);
     }
 
+    /**
+     *
+     * @param la
+     * @throws Throwable
+     */
     public void setValues(long[] la) throws Throwable {
         if ( dataType == -1) {
             setDataType(LONG_TYPE);
@@ -153,6 +229,11 @@ public class AEDR {
         buf.get(values);
     }
 
+    /**
+     *
+     * @param da
+     * @throws Throwable
+     */
     public void setValues(double[] da) throws Throwable {
         setNumElems(da.length);
         if ( dataType == -1) {
@@ -230,6 +311,12 @@ public class AEDR {
         throw new Throwable("Incompatible data type " + dataType +
         " for Double.");
     }
+
+    /**
+     *
+     * @param ia
+     * @throws Throwable
+     */
     public void setValues(int[] ia) throws Throwable {
         setNumElems(ia.length);
         if ( dataType == -1) {
@@ -246,6 +333,12 @@ public class AEDR {
         values = new byte[4*ia.length];
         buf.get(values);
     }
+
+    /**
+     *
+     * @param fa
+     * @throws Throwable
+     */
     public void setValues(float[] fa) throws Throwable {
         setNumElems(fa.length);
         if (dataType == -1) {
@@ -262,6 +355,12 @@ public class AEDR {
         values = new byte[4*fa.length];
         buf.get(values);
     }
+
+    /**
+     *
+     * @param sa
+     * @throws Throwable
+     */
     public void setValues(short[] sa) throws Throwable {
         setNumElems(sa.length);
         if (dataType == -1) {
@@ -278,6 +377,11 @@ public class AEDR {
         values = new byte[2*sa.length];
         buf.get(values);
     }
+
+    /**
+     *
+     * @return
+     */
     public ByteBuffer get() {
         int capacity = record.capacity() + values.length;
         ByteBuffer buf = ByteBuffer.allocate(capacity);
@@ -308,6 +412,11 @@ public class AEDR {
         buf.position(0);
         return buf;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getSize() {
         return record.capacity() + values.length;
     }

@@ -1,5 +1,10 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
+
+/**
+ *
+ * @author nand
+ */
 public class CDR {
     static int libraryVersion = 3;
     static int libraryRelease = 7;
@@ -12,20 +17,37 @@ public class CDR {
     ByteBuffer record = ByteBuffer.allocate(8 + 4 + 8 + 4 +4 +
         4 + 4 + 4 + 4 + 4 + 4 + 4 + 256);
     static String copyRight = new String("\012Common Data Format (CDF)\012https://cdf.gsfc.nasa.gov\012Space Physics Data Facility\012NASA/Goddard Space Flight Center\012Greenbelt, Maryland 20771 USA\012(User support: gsfc-cdf-support@lists.nasa.gov)\012");
+
+    /**
+     *
+     * @param enc
+     */
     public void setEncoding(int enc) {
         encoding = enc;
     }
 
+    /**
+     *
+     * @param majority
+     */
     public void setRowMajority(boolean majority) {
         if (majority) flags |= 1;
         if (!majority) flags &= 0xfffffffe;
     }
     
+    /**
+     *
+     * @param needDigest
+     */
     public void setMD5Needed(boolean needDigest) {
         if (needDigest) flags |= 0xc;
         if (!needDigest) flags &= 0xfffffff3;
     }
 
+    /**
+     *
+     * @return
+     */
     public ByteBuffer get() {
         record.position(0);
         record.putLong((long)(record.capacity()));
@@ -53,5 +75,10 @@ public class CDR {
         buf.position(0);
         return buf;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getSize() {return record.capacity()+ magic.length;}
 }

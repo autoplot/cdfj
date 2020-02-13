@@ -1,9 +1,20 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.util.*;
+
+/**
+ *
+ * @author nand
+ */
 public class ArrayAttribute {
-    Vector<Integer> dim = new Vector<Integer>();
+    Vector<Integer> dim = new Vector<>();
     Class<?> cl;
     Object o;
+
+    /**
+     *
+     * @param o
+     * @throws Throwable
+     */
     public ArrayAttribute(Object data) throws Throwable {
         cl = data.getClass();
         if (!cl.isArray()) throw new Throwable("AArray: Object " + data +
@@ -13,43 +24,59 @@ public class ArrayAttribute {
             cl = cl.getComponentType();
             if (cl.isPrimitive()) {            
                 if (cl == Double.TYPE) {
-                    dim.add(new Integer(((double[])o).length));
+                    dim.add(((double[])o).length);
                     break;
                 }
                 if (cl == Float.TYPE) {
-                    dim.add(new Integer(((float[])o).length));
+                    dim.add(((float[])o).length);
                     break;
                 }
                 if (cl == Integer.TYPE) {
-                    dim.add(new Integer(((int[])o).length));
+                    dim.add(((int[])o).length);
                     break;
                 }
                 if (cl == Byte.TYPE) {
-                    dim.add(new Integer(((byte[])o).length));
+                    dim.add(((byte[])o).length);
                     break;
                 }
                 if (cl == Short.TYPE) {
-                    dim.add(new Integer(((short[])o).length));
+                    dim.add(((short[])o).length);
                     break;
                 }
                 if (cl == Long.TYPE) {
-                    dim.add(new Integer(((long[])o).length));
+                    dim.add(((long[])o).length);
                     break;
                 }
             } 
             Object[] _o = (Object[])o;
             o = _o[0];
-            dim.add(new Integer(_o.length));                
+            dim.add(_o.length);                
         }
     }
+
+    /**
+     *
+     * @return
+     */
     public Class<?> getType() {return cl;}
+
+    /**
+     *
+     * @return
+     */
     public int[] getDimensions() {
         int[] ia = new int[dim.size()];
         for (int i = 0; i < ia.length; i++) {
-            ia[i] = (dim.get(i)).intValue();
+            ia[i] = (dim.get(i));
         }
         return ia;
     }
+
+    /**
+     *
+     * @param sa
+     * @throws Throwable
+     */
     public  void toStringArray(String[] sa) throws Throwable {
         if (cl == String.class) {
             String[] sin = (String[]) o;
@@ -62,6 +89,12 @@ public class ArrayAttribute {
         }
         throw new Throwable("Method not appropriate for objects of type " + cl);
     }
+
+    /**
+     *
+     * @param la
+     * @throws Throwable
+     */
     public void  toLongArray(long[] la) throws Throwable {
         if (cl == Long.TYPE) {
             long[] lin = (long[]) o;
@@ -74,6 +107,12 @@ public class ArrayAttribute {
         }
         throw new Throwable("Method not appropriate for objects of type " + cl);
     }
+
+    /**
+     *
+     * @param da
+     * @throws Throwable
+     */
     public void  toDoubleArray(double[] da) throws Throwable {
         if (cl == Double.TYPE) {
             double[] din = (double[]) o;

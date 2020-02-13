@@ -1,12 +1,36 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
+
+/**
+ *
+ * @author nand
+ */
 public class ShortArray extends AArray {
+
+    /**
+     *
+     * @param o
+     * @throws Throwable
+     */
     public ShortArray(Object o) throws Throwable {
         super(o);
     }
+
+    /**
+     *
+     * @param o
+     * @param bln
+     * @throws Throwable
+     */
     public ShortArray(Object o, boolean majority) throws Throwable {
         super(o, majority);
     }
+
+    /**
+     *
+     * @return
+     */
+    @Override
     public Object array() {
         switch (dim) {
         case 1:
@@ -23,7 +47,9 @@ public class ShortArray extends AArray {
     
     /**
      * create a byte buffer of a compatible type.
+     * @param ignore
      */
+    @Override
     public ByteBuffer buffer(Class<?> cl, int ignore) throws Throwable {
         if (!((cl == Short.TYPE) || (cl == Byte.TYPE))) {
             throw new Throwable("Only byte and short targets supported");

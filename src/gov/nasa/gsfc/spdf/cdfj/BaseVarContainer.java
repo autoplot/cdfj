@@ -2,8 +2,13 @@ package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
 import java.util.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public abstract class BaseVarContainer implements Runnable {
-    static final int chunkSize = 1024;
+    static final int CHUNK_SIZE = 1024;
     final CDFImpl thisCDF;
     final Variable var;
     final int[] pt;
@@ -20,6 +25,19 @@ public abstract class BaseVarContainer implements Runnable {
     final int fillCount;
     final boolean singlePoint;
     Boolean allocationMode;
+
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bln
+     * @param bo
+     * @param type
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     protected BaseVarContainer(CDFImpl thisCDF, Variable var, int[] pt,
         boolean preserve, ByteOrder bo, Class cl) throws IllegalAccessException,
         InvocationTargetException, Throwable {
@@ -108,7 +126,7 @@ public abstract class BaseVarContainer implements Runnable {
         fillCount = _fillCount;
         overlap = _overlap;
         if ((DataTypes.size[type] > 1) || (_class != Byte.TYPE)) {
-            int _recordsPerChunk = (chunkSize/elements);
+            int _recordsPerChunk = (CHUNK_SIZE/elements);
             recordsPerChunk = (_recordsPerChunk == 0)?1:_recordsPerChunk;
             csize = recordsPerChunk*elements;
             chunking = true;
@@ -119,29 +137,48 @@ public abstract class BaseVarContainer implements Runnable {
         }
     }
 
+    /**
+     *
+     * @param direct
+     */
     public void setDirect(boolean direct) {
-        if (allocationMode == null) allocationMode = new Boolean(direct);
+        if (allocationMode == null) allocationMode = direct;
     }
 
     ByteBuffer userBuffer;
+
+    /**
+     *
+     * @param buf
+     * @return
+     */
     public boolean setUserBuffer(ByteBuffer buf) {
         if (allocationMode != null) return false;
         userBuffer = buf;
         return true;
     }
         
+    /**
+     *
+     * @return
+     */
     public ByteBuffer getBuffer() {
         if (buffers.size() == 0) return null;
         ContentDescriptor cd = (ContentDescriptor)buffers.get(0);
         return cd.getBuffer();
     }
 
+    /**
+     *
+     * @return
+     */
     public int[] getRecordRange() {
         if (buffers.size() == 0) return null;
         ContentDescriptor cd = (ContentDescriptor)buffers.get(0);
         return new int[] {cd.getFirstRecord(), cd.getLastRecord()};
     }
 
+    @Override
     public void run() {
         if (buffers.size() > 0) return;
         int numberOfValues = pt[1] - pt[0] + 1;
@@ -155,7 +192,7 @@ public abstract class BaseVarContainer implements Runnable {
                  _buf = userBuffer;
             }
         } else {
-            if (allocationMode.booleanValue()) {
+            if (allocationMode) {
                 _buf = ByteBuffer.allocateDirect(_words);
              } else {
                 _buf = ByteBuffer.allocate(_words);
@@ -316,6 +353,15 @@ public abstract class BaseVarContainer implements Runnable {
         int getLastRecord() {return last;}
     }
     /* compatible means value is valid java type -- */
+
+    /**
+     *
+     * @param type
+     * @param preserve
+     * @param cl
+     * @return
+     */
+
     public static boolean isCompatible(int type, boolean preserve, Class cl) {
         if (cl == Long.TYPE) {
             if (((DataTypes.typeCategory[type] == DataTypes.SIGNED_INTEGER) ||
@@ -358,20 +404,22 @@ public abstract class BaseVarContainer implements Runnable {
             if (type > 50) return false;
             if ((type == 1) || (type == 41) || (type == 2)) return true;
             if (type == 11) return true;
-            if ((type == 12) && !preserve) return true;
-            return false;
+            return (type == 12) && !preserve;
         }
         if (cl == Byte.TYPE) {
             if (preserve) {
                 if ((type == 1) || (type == 41) || (type == 11)) return true;
-                if (type > 50) return true;
-                return false;
+                return type > 50;
             }
             return true;
         }
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCapacity() {
         int numberOfValues = pt[1] - pt[0] + 1;
         int words = elements*numberOfValues;
@@ -390,7 +438,7 @@ public abstract class BaseVarContainer implements Runnable {
     int getLength() {
         if (_class == Long.TYPE) return 8;
         if (_class == Double.TYPE) return 8;
-        if (_class == Float.TYPE) return 4;;
+        if (_class == Float.TYPE) return 4;
         if (_class == Integer.TYPE) return 4;
         if (_class == Short.TYPE) return 2;
         if (_class == Byte.TYPE) return 1;
@@ -399,7 +447,7 @@ public abstract class BaseVarContainer implements Runnable {
 
     static boolean validElement(Variable var, int[] idx) {
         int elements =
-            (((Integer)var.getElementCount().elementAt(0))).intValue();
+                (((Integer)var.getElementCount().elementAt(0)));
         for (int i = 0; i < idx.length; i++) {
             if ((idx[i] >= 0) && (idx[i] < elements)) continue;
             return false;
@@ -407,6 +455,11 @@ public abstract class BaseVarContainer implements Runnable {
         return true;
     }
 
+    /**
+     *
+     * @param stride
+     * @return
+     */
     public Object asSampledArray(Stride stride) {
         int[] range = getRecordRange();
         int numberOfValues = range[1] - range[0] + 1;
@@ -518,6 +571,12 @@ public abstract class BaseVarContainer implements Runnable {
         int getOffset() {return offset;}
     }
 */
+
+    /**
+     *
+     * @return
+     */
+
     public Object as1DArray() {
         ByteBuffer b = getBuffer();
         if (b == null) return null;
@@ -558,10 +617,28 @@ public abstract class BaseVarContainer implements Runnable {
         }
         return _cl;
     }
+
+    /**
+     *
+     * @return
+     */
     public Variable getVariable() {return var;}
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
     public Object asOneDArray(boolean cmtarget) {
         return asOneDArray(cmtarget, null);
     }
+
+    /**
+     *
+     * @param cmtarget
+     * @param stride
+     * @return
+     */
     public Object asOneDArray(boolean cmtarget, Stride stride) {
         int[] dim = var.getEffectiveDimensions();
         if ((dim.length <= 1) ||

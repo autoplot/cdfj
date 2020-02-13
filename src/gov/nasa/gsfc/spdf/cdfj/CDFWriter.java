@@ -1,11 +1,8 @@
 package gov.nasa.gsfc.spdf.cdfj;
 import java.nio.*;
-import java.nio.channels.*;
 import java.util.*;
 import java.io.*;
 import java.net.*;
-import java.security.MessageDigest;
-import java.lang.reflect.*;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 /**
@@ -16,7 +13,7 @@ public class CDFWriter extends GenericWriter {
     Hashtable variableMap = new Hashtable();
     Hashtable gamap = new Hashtable();
     SelectedVariableCollection vcol = new Selector();
-    static Logger anonymousLogger = Logger.getAnonymousLogger();
+    static final Logger anonymousLogger = Logger.getAnonymousLogger();
     static Logger logger = Logger.getLogger("cdfj.cdfwriter");
     static List<String> doNotCheckListGlobal = new ArrayList<String>();
     static {
@@ -27,6 +24,7 @@ public class CDFWriter extends GenericWriter {
 
     /**
      * Constructs a {@link CDFWriter CDFWriter} of given row majority.
+     * @param bln
      */
     public CDFWriter(boolean targetMajority) {
         super(targetMajority);
@@ -35,6 +33,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a {@link CDFWriter CDFWriter} populated 
      * with data from the given {@link GenericReader GenericReader}.
+     * @param reader
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(GenericReader cdf) throws CDFException.WriterError,
         CDFException.ReaderError {
@@ -49,6 +50,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated
      * with data from the given CDF file.
+     * @param string
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String fname) throws CDFException.WriterError,
         CDFException.ReaderError {
@@ -64,6 +68,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated
      * with data from the given files.
+     * @param strings
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String[] files) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -74,6 +81,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated
      * with data from the given URL.
+     * @param url
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL url) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -81,7 +91,7 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = null;
         try {
             cdf = new GenericReader(url);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         try {
@@ -94,6 +104,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated
      * with data from the given array of URLs.
+     * @param urls
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL[] urls) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -104,10 +117,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated with
      * selected variables, and variables they depend on, from the given file.
-     * @param  fname   
-     * @param  col   
-     *   {@link SelectedVariableCollection SelectedVariableCollection} that
-     * defines variables to be selected and their properties
+     * @param string   
+     * @param svc
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String fname, SelectedVariableCollection col) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -115,7 +128,7 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = getFileReader(fname);
         try {
             _addCDF(cdf, variableNames(cdf, col));
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError | CDFException.WriterError th) {
             throw new CDFException.WriterError(th.getMessage());
         }
     }
@@ -123,10 +136,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a column major {@link CDFWriter CDFWriter} populated with
      * selected variables, and variables they depend on, from the given files.
-     * @param  files   
-     * @param  col   
-     *   {@link SelectedVariableCollection SelectedVariableCollection} that
-     * defines variables to be selected and their properties
+     * @param strings   
+     * @param svc
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String[] files, SelectedVariableCollection col) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -138,9 +151,9 @@ public class CDFWriter extends GenericWriter {
      * Constructs a column major {@link CDFWriter CDFWriter} populated with
      * selected variables, and variables they depend on, from the given URL.
      * @param  url   
-     * @param  col   
-     *   {@link SelectedVariableCollection SelectedVariableCollection} that
-     * defines variables to be selected and their properties
+     * @param svc
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL url, SelectedVariableCollection col) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -148,12 +161,12 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = null;
         try {
             cdf = new GenericReader(url);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         try {
             _addCDF(cdf, variableNames(cdf, col));
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError | CDFException.WriterError th) {
             throw new CDFException.WriterError(th.getMessage());
         }
     }
@@ -163,9 +176,9 @@ public class CDFWriter extends GenericWriter {
      * selected variables, and variables they depend on, from the given
      * array of URLs.
      * @param  urls
-     * @param  col   
-     *   {@link SelectedVariableCollection SelectedVariableCollection} that
-     * defines variables to be selected and their properties
+     * @param svc
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL[] urls, SelectedVariableCollection col) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -178,9 +191,8 @@ public class CDFWriter extends GenericWriter {
         String[] vnames;
         if (col == null) {
             vnames = cdf.getVariableNames();
-            for (int n = 0; n < vnames.length; n++) {
-                vcol.add(vnames[n], cdf.isCompressed(vnames[n]),
-                    sparseRecordOption(cdf, vnames[n]));
+            for (String vname : vnames) {
+                vcol.add(vname, cdf.isCompressed(vname), sparseRecordOption(cdf, vname));
             }
         } else {
             vnames = getSelected(cdf, col);
@@ -191,6 +203,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with data from the given file.
+     * @param string
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String fname, boolean targetMajority) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -220,7 +236,7 @@ public class CDFWriter extends GenericWriter {
 
                 cdf = new GenericReader(fname);
             }
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         return cdf;
@@ -228,6 +244,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with data from the given files.
+     * @param strings
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String[] files, boolean targetMajority) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -238,6 +258,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with data from the given URL.
+     * @param url
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL url, boolean targetMajority) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -245,7 +269,7 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = null;
         try {
             cdf = new GenericReader(url);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         try {
@@ -258,6 +282,10 @@ public class CDFWriter extends GenericWriter {
     /**
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with data from the given array of URLs.
+     * @param urls
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL[] urls, boolean targetMajority) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -269,6 +297,11 @@ public class CDFWriter extends GenericWriter {
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with selected variables, and variables they depend on, from
      * the given file.
+     * @param string
+     * @param svc
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String fname, boolean targetMajority,
         SelectedVariableCollection col) throws
@@ -277,7 +310,7 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = getFileReader(fname);
         try {
             _addCDF(cdf, variableNames(cdf, col));
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError | CDFException.WriterError th) {
             throw new CDFException.WriterError(th.getMessage());
         }
     }
@@ -286,6 +319,11 @@ public class CDFWriter extends GenericWriter {
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with selected variables, and variables they depend on, from
      * the given files.
+     * @param strings
+     * @param svc
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(String[] files, boolean targetMajority,
         SelectedVariableCollection col) throws
@@ -299,6 +337,11 @@ public class CDFWriter extends GenericWriter {
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with selected variables, and variables they depend on, from
      * the given URL.
+     * @param url
+     * @param svc
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL url, boolean targetMajority,
         SelectedVariableCollection col) throws
@@ -307,12 +350,12 @@ public class CDFWriter extends GenericWriter {
         GenericReader cdf = null;
         try {
             cdf = new GenericReader(url);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         try {
             _addCDF(cdf, variableNames(cdf, col));
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError | CDFException.WriterError th) {
             throw new CDFException.WriterError(th.getMessage());
         }
     }
@@ -321,6 +364,11 @@ public class CDFWriter extends GenericWriter {
      * Constructs a {@link CDFWriter CDFWriter} of specified row majority,
      * populated with selected variables, and variables they depend on, from
      * the given array of URLs.
+     * @param urls
+     * @param svc
+     * @param bln
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public CDFWriter(URL[] urls, boolean targetMajority,
         SelectedVariableCollection col) throws
@@ -332,6 +380,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Adds previously selected variables, and variables they depend on, from
      * the given file.
+     * @param fname
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public void addCDF(String fname) throws
         CDFException.WriterError, CDFException.ReaderError {
@@ -342,13 +393,16 @@ public class CDFWriter extends GenericWriter {
     /**
      * Adds previously selected variables, and variables they depend on, from
      * the given URL.
+     * @param url
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
      */
     public void addCDF(URL url) throws 
         CDFException.WriterError, CDFException.ReaderError {
         GenericReader cdf = null;
         try {
             cdf = new GenericReader(url);
-        } catch (Throwable th) {
+        } catch (CDFException.ReaderError th) {
             throw new CDFException.ReaderError(th.getMessage());
         }
         addCDF(cdf);
@@ -359,42 +413,42 @@ public class CDFWriter extends GenericWriter {
          checkLastLeapSecondId(cdf);
          copyGlobalAttributes(cdf);
          addGlobalAttributeEntry("cdfj_source", cdf.getSource());
-         for (int n = 0; n < vnames.length; n++) {
-             String vn = vnames[n];
-             copyVariableAttributes(cdf, vn);
-         }
-         for (int n = 0; n < vnames.length; n++) {
-             String tvar;
-             if (!cdf.recordVariance(vnames[n])) continue;
-             if (cdf.isTimeType(vnames[n])) continue;
-             try {
-                 tvar = cdf.getTimeVariableName(vnames[n]);
-             } catch(Throwable th) {
-                 tvar = null;
-             }
-             if (tvar != null) {
-                 DataContainer dc = dataContainers.get(vnames[n]);
-                 if (cdf.getNumberOfValues(vnames[n]) ==
-                     cdf.getNumberOfValues(tvar)) {
-                     dc.setTimeContainer(dataContainers.get(tvar));
-                 }
-             }
-         }
-         for (int n = 0; n < vnames.length; n++) {
-             if (cdf.getNumberOfValues(vnames[n]) == 0) {
-                 ((DataContainer)dataContainers.get(vnames[n])).
-                 addPhantomEntry();
-             } else {
-                 copyVariableData(cdf, vnames[n]);
-             }
-             vcol.add(vnames[n], cdf.isCompressed(vnames[n]),
-                    sparseRecordOption(cdf, vnames[n]));
-         }
+        for (String vn : vnames) {
+            copyVariableAttributes(cdf, vn);
+        }
+        for (String vname : vnames) {
+            String tvar;
+            if (!cdf.recordVariance(vname)) {
+                continue;
+            }
+            if (cdf.isTimeType(vname)) {
+                continue;
+            }
+            try {
+                tvar = cdf.getTimeVariableName(vname);
+            }catch(Throwable th) {
+                tvar = null;
+            }
+            if (tvar != null) {
+                DataContainer dc = dataContainers.get(vname);
+                if (cdf.getNumberOfValues(vname) == cdf.getNumberOfValues(tvar)) {
+                    dc.setTimeContainer(dataContainers.get(tvar));
+                }
+            }
+        }
+        for (String vname : vnames) {
+            if (cdf.getNumberOfValues(vname) == 0) {
+                ((DataContainer) dataContainers.get(vname)).addPhantomEntry();
+            } else {
+                copyVariableData(cdf, vname);
+            }
+            vcol.add(vname, cdf.isCompressed(vname), sparseRecordOption(cdf, vname));
+        }
     }
     private void _addCDF(GenericReader cdf) throws Throwable {
         String[] vnames = cdf.getVariableNames();
-        for (int n = 0; n < vnames.length; n++) {
-            vcol.add(vnames[n], cdf.isCompressed(vnames[n]));
+        for (String vname : vnames) {
+            vcol.add(vname, cdf.isCompressed(vname));
         }
         _addCDF(cdf, vnames);
     }
@@ -403,22 +457,20 @@ public class CDFWriter extends GenericWriter {
         CDFException.ReaderError, CDFException.WriterError {
 //      try {
             String[] gan = cdf.globalAttributeNames();
-            for (int a = 0; a < gan.length; a++) {
-                Vector entries = null;
-                try {
-                    entries = cdf.getAttributeEntries(gan[a]);
-                } catch (Throwable th) {
-                    throw new CDFException.ReaderError(th.getMessage());
-                }
-                gamap.put(gan[a], entries);
-                for (int e = 0; e < entries.size(); e++) {
-                    AttributeEntry entry =
-                         (AttributeEntry)entries.get(e);
-                    addGlobalAttributeEntry(gan[a],
-                         SupportedTypes.cdfType(entry.getType()),
-                         entry.getValue());
-                }
-             }
+        for (String gan1 : gan) {
+            Vector entries = null;
+            try {
+                entries = cdf.getAttributeEntries(gan1);
+            }catch (CDFException.ReaderError th) {
+                throw new CDFException.ReaderError(th.getMessage());
+            }
+            gamap.put(gan1, entries);
+            for (int e = 0; e < entries.size(); e++) {
+                AttributeEntry entry =
+                        (AttributeEntry)entries.get(e);
+                addGlobalAttributeEntry(gan1, SupportedTypes.cdfType(entry.getType()), entry.getValue());
+            }
+        }
 //      } catch (Throwable t) {
 //          t.printStackTrace();
 //          throw new Throwable("Faulty original CDF, or program error " +
@@ -450,29 +502,28 @@ public class CDFWriter extends GenericWriter {
         defineVariable(vn, ctype, /*cdf.getDimensions(vn)*/dims,
             /*cdf.getVarys(vn)*/varys, cdf.recordVariance(vn), compressed,
             cdf.getPadValue(vn,true), cdf.getNumberOfElements(vn), sro);
-        } catch (Exception ex) {
+        } catch (CDFException.ReaderError | CDFException.WriterError ex) {
             ex.printStackTrace();
             throw new CDFException.WriterError("Failed to define " + vn);
         }
         Hashtable amap = new Hashtable();
         String[] anames = cdf.variableAttributeNames(vn);
-        for (int i = 0; i < anames.length; i++) {
-                Vector entries = null;
-                try {
-                    entries = cdf.getAttributeEntries(vn, anames[i]);
-                } catch (Throwable th) {
-                    throw new CDFException.ReaderError(th.getMessage());
-                }
-             amap.put(anames[i], entries);
-             AttributeEntry entry = (AttributeEntry)entries.get(0);
-             ctype = SupportedTypes.cdfType(entry.getType());
-             setVariableAttributeEntry(vn, anames[i], ctype, entry.getValue());
-             for (int e = 1; e < entries.size(); e++) {
-                 entry = (AttributeEntry)entries.get(e);
-                 ctype = SupportedTypes.cdfType(cdf.getType(vn));
-                 addVariableAttributeEntry(vn, anames[i],
-                 ctype, entry.getValue());
-             }
+        for (String aname : anames) {
+            Vector entries = null;
+            try {
+                entries = cdf.getAttributeEntries(vn, aname);
+            }catch (CDFException.ReaderError th) {
+                throw new CDFException.ReaderError(th.getMessage());
+            }
+            amap.put(aname, entries);
+            AttributeEntry entry = (AttributeEntry)entries.get(0);
+            ctype = SupportedTypes.cdfType(entry.getType());
+            setVariableAttributeEntry(vn, aname, ctype, entry.getValue());
+            for (int e = 1; e < entries.size(); e++) {
+                entry = (AttributeEntry)entries.get(e);
+                ctype = SupportedTypes.cdfType(cdf.getType(vn));
+                addVariableAttributeEntry(vn, aname, ctype, entry.getValue());
+            }
         }
         vmap.put("amap", amap);
         variableMap.put(vn, vmap);
@@ -489,9 +540,9 @@ public class CDFWriter extends GenericWriter {
             } catch (Throwable th) {
                 throw new CDFException.ReaderError(th.getMessage());
             }
-            for (int i = 0; i < dbufs.length; i++) {
-                ByteBuffer b = dbufs[i].getBuffer();
-                addBuffer(vn, dbufs[i]);
+            for (VariableDataBuffer dbuf : dbufs) {
+                ByteBuffer b = dbuf.getBuffer();
+                addBuffer(vn, dbuf);
             }
         } else {
             VDataContainer _container = null;
@@ -524,6 +575,9 @@ public class CDFWriter extends GenericWriter {
     /**
      * Adds previously selected variables, and variables they depend on, from
      * the given {@link GenericReader GenericReader}..
+     * @param cdf
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.ReaderError
+     * @throws gov.nasa.gsfc.spdf.cdfj.CDFException.WriterError
      */
     public void addCDF(GenericReader cdf) throws
         CDFException.ReaderError, CDFException.WriterError {
@@ -531,48 +585,47 @@ public class CDFWriter extends GenericWriter {
         checkGlobalAttributes(cdf);
         List timeVariableList = getTimeVariableList(cdf);
         String[] vnames = vcol.getNames();
-        for (int n = 0; n < vnames.length; n++) {
-            String vn = vnames[n];
+        for (String vn : vnames) {
             Hashtable vmap = (Hashtable)variableMap.get(vn);
-            if (((Boolean)vmap.get("variance")).booleanValue()) {
+            if (((Boolean)vmap.get("variance"))) {
                 if (timeVariableList.contains(vn)) {
-                     DataContainer dc = dataContainers.get(vn);
-                     if (cdf.getNumberOfValues(vn) > 0) {
-                         Object firstTime;
-                         try {
-                             if (cdf.isCompatible(vn, Double.TYPE)) {
-                                 firstTime = cdf.getOneDArray(vn, "double",
-                                     new int[]{0,0}, true, !rowMajority);
-                             } else {
-                                 firstTime = cdf.getOneDArray(vn, "long",
-                                     new int[]{0,0}, true, !rowMajority);
-                             }
-                         } catch (Throwable th) {
+                    DataContainer dc = dataContainers.get(vn);
+                    if (cdf.getNumberOfValues(vn) > 0) {
+                        Object firstTime;
+                        try {
+                            if (cdf.isCompatible(vn, Double.TYPE)) {
+                                firstTime = cdf.getOneDArray(vn, "double",
+                                        new int[]{0,0}, true, !rowMajority);
+                            } else {
+                                firstTime = cdf.getOneDArray(vn, "long",
+                                        new int[]{0,0}, true, !rowMajority);
+                            }
+                        } catch (CDFException.ReaderError th) {
                             throw new CDFException.WriterError(th.getMessage());
-                         }
-                         if (!dc.timeOrderOK(firstTime)) {
-                             throw new CDFException.WriterError("Time Backup -"
-                             + "Time of first record for variable " + vn +
-                             " of CDF " + cdf.thisCDF.getSource().getName() +
-                             " starts before the end of previous CDF");
-                         }
-                     }
-                 }
-                 if (cdf.getNumberOfValues(vn) > 0) {
-                     copyVariableData(cdf, vn);
-                 }
-             }
-         }
+                        }
+                        if (!dc.timeOrderOK(firstTime)) {
+                            throw new CDFException.WriterError("Time Backup -"
+                                    + "Time of first record for variable " + vn +
+                                    " of CDF " + cdf.thisCDF.getSource().getName() +
+                                    " starts before the end of previous CDF");
+                        }
+                    }
+                }
+                if (cdf.getNumberOfValues(vn) > 0) {
+                    copyVariableData(cdf, vn);
+                }
+            }
+        }
     }
 
     List getTimeVariableList(GenericReader cdf) {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         String[] vnames = vcol.getNames();
-        for (int n = 0; n < vnames.length; n++) {
+        for (String vname : vnames) {
             String tvar;
             try {
-                tvar = cdf.getTimeVariableName(vnames[n]);
-            } catch (Throwable th) {
+                tvar = cdf.getTimeVariableName(vname);
+            }catch (Throwable th) {
                 tvar = null;
             }
             if (tvar != null) list.add(tvar);
@@ -583,12 +636,12 @@ public class CDFWriter extends GenericWriter {
     void checkGlobalAttributes(GenericReader cdf) throws
         CDFException.ReaderError, CDFException.WriterError {
         String[] gan = cdf.globalAttributeNames();
-        for (int a = 0; a < gan.length; a++) {
-            Vector _entries = (Vector)gamap.get(gan[a]);
+        for (String gan1 : gan) {
+            Vector _entries = (Vector) gamap.get(gan1);
             Vector entries = null;
             try {
-                entries = cdf.getAttributeEntries(gan[a]);
-            } catch (Throwable th) {
+                entries = cdf.getAttributeEntries(gan1);
+            }catch (CDFException.ReaderError th) {
                 throw new CDFException.ReaderError(th.getMessage());
             }
             for (int e = 0; e < entries.size(); e++) {
@@ -600,10 +653,8 @@ public class CDFWriter extends GenericWriter {
                     if (found) break;
                 }
                 if (!found) {
-                    if (!doNotCheckListGlobal.contains(gan[a])) {
-                        logger.fine("Global attribute " +
-                        "entry for attribute " + gan[a] + " not in base," +
-                        " or differs from the value in base.");
+                    if (!doNotCheckListGlobal.contains(gan1)) {
+                        logger.log(Level.FINE, "Global attribute entry for attribute {0} not in base, or differs from the value in base.", gan1);
                     }
                 }
             }
@@ -616,9 +667,9 @@ public class CDFWriter extends GenericWriter {
         Hashtable vmap = (Hashtable)variableMap.get(vn);
         validateVariableProperties(cdf, vn);
         Hashtable amap = (Hashtable)vmap.get("amap");
-        for (int i = 0; i < anames.length; i++) {
-            Vector entries = cdf.getAttributeEntries(vn, anames[i]);
-            Vector _entries = (Vector) amap.get(anames[i]);
+        for (String aname : anames) {
+            Vector entries = cdf.getAttributeEntries(vn, aname);
+            Vector _entries = (Vector) amap.get(aname);
             for (int e = 0; e < entries.size(); e++) {
                 AttributeEntry entry = (AttributeEntry)entries.get(e);
                 boolean found = false;
@@ -627,9 +678,9 @@ public class CDFWriter extends GenericWriter {
                     found |= _entry.isSameAs(entry);
                     if (found) break;
                 }
-                if (!found) logger.fine("Attribute " +
-                "entry for attribute " + anames[i] + " for variable " +
-                vn + " not in base.");
+                if (!found) {
+                    logger.log(Level.FINE, "Attribute entry for attribute {0} for variable {1} not in base.", new Object[]{aname, vn});
+                }
             }
         }
     }
@@ -645,9 +696,9 @@ public class CDFWriter extends GenericWriter {
             cdf.getDimensions(vn));
         if (!failed) failed = !Arrays.equals((boolean[])vmap.get("varys"),
             cdf.getVarys(vn));
-        if (!failed) failed = (((Boolean)vmap.get("variance")).booleanValue() != 
+        if (!failed) failed = (((Boolean)vmap.get("variance")) != 
             cdf.recordVariance(vn));
-        if (!failed) failed = (((Integer)vmap.get("numberOfElements")).intValue() != 
+        if (!failed) failed = (((Integer)vmap.get("numberOfElements")) != 
             cdf.getNumberOfElements(vn));
         //vmap.put("padValue", cdf.getPadValue(vn, true));
         if (failed) throw new Throwable("Properties of variable " + vn +
@@ -711,9 +762,11 @@ public class CDFWriter extends GenericWriter {
         String[] anames = cdf.variableAttributeNames(vname);
         Vector dependent = new Vector();
         if (anames == null) return dependent;
-        for (int i = 0; i < anames.length; i++) {
-            if (!anames[i].startsWith("DEPEND_")) continue;
-            dependent.add( ((Vector)cdf.getAttribute(vname, anames[i])).get(0));
+        for (String aname : anames) {
+            if (!aname.startsWith("DEPEND_")) {
+                continue;
+            }
+            dependent.add(((Vector) cdf.getAttribute(vname, aname)).get(0));
         }
         return dependent;
     }
@@ -721,44 +774,53 @@ public class CDFWriter extends GenericWriter {
     /**
      * Returns a new instance of the {@link SelectedVariableCollection
      * SelectedVariableCollection}.
+     * @return 
      */
     public static SelectedVariableCollection selectorInstance() {
         return new Selector();
     }
 
     static class Selector implements SelectedVariableCollection {
-        HashMap<String, Boolean> map = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> map = new HashMap<>();
         HashMap<String, SparseRecordOption> smap = 
-           new HashMap<String, SparseRecordOption>();
+           new HashMap<>();
+        @Override
         public void add(String vname, boolean compression) {
-            map.put(vname, new Boolean(compression));
+            map.put(vname, compression);
         }
+        @Override
         public void add(String vname, boolean compression,
             SparseRecordOption opt) {
             add(vname, compression);
             smap.put(vname, opt);
         }
+        @Override
         public boolean isCompressed(String name) {
-            return ((Boolean)map.get(name)).booleanValue();
+            return ((Boolean)map.get(name));
         }
+        @Override
         public SparseRecordOption getSparseRecordOption(String name) {
             if (smap.get(name) == null) return SparseRecordOption.PADDED;
             return smap.get(name);
         }
+        @Override
         public String[] getNames() {
             String[] names = new String[map.size()];
             Set set = map.keySet();
             set.toArray(names);
             return names;
         }
+        @Override
         public boolean hasVariable(String name) {
             return (map.get(name) != null);
         }
     }
     boolean hasVariable(GenericReader cdf, String vname) {
         String[] vnames = cdf.getVariableNames();
-        for (int n = 0; n < vnames.length; n++) {
-            if (vname.equals(vnames[n])) return true;
+        for (String vname1 : vnames) {
+            if (vname.equals(vname1)) {
+                return true;
+            }
         }
         return false;
     }
@@ -811,6 +873,7 @@ public class CDFWriter extends GenericWriter {
 
     /**
      * sets a Logger for this class
+     * @param _logger
      */
     public void setLogger(Logger _logger) {
         if (_logger == null) return;
@@ -818,9 +881,9 @@ public class CDFWriter extends GenericWriter {
     }
 
     /**
-     * Sets Level for the default anonymous  Logger for this class.
-     * If a logger has been set via a call to {@link #setLogger(Logger logger)},
-     * this method has no effect
+     * Sets Level for the default anonymous  Logger for this class.If a logger has been set via a call to {@link #setLogger(Logger)},
+ this method has no effect
+     * @param newLevel
      */
     public static void setLoggerLevel(Level newLevel) {
         if (logger == anonymousLogger) logger.setLevel(newLevel);
@@ -828,6 +891,7 @@ public class CDFWriter extends GenericWriter {
 
     /**
      * Adds an attribute to the list of 'not to be monitored' global attributes.
+     * @param aname
      */
     public static void addToDoNotCheckList(String aname) {
         if (doNotCheckListGlobal.contains(aname)) return;
@@ -837,6 +901,7 @@ public class CDFWriter extends GenericWriter {
     /**
      * Removes an attribute from the list 'not to be monitored' global
      * attributes.
+     * @param aname
      */
     public static void removeFromDoNotCheckList(String aname) {
         if (!doNotCheckListGlobal.contains(aname)) return;
@@ -845,6 +910,7 @@ public class CDFWriter extends GenericWriter {
 
     /**
      * Returns names of 'not to be monitored' global attributes.
+     * @return 
      */
     public String[] attributesInDoNotCheckList() {
         String[] sa = new String[doNotCheckListGlobal.size()];

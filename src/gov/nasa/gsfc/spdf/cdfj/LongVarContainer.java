@@ -1,11 +1,26 @@
 package gov.nasa.gsfc.spdf.cdfj;
 //import gov.nasa.gsfc.spdf.common.*;
 import java.nio.*;
-import java.util.*;
 import java.lang.reflect.*;
+
+/**
+ *
+ * @author nand
+ */
 public final class LongVarContainer extends BaseVarContainer implements
     VDataContainer.CLong  {
     final long[] lpad;
+
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @param bo
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public LongVarContainer(CDFImpl thisCDF, Variable var, int[] pt, ByteOrder bo)
         throws IllegalAccessException, InvocationTargetException, Throwable {
         super(thisCDF, var, pt, true, bo, Long.TYPE);
@@ -19,21 +34,38 @@ public final class LongVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param cdfi
+     * @param vrbl
+     * @param ints
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws Throwable
+     */
     public LongVarContainer(CDFImpl thisCDF, Variable var, int[] pt)
         throws IllegalAccessException, InvocationTargetException, Throwable {
         this(thisCDF, var, pt, ByteOrder.nativeOrder());
     }
 
+    @Override
     ByteBuffer allocateBuffer(int words) {
         ByteBuffer _buf = ByteBuffer.allocateDirect(8*words);
         _buf.order(order);
         return _buf;
     }
 
+    /**
+     *
+     * @param size
+     * @return
+     */
+    @Override
     public Object allocateDataArray(int size) {
         return new long[size];
     }
 
+    @Override
     void doMissing(int records, ByteBuffer _buf, Object _data, int rec) {
         long[] data = (long[])_data;
         long[] repl = null;
@@ -64,6 +96,7 @@ public final class LongVarContainer extends BaseVarContainer implements
         _buf.position(position);
     }
 
+    @Override
     void doData(ByteBuffer bv, int type, int elements, int toprocess,
         ByteBuffer _buf, Object _data ) throws Throwable,
         IllegalAccessException, InvocationTargetException {
@@ -125,10 +158,21 @@ public final class LongVarContainer extends BaseVarContainer implements
         }
     }
 
+    /**
+     *
+     * @param type
+     * @param preserve
+     * @return
+     */
     public static boolean isCompatible(int type, boolean preserve) {
         return isCompatible(type, preserve, Long.TYPE);
     }
 
+    /**
+     *
+     * @return
+     * @throws Throwable
+     */
     public Object _asArray() throws Throwable {
         int rank = var.getEffectiveRank();
         if (rank > 4) throw new Throwable("Rank > 4 not supported yet.");
@@ -143,14 +187,14 @@ public final class LongVarContainer extends BaseVarContainer implements
             _buf.get(_a0);
             return (singlePoint)?new Long(_a0[0]):_a0;
         case 1:
-            int n = (((Integer)var.getElementCount().elementAt(0))).intValue();
+            int n = (((Integer)var.getElementCount().elementAt(0)));
             records = words/n;
             long[][] _a1 = new long[records][n];
             for (int r = 0; r < records; r++) _buf.get(_a1[r]);
             return (singlePoint)?_a1[0]:_a1;
         case 2:
-            int n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            int n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
+            int n0 = (((Integer)var.getElementCount().elementAt(0)));
+            int n1 = (((Integer)var.getElementCount().elementAt(1)));
             records = words/(n0*n1);
             long[][][] _a2 = new long[records][n0][n1];
             if (var.rowMajority()) {
@@ -168,9 +212,9 @@ public final class LongVarContainer extends BaseVarContainer implements
             }
             return (singlePoint)?_a2[0]:_a2;
         case 3:
-            n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
-            int n2 = (((Integer)var.getElementCount().elementAt(2))).intValue();
+            n0 = (((Integer)var.getElementCount().elementAt(0)));
+            n1 = (((Integer)var.getElementCount().elementAt(1)));
+            int n2 = (((Integer)var.getElementCount().elementAt(2)));
             records = words/(n0*n1*n2);
             long[][][][] _a3 = new long[records][n0][n1][n2];
             if (var.rowMajority()) {
@@ -194,10 +238,10 @@ public final class LongVarContainer extends BaseVarContainer implements
             }
             return (singlePoint)?_a3[0]:_a3;
         case 4:
-            n0 = (((Integer)var.getElementCount().elementAt(0))).intValue();
-            n1 = (((Integer)var.getElementCount().elementAt(1))).intValue();
-            n2 = (((Integer)var.getElementCount().elementAt(2))).intValue();
-            int n3 = (((Integer)var.getElementCount().elementAt(3))).intValue();
+            n0 = (((Integer)var.getElementCount().elementAt(0)));
+            n1 = (((Integer)var.getElementCount().elementAt(1)));
+            n2 = (((Integer)var.getElementCount().elementAt(2)));
+            int n3 = (((Integer)var.getElementCount().elementAt(3)));
             records = words/(n0*n1*n2*n3);
             long[][][][][] _a4 = new long[records][n0][n1][n2][n3];
             if (var.rowMajority()) {
@@ -228,6 +272,15 @@ public final class LongVarContainer extends BaseVarContainer implements
             throw new Throwable("Internal error");
         }
     }
+
+    /**
+     *
+     * @param array
+     * @param offset
+     * @param first
+     * @param last
+     * @throws Throwable
+     */
     public void fillArray(long[] array, int offset, int first, int last)
         throws Throwable {
         if (buffers.size() == 0) throw new Throwable("buffer not available");
@@ -237,11 +290,26 @@ public final class LongVarContainer extends BaseVarContainer implements
         b.position(pos);
         b.asLongBuffer().get(array, offset, words);
     }
+    @Override
     public long[] as1DArray() {return (long[])super.as1DArray();}
+
+    /**
+     *
+     * @return
+     */
+    @Override
     public long[] asOneDArray() {return (long[])super.asOneDArray(true);}
+
+    /**
+     *
+     * @param cmtarget
+     * @return
+     */
+    @Override
     public long[] asOneDArray(boolean cmtarget) {
         return (long[])super.asOneDArray(cmtarget);
     }
+    @Override
     public LongArray asArray() throws Throwable {
         return new LongArray(_asArray());
     }
