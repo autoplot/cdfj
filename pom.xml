@@ -9,8 +9,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 
+    <!-- Maven Plugin Properties -->
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
-
 
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -36,6 +36,8 @@
 
     <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
 
+    <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
 
     <maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
@@ -48,19 +50,27 @@
 
     <maven-surefire-plugin.verison>3.0.0-M5</maven-surefire-plugin.verison>
 
+
+
+    <!-- Third Party Plugin Properties -->
+    <dependency-check-maven.version>6.0.2</dependency-check-maven.version>
+
     <spotbugs-maven-plugin.version>4.1.4</spotbugs-maven-plugin.version>
     <spotbugs.effort>Max</spotbugs.effort>
     <spotbugs.threshold>Low</spotbugs.threshold>
     <spotbugs.xmlOutput>true</spotbugs.xmlOutput>
-    <spotbugs.xmlOutputDirectory>${project.build.directory}/spotbugs</spotbugs.xmlOutputDirectory>
+    <spotbugs.outputDirectory>${project.build.directory}/spotbugs</spotbugs.outputDirectory>
+    <spotbugs.xmlOutputDirectory>${spotbugs.outputDirectory}</spotbugs.xmlOutputDirectory>
     <spotbugs.findsecbugs-plugin.version>1.10.1</spotbugs.findsecbugs-plugin.version>
     <spotbugs.fb-contrib.version>7.4.7</spotbugs.fb-contrib.version>
+    <spotbugs.failOnError>false</spotbugs.failOnError>
 
 
     <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
 
-
+    <!-- Dependency versions -->
     <junit-bom.version>5.7.0</junit-bom.version>
+    <log4j2.version>2.13.3</log4j2.version>
   </properties>
 
   <build>
@@ -81,6 +91,7 @@
           <version>${maven-dependency-plugin.version}</version>
           <configuration>
             <outputXML>true</outputXML>
+            <ignoreNonCompile>true</ignoreNonCompile>
           </configuration>
         </plugin>
 
@@ -126,7 +137,7 @@
 
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>${maven-javadoc-plugin.version}</version>
         </plugin>
 
         <plugin>
@@ -162,6 +173,9 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.verison}</version>
+          <configuration>
+            <argLine>-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager</argLine>
+          </configuration>
         </plugin>
 
         <plugin>
@@ -169,6 +183,8 @@
           <artifactId>spotbugs-maven-plugin</artifactId>
           <version>${spotbugs-maven-plugin.version}</version>
           <configuration>
+            <spotbugsXmlOutputDirectory>${spotbugs.outputDirectory}</spotbugsXmlOutputDirectory>
+            <outputDirectory>${spotbugs.outputDirectory}</outputDirectory>
             <xmlOutputDirectory>${spotbugs.xmlOutputDirectory}</xmlOutputDirectory>
 
             <plugins>
@@ -193,12 +209,54 @@
           <artifactId>versions-maven-plugin</artifactId>
           <version>${versions-maven-plugin.version}</version>
         </plugin>
+
+        <plugin>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>${dependency-check-maven.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
     <plugins>
       <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+            
+            <!-- FIXME: remove after cleanup -->
+            <doclint>none</doclint>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-jar-no-fork</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+
+          <execution>
+            <id>default-test-jar-no-fork</id>
+            <goals>
+              <goal>test-jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -220,7 +278,7 @@
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-bom</artifactId>
-        <version>2.13.3</version>
+        <version>${log4j2.version}</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -298,6 +356,17 @@
         </plugins>
       </build>
     </profile>
+
+    <profile>
+      <id>classpath-integrity</id>
+      <properties>
+        <failOnWarning>true</failOnWarning>
+      </properties>
+
+      <build>
+        <defaultGoal>dependency:analyze dependency-check:check</defaultGoal>
+      </build>
+    </profile>
   </profiles>
 
   <dependencies>
@@ -319,11 +388,11 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
+    <!-- <dependency> -->
+    <!-- <groupId>org.junit.jupiter</groupId> -->
+    <!-- <artifactId>junit-jupiter</artifactId> -->
+    <!-- <scope>test</scope> -->
+    <!-- </dependency> -->
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
