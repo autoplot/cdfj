@@ -4,6 +4,7 @@ import static gov.nasa.gsfc.spdf.cdfj.ADR.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.ByteBuffer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Test;
@@ -20,8 +21,11 @@ class ADRTest {
         return adr;
     }
 
-    {
-        System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
+    @Test
+    void testLogger() {
+        LOGGER.log(Level.WARNING, "Warning");
+        LOGGER.log(Level.SEVERE, "SEVERE");
+        LOGGER.log(Level.INFO, "INFO");
     }
 
     @Test
@@ -41,8 +45,6 @@ class ADRTest {
         assertEquals(ADR_RECORD_SIZE, adr.getSize());
 
     }
-
-
 
     @Test
     void testRecordCapacity() {

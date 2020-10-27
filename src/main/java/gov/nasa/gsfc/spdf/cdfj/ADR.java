@@ -6,9 +6,11 @@ import java.util.Objects;
 
 /**
  * Attribute Descriptor Record
+ * <p>
  * Information about an attribute
  *
  * @author nand
+ * @author jmax01
  */
 public class ADR {
 
@@ -45,12 +47,16 @@ public class ADR {
     /** The Constant ADR_SCOPE_FIELD_LENGTH. */
     public static final int ADR_SCOPE_FIELD_LENGTH = 4;
 
+    /** The Constant ADR_GLOBAL_SCOPE. */
     public static final int ADR_GLOBAL_SCOPE = 1;
 
+    /** The Constant ADR_VARIABLE_SCOPE. */
     public static final int ADR_VARIABLE_SCOPE = 2;
 
+    /** The Constant ADR_GLOBAL_SCOPE_ASSUMED. */
     public static final int ADR_GLOBAL_SCOPE_ASSUMED = 3;
 
+    /** The Constant ADR_VARIABLE_SCOPE_ASSUMED. */
     public static final int ADR_VARIABLE_SCOPE_ASSUMED = 4;
 
     /** The Constant ADR_NUM_FIELD_OFFSET. */
@@ -113,6 +119,7 @@ public class ADR {
     /** The name. */
     protected String name;
 
+    /** The padded name. */
     protected byte[] paddedName;
 
     /** The num. */
