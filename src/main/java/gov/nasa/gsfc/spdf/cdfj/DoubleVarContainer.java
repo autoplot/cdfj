@@ -101,8 +101,8 @@ public final class DoubleVarContainer extends BaseVarContainer implements
 
     @Override
     void doData(ByteBuffer bv, int type, int elements, int toprocess,
-        ByteBuffer _buf, Object _data) throws Throwable,
-        IllegalAccessException, InvocationTargetException {
+            ByteBuffer _buf, Object _data)
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         double[] data = (double[])_data;
         int position = _buf.position();
         DoubleBuffer dbuf = _buf.asDoubleBuffer();
@@ -195,7 +195,7 @@ public final class DoubleVarContainer extends BaseVarContainer implements
             _buf.position(position);
             break;
         default:
-            throw new Throwable("Unrecognized data type " + type);
+            throw new RuntimeException("Unrecognized data type " + type);
         }
     }
 

@@ -330,7 +330,8 @@ public class TimeVariableFactory {
             }
             int i = 0;
             for (; i < temp.length; i++) {
-                if (temp[i] == Double.NaN) continue;
+                if (Double.isNaN(temp[i]))
+                    continue;
                 if (start > temp[i]) continue;
                 break;
             }
@@ -338,7 +339,8 @@ public class TimeVariableFactory {
             int low = i;
             int last = i;
             for (; i < temp.length; i++) {
-                if (temp[i] == Double.NaN) continue;
+                if (Double.isNaN(temp[i]))
+                    continue;
                 last = i;
                 if (stop < temp[i]) {
                     break;
@@ -370,7 +372,8 @@ public class TimeVariableFactory {
                 int n = 0;
                 while (n < recordCount) {
                     d = getTimes(n, n, tspec)[0];
-                    if (d != Double.NaN) return d;
+                    if (!Double.isNaN(d))
+                        return d;
                     n++;
                 }
                 return d;

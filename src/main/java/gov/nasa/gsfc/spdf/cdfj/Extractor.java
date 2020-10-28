@@ -2568,7 +2568,8 @@ public class Extractor {
         boolean longType = (DataTypes.typeCategory[type] == DataTypes.LONG);
         if (numberOfValues == 0) {
             if (longType) return new long[0];
-            if (!longType) return new double[0];
+            if (!longType)
+                return new double[0];
         }
         int[] edim = var.getEffectiveDimensions();
         int end = numberOfValues - 1;

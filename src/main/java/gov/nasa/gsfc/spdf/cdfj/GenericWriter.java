@@ -1218,6 +1218,7 @@ public class GenericWriter {
             String name = adr.name;
             channel.position(adr.position);
             channel.write(adr.get());
+
             Vector<AEDR> vec = attributeEntries.get(name);
             for (int i = 0; i < vec.size(); i++) {
                 AEDR ae = vec.get(i);
