@@ -84,7 +84,8 @@ public abstract class CDFImpl implements java.io.Serializable {
     transient ByteBuffer buf;
     protected String[] varNames;
     protected Hashtable variableTable;
-    private HashMap<Integer, CDFVariable> ivariableTable;
+    private HashMap<Integer,CDFVariable> irvariableTable;
+    private HashMap<Integer,CDFVariable> izvariableTable;    
     Hashtable attributeTable;
     protected CDFCore thisCDF;
     protected CDFFactory.CDFSource source;
@@ -127,7 +128,8 @@ public abstract class CDFImpl implements java.io.Serializable {
         int[] offsets = new int[]{(int) zVDRHead, (int) rVDRHead};
         String[] vtypes = {"z", "r"};
         Hashtable table = new Hashtable();
-        HashMap<Integer, CDFVariable> ivariableTable = new HashMap<>();
+        HashMap<Integer,CDFVariable> _irvariableTable= new HashMap<>();
+        HashMap<Integer,CDFVariable> _izvariableTable= new HashMap<>();
         Vector v = new Vector();
         for (int vtype = 0; vtype < 2; vtype++) {
             long offset = offsets[vtype];
@@ -142,7 +144,11 @@ public abstract class CDFImpl implements java.io.Serializable {
                 CDFVariable cdfv = new CDFVariable(offset, vtypes[vtype]);
                 String name = cdfv.getName();
                 v.add(name);
-                ivariableTable.put(cdfv.number, cdfv);
+                if ( cdfv.isTypeR() ) {
+                    _irvariableTable.put( cdfv.number, cdfv );
+                } else {
+                    _izvariableTable.put( cdfv.number, cdfv );
+                }
                 table.put(name, cdfv);
                 if (next == 0) {
                     break;
@@ -156,7 +162,8 @@ public abstract class CDFImpl implements java.io.Serializable {
             varNames[i] = (String) v.elementAt(i);
         }
         variableTable = table;
-        this.ivariableTable = ivariableTable;
+        this.irvariableTable= _irvariableTable;
+        this.izvariableTable= _izvariableTable;
         LOGGER.exiting("CDFImpl", "variables");
         return table;
     }
@@ -402,11 +409,13 @@ public abstract class CDFImpl implements java.io.Serializable {
      * returns Variable object associated with a given type at a given number
      */
     Variable getCDFVariable(String vtype, int number) {
-        CDFVariable var = ivariableTable.get(number);
-        if (vtype.equals(var.vtype)) {
+        LOGGER.log(Level.FINE, "getCDFVariable {0} {1}", new Object[] { vtype, number } );
+        if ( vtype.charAt(0)=='z' ) {
+            CDFVariable var= izvariableTable.get( number );
             return var;
         } else {
-            throw new IllegalArgumentException("unsupported case, file must contain only zvariables or rvariables");
+            CDFVariable var= irvariableTable.get( number );
+            return var;
         }
     }
 
