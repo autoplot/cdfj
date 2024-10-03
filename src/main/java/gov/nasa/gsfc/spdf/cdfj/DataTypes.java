@@ -11,7 +11,7 @@ public final class DataTypes {
     /**
      *
      */
-    public static final int ENCODING_COUNT = 17;
+    public static final int ENCODING_COUNT = 18;
     static final ByteOrder[] endian_ness = new ByteOrder[ENCODING_COUNT];
     static {
         for (int i = 0; i < ENCODING_COUNT; i++) {
@@ -27,6 +27,7 @@ public final class DataTypes {
         endian_ness[12] = ByteOrder.BIG_ENDIAN;
         endian_ness[13] = ByteOrder.LITTLE_ENDIAN;
         endian_ness[16] = ByteOrder.LITTLE_ENDIAN;
+        endian_ness[17] = ByteOrder.LITTLE_ENDIAN;
     }
 
     /**
