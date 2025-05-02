@@ -2113,7 +2113,7 @@ public class Extractor {
             bv = impl.getValueBuffer(offset);
         } else {
             int size = var.getDataItemSize();
-            bv = impl.getValueBuffer(offset, size , count);
+            bv = impl.getValueBuffer(var, offset, size , count);
         }
         bv.order(impl.getByteOrder());
         return bv;

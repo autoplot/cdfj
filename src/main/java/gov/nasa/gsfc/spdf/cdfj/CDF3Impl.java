@@ -84,6 +84,9 @@ final class CDF3Impl extends CDFImpl implements CDF3, java.io.Serializable {
         offset_NUM = OFFSET_NUM;
         offset_FLAGS = OFFSET_FLAGS;
         offset_sRecords = OFFSET_SRECORDS;
+        offset_CPR_offset = OFFSET_CPR_OFFSET;
+        offset_cType = OFFSET_COMPRESSION_TYPE;
+        offset_cParm = OFFSET_COMPRESSION_PARM;
         offset_BLOCKING_FACTOR = OFFSET_BLOCKING_FACTOR;
         offset_VAR_DATATYPE = VAR_OFFSET_DATATYPE;
         offset_zNumDims = OFFSET_Z_NUMDIMS;

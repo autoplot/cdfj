@@ -34,10 +34,16 @@ public interface VariableMetaData {
     public String getName();
 
     /**
-     * Gets the type of values of the variable.Supported types are defined in the CDF Internal Format Description
+     * Gets the type of values of the variable. Supported types are defined in the CDF Internal Format Description
      * @return
      */
     public int getType();
+
+    /**
+     * Gets the variable's compression type. Supported types are defined in the CDF Internal Format Description
+     * @return
+     */
+    public int getCompressionType();
 
     /**
      * Gets the size of an item (defined as number of bytes needed to

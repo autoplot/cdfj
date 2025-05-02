@@ -1,10 +1,12 @@
 package gov.nasa.gsfc.spdf.cdfj;
+
 import java.nio.*;
 import java.io.*;
 import java.net.*;
 import java.nio.channels.*;
 import java.util.zip.*;
 import java.util.*;
+
 /**
  * CDFFactory creates an instance of CDFImpl from a CDF source.
  * The source CDF can  be a file, a byte array, or a URL.
@@ -36,6 +38,13 @@ public final class CDFFactory {
          0x0000ffff;
     static Map cdfMap = Collections.synchronizedMap(new WeakHashMap());
     static Long maxMappedMemory;
+
+    public static final long NO_COMPRESSION = 0L;
+    public static final long RLE_COMPRESSION = 1L;
+    public static final long HUFF_COMPRESSION = 2L;
+    public static final long AHUFF_COMPRESSION = 3L;
+    public static final long GZIP_COMPRESSION = 5L;
+ 
 
     private CDFFactory() {
     }
@@ -160,17 +169,44 @@ public final class CDFFactory {
         });
         return cdf;
     }
+
+    // Used for file-level compression...
     static ByteBuffer uncompressed(ByteBuffer buf, int version) {
-        int DATA_OFFSET = 8 + 20;
-        if (version == 3) DATA_OFFSET = 8 + 32;
+    
         byte[] ba;
         int offset;
-        int len = buf.getInt(8) - 20;
-        if (version == 3) len = (int)(buf.getLong(8) - 32);
-        int ulen = buf.getInt(8 + 12);
-        if (version == 3) ulen = (int)(buf.getLong(8 + 20));
+        // DATA_OFFSET: compressed data location from top of the file (w magic) 
+        // CCRsize: CCR size
+        // len: compressed data size (CCR size - size of fields)
+        // CPRoffset: CPR's offset (w magic number)
+        // ulen: CCR's uSize (uncompressed CDF size W/O magic numbers)
+        int DATA_OFFSET;
+        int len, CCRsize, ulen, CPRoffset;
+        int compression;
+	    if (version == 3) {
+            DATA_OFFSET = 8 + 32;
+            CCRsize = (int) buf.getLong(8);
+            len = CCRsize - 32;
+            ulen = (int)(buf.getLong(8 + 20));
+            CPRoffset = CCRsize + 8;
+            compression = buf.getInt(CPRoffset+12);
+        } else {
+            DATA_OFFSET = 8 + 20;
+            CCRsize = buf.getInt(8);
+            len = CCRsize - 20;
+            ulen = buf.getInt(8 + 12);
+            CPRoffset = CCRsize + 8;
+            compression = buf.getInt(CPRoffset+8);
+        }
         byte [] udata = new byte[ulen + 8];
-        buf.get(udata, 0, 8); // copy the magic words
+	    ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        if (version == 3)
+            buffer.putLong(CDF3_MAGIC);
+        else
+            buffer.putLong(CDF2_MAGIC);
+        buffer.rewind();
+	// copy the magic words
+        buffer.get(udata, 0, 8);
         if (!buf.hasArray()) { // read data into byte array
             ba = new byte[len];
             buf.position(DATA_OFFSET);
@@ -180,8 +216,9 @@ public final class CDFFactory {
             ba = buf.array();
             offset = DATA_OFFSET;
         }
-        int n = 0;
-        try {
+        if (compression == GZIP_COMPRESSION) {
+          int n = 0;
+          try {
             ByteArrayInputStream bais = 
                 new ByteArrayInputStream(ba, offset, len);
             GZIPInputStream gz = new GZIPInputStream(bais);
@@ -193,11 +230,24 @@ public final class CDFFactory {
                 off += n;
                 toRead -= n;
             }
-        } catch (IOException ex) {
+          } catch (IOException ex) {
             System.out.println(ex.toString());
             return null;
+          }
+          if (n < 0) return null;
+        } else if (compression == RLE_COMPRESSION) {
+          byte[] uncompressed = new CDFRLE().decompress(ba, ulen);
+          System.arraycopy(uncompressed, 0, udata, 8, ulen);
+        } else if (compression == HUFF_COMPRESSION) {
+          byte[] uncompressed = new CDFHuffman().decompress(ba, ulen);
+          System.arraycopy(uncompressed, 0, udata, 8, ulen);
+        } else if (compression == AHUFF_COMPRESSION) {
+          byte[] uncompressed = new CDFAHuffman().decompress(ba, ulen);
+          System.arraycopy(uncompressed, 0, udata, 8, ulen);
+        } else {
+          System.out.println("**** compression: "+compression+" is not supported...");
+          return null;
         }
-        if (n < 0) return null;
         return ByteBuffer.wrap(udata);
     }
 

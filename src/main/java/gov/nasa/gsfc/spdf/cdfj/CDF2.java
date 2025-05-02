@@ -116,6 +116,17 @@ public interface CDF2 extends CDFCore {
     public final int OFFSET_RECORDS = 8;
 
     /**
+     * in VDR
+     */
+    public final int OFFSET_CPR_OFFSET = 56;
+
+    /**
+     * in CPR
+     */
+    public final int OFFSET_COMPRESSION_TYPE = 8;
+    public final int OFFSET_COMPRESSION_PARM = 20;
+
+    /**
      *
      */
     public final int OFFSET_BLOCKING_FACTOR = 60;

@@ -22,11 +22,11 @@ public class CPR {
     public ByteBuffer get() {
         record.position(0);
         record.putLong((long)(record.capacity()));
-        record.putInt(11);
-        record.putInt(5);
+        record.putInt(11); /* CPR_ */
+        record.putInt(5); /* GZIP */
         record.putInt(0);
         record.putInt(1);
-        record.putInt(9);
+        record.putInt(6); /* GZIP.6 */
         record.position(0);
         return record;
     }
@@ -36,4 +36,5 @@ public class CPR {
      * @return
      */
     public int getSize() {return record.capacity();}
+
 }

@@ -129,6 +129,17 @@ public interface CDF3 extends CDFCore {
     public final int OFFSET_RECORDS = 12;
 
     /**
+     * in VDR
+     */
+    public final int OFFSET_CPR_OFFSET = 72;
+
+    /**
+     * in CPR
+     */
+    public final int OFFSET_COMPRESSION_TYPE = 12;
+    public final int OFFSET_COMPRESSION_PARM = 24;
+
+    /**
      *
      */
     public final int OFFSET_BLOCKING_FACTOR = 80;
@@ -169,4 +180,5 @@ public interface CDF3 extends CDFCore {
      *
      */
     public final int OFFSET_CSIZE = 16;
+
 }

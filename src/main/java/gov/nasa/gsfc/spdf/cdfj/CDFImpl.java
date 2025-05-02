@@ -26,7 +26,10 @@ public abstract class CDFImpl implements java.io.Serializable {
     public static final int VXR_RECORD_TYPE = 6;
     public static final int VVR_RECORD_TYPE = 7;
     public static final int CVVR_RECORD_TYPE = 13;
+    public static final int CCR_RECORD_TYPE = 10;
+    public static final int CPR_RECORD_TYPE = 11;
     public static final String STRINGDELIMITER = new String("\\N ");
+
     /**
      * CDF offsets
      */
@@ -46,6 +49,7 @@ public abstract class CDFImpl implements java.io.Serializable {
     int offset_NUM;
     int offset_FLAGS;
     int offset_sRecords;
+    int offset_CPR_offset;
     int offset_BLOCKING_FACTOR;
     int offset_VAR_DATATYPE;
     int offset_zNumDims;
@@ -58,6 +62,10 @@ public abstract class CDFImpl implements java.io.Serializable {
     int offset_RECORDS;
     int offset_CSIZE;
     int offset_CDATA;
+    int offset_CVR;
+    int offset_cType;
+    int offset_cParm;
+
     /**
      * CDF metadata
      */
@@ -80,6 +88,18 @@ public abstract class CDFImpl implements java.io.Serializable {
     int numberOfZVariables;
     int[] rDimSizes;
     int lastLeapSecondId;
+
+    /**
+     * Extracted from CCR
+     */
+    long CPROffset;
+    long uSize;
+
+    /**
+     * Extracted from CPR
+     */
+    int compression;
+    int compLevel;
 
     transient ByteBuffer buf;
     protected String[] varNames;
@@ -690,8 +710,10 @@ public abstract class CDFImpl implements java.io.Serializable {
         boolean completed = false;
         transient ByteBuffer _buf;
         int dataItemSize;
+        long cprOffset;
         int blockingFactor;
         DataLocator locator;
+        public int compressionType;
 
         public CDFVariable(long offset, String vtype) {
             this.offset = offset;
@@ -706,6 +728,8 @@ public abstract class CDFImpl implements java.io.Serializable {
             flags = _buf.getInt();
             _buf.position(offset_sRecords);
             sRecords = _buf.getInt();
+            _buf.position(offset_CPR_offset);
+            cprOffset = _buf.getLong();
             _buf.position(offset_BLOCKING_FACTOR);
             blockingFactor = _buf.getInt();
             _buf.position(offset_VAR_DATATYPE);
@@ -788,6 +812,13 @@ public abstract class CDFImpl implements java.io.Serializable {
             if (DataTypes.isStringType(type)) {
                 dataItemSize *= numberOfElements;
             }
+	    compressionType = 0;
+	    if (cprOffset != -1) {
+	      ByteBuffer _cpr = getRecord(cprOffset);
+              _cpr.position(offset_cType);
+              compressionType = _cpr.getInt();
+	    }
+
         }
 
         synchronized void complete() {
@@ -1039,6 +1070,15 @@ public abstract class CDFImpl implements java.io.Serializable {
         @Override
         public int getBlockingFactor() {
             return blockingFactor;
+        }
+
+
+        /**
+         * returns compression type
+         */
+        @Override
+        public int getCompressionType() {
+            return compressionType;
         }
 
         /**
@@ -1768,7 +1808,7 @@ public abstract class CDFImpl implements java.io.Serializable {
             bv = getValueBuffer(offset);
         } else {
             int size = var.getDataItemSize();
-            bv = getValueBuffer(offset, size, count);
+            bv = getValueBuffer(var, offset, size, count);
         }
         bv.order(getByteOrder());
         return bv;
@@ -1780,7 +1820,7 @@ public abstract class CDFImpl implements java.io.Serializable {
         return bv;
     }
 
-    public ByteBuffer getValueBuffer(long offset, int size, int number) {
+    public ByteBuffer getValueBuffer(Variable var, long offset, int size, int number) {
         ByteBuffer bv = getRecord(offset);
         if (bv.getInt(offset_RECORD_TYPE) == VVR_RECORD_TYPE) {
             /*
@@ -1794,9 +1834,14 @@ public abstract class CDFImpl implements java.io.Serializable {
         byte[] work = new byte[clen];
         bv.position(offset_CDATA);
         bv.get(work);
-        byte[] udata = new byte[size * number];
-        int n = 0;
-        try {
+        int ulen = size * number;
+        byte[] udata = null;
+	int compType = var.getCompressionType();
+        // variable-level compression
+	if (compType == CDFFactory.GZIP_COMPRESSION) {
+          udata = new byte[ulen];
+          int n = 0;
+          try {
             GZIPInputStream gz
                     = new GZIPInputStream(new ByteArrayInputStream(work));
             int toRead = udata.length;
@@ -1809,14 +1854,21 @@ public abstract class CDFImpl implements java.io.Serializable {
                 off += n;
                 toRead -= n;
             }
-        } catch (IOException ex) {
+          } catch (IOException ex) {
             System.out.println(ex.toString() + " at offset " + offset);
             System.out.println("Trying to get data as uncompressed");
             return getValueBuffer(offset);
-        }
-        if (n < 0) {
+          }
+          if (n < 0) {
             return null;
-        }
+          }
+	} else if (compType == CDFFactory.RLE_COMPRESSION) {
+	  udata = new CDFRLE().decompress(work, ulen);
+	} else if (compType == CDFFactory.HUFF_COMPRESSION) {
+	  udata = new CDFHuffman().decompress(work, ulen);
+	} else if (compType == CDFFactory.AHUFF_COMPRESSION) {
+	  udata = new CDFAHuffman().decompress(work, ulen);
+	}
         return ByteBuffer.wrap(udata);
     }
 

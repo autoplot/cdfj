@@ -252,7 +252,13 @@ public class VDR {
      *
      * @return
      */
-    public boolean isCompressed() {return ((flags & 0x04) != 0);}
+    public boolean isCompressed() {
+	boolean compressed = ((flags & 0x04) != 0);
+	if (compressed) {
+	}
+	return compressed;
+    }
+
     int sRecords = 0;
 
     /**
@@ -305,6 +311,7 @@ public class VDR {
     public void setCPROffset(long l) {
         cPROffset = l;
     }
+
     int blockingFactor;
 
     /**
