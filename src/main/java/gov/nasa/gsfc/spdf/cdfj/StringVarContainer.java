@@ -45,8 +45,8 @@ public final class StringVarContainer extends ByteVarContainer implements
     @Override
     public Object _asArray() throws Throwable {
         int rank = var.getEffectiveRank();
-        if (rank > 1) {
-            throw new Throwable("Rank > 1 not supported for strings.");
+        if (rank > 2) {
+            throw new Throwable("Rank > 2 not supported for strings.");
         }
         ByteBuffer buf = getBuffer();
         if (buf == null) return null;
@@ -75,6 +75,20 @@ public final class StringVarContainer extends ByteVarContainer implements
                 }
             }
             return sa1;
+        case 2:
+            n0 = (Integer)var.getElementCount().elementAt(0);
+            int n1= (Integer)var.getElementCount().elementAt(1);
+            records = words/(n0*n1*len);
+            String[][][] sa11 = new String[records][n0][n1];
+            for (int r = 0; r < records; r++) {
+                for (int e1 = 0; e1 < n0; e1++) {
+                    for (int e2 = 0; e2 < n1; e2++) {
+                        buf.get(ba);
+                        sa11[r][e1][e2] = new String(ba);
+                    }
+                }
+            }
+            return sa11;            
         default:
             throw new Throwable("Internal error");
         }

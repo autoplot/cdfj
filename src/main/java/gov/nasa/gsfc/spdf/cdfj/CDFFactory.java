@@ -230,7 +230,10 @@ public final class CDFFactory {
                 off += n;
                 toRead -= n;
             }
-          } catch (IOException ex) {
+        } catch (IOException ex) {
+            if ( ex.toString().contains("Not in GZIP") ) {
+                throw new IllegalArgumentException("CDF file is not GZIP compressed some mismatch occurred.");
+            }
             System.out.println(ex.toString());
             return null;
           }

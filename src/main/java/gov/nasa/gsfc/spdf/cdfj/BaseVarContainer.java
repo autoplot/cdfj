@@ -138,8 +138,8 @@ public abstract class BaseVarContainer implements Runnable {
     }
 
     /**
-     *
-     * @param direct
+     * if true, use direct memory-mapped buffers.  If false, just allocate a buffer.
+     * @param direct 
      */
     public void setDirect(boolean direct) {
         if (allocationMode == null) allocationMode = direct;

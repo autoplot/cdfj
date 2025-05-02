@@ -27,6 +27,7 @@ public final class DataTypes {
         endian_ness[12] = ByteOrder.BIG_ENDIAN;
         endian_ness[13] = ByteOrder.LITTLE_ENDIAN;
         endian_ness[16] = ByteOrder.LITTLE_ENDIAN;
+        endian_ness[17] = ByteOrder.LITTLE_ENDIAN;
     }
 
     /**
