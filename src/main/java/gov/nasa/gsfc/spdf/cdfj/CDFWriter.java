@@ -772,6 +772,25 @@ public class CDFWriter extends GenericWriter {
     }
 
     /**
+     * return the type of the variable.
+     * @param name 
+     * @return  the CDFDataType of the variable.
+     */
+    public CDFDataType getVariableType(String name) {
+        Hashtable o= (Hashtable)variableMap.get(name);
+        if ( o!=null ) {
+            CDFDataType t= (CDFDataType)o.get("ctype");
+            if ( t==null ) {
+                throw new IllegalArgumentException("internal error, expected to see type for: "+name);
+            } else {
+                return t;
+            }
+        } else {
+            throw new IllegalArgumentException("variable with the name does not exist: "+name );
+        }
+    }
+    
+    /**
      * Returns a new instance of the {@link SelectedVariableCollection
      * SelectedVariableCollection}.
      * @return 
