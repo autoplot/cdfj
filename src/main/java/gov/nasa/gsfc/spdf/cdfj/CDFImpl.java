@@ -1868,7 +1868,10 @@ public abstract class CDFImpl implements java.io.Serializable {
 	  udata = new CDFHuffman().decompress(work, ulen);
 	} else if (compType == CDFFactory.AHUFF_COMPRESSION) {
 	  udata = new CDFAHuffman().decompress(work, ulen);
-	}
+	} else {
+	  // data is not compressed
+          return getValueBuffer(offset);
+        }	
         return ByteBuffer.wrap(udata);
     }
 
