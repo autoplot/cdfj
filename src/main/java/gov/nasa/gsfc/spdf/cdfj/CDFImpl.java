@@ -726,10 +726,11 @@ public abstract class CDFImpl implements java.io.Serializable {
             number = _buf.getInt();
             _buf.position(offset_FLAGS);
             flags = _buf.getInt();
+            boolean compressed = ((flags & 0x04) != 0);
             _buf.position(offset_sRecords);
             sRecords = _buf.getInt();
             _buf.position(offset_CPR_offset);
-            cprOffset = _buf.getLong();
+            cprOffset = longInt(_buf);
             _buf.position(offset_BLOCKING_FACTOR);
             blockingFactor = _buf.getInt();
             _buf.position(offset_VAR_DATATYPE);
@@ -812,12 +813,12 @@ public abstract class CDFImpl implements java.io.Serializable {
             if (DataTypes.isStringType(type)) {
                 dataItemSize *= numberOfElements;
             }
-	    compressionType = 0;
-	    if (cprOffset != -1) {
+	    if (compressed) {
 	      ByteBuffer _cpr = getRecord(cprOffset);
               _cpr.position(offset_cType);
               compressionType = _cpr.getInt();
-	    }
+	    } else
+              compressionType = 0;
 
         }
 
@@ -1868,10 +1869,7 @@ public abstract class CDFImpl implements java.io.Serializable {
 	  udata = new CDFHuffman().decompress(work, ulen);
 	} else if (compType == CDFFactory.AHUFF_COMPRESSION) {
 	  udata = new CDFAHuffman().decompress(work, ulen);
-	} else {
-	  // data is not compressed
-          return getValueBuffer(offset);
-        }	
+	}
         return ByteBuffer.wrap(udata);
     }
 

@@ -183,27 +183,27 @@ public final class CDFFactory {
         int DATA_OFFSET;
         int len, CCRsize, ulen, CPRoffset;
         int compression;
-	    if (version == 3) {
-            DATA_OFFSET = 8 + 32;
-            CCRsize = (int) buf.getLong(8);
-            len = CCRsize - 32;
-            ulen = (int)(buf.getLong(8 + 20));
-            CPRoffset = CCRsize + 8;
-            compression = buf.getInt(CPRoffset+12);
+	if (version == 3) {
+          DATA_OFFSET = 8 + 32;
+          CCRsize = (int) buf.getLong(8);
+          len = CCRsize - 32;
+          ulen = (int)(buf.getLong(8 + 20));
+          CPRoffset = CCRsize + 8;
+          compression = buf.getInt(CPRoffset+12);
         } else {
-            DATA_OFFSET = 8 + 20;
-            CCRsize = buf.getInt(8);
-            len = CCRsize - 20;
-            ulen = buf.getInt(8 + 12);
-            CPRoffset = CCRsize + 8;
-            compression = buf.getInt(CPRoffset+8);
+          DATA_OFFSET = 8 + 20;
+          CCRsize = buf.getInt(8);
+          len = CCRsize - 20;
+          ulen = buf.getInt(8 + 12);
+          CPRoffset = CCRsize + 8;
+          compression = buf.getInt(CPRoffset+8);
         }
         byte [] udata = new byte[ulen + 8];
-	    ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+	ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
         if (version == 3)
-            buffer.putLong(CDF3_MAGIC);
+          buffer.putLong(CDF3_MAGIC);
         else
-            buffer.putLong(CDF2_MAGIC);
+          buffer.putLong(CDF2_MAGIC);
         buffer.rewind();
 	// copy the magic words
         buffer.get(udata, 0, 8);
@@ -230,10 +230,7 @@ public final class CDFFactory {
                 off += n;
                 toRead -= n;
             }
-        } catch (IOException ex) {
-            if ( ex.toString().contains("Not in GZIP") ) {
-                throw new IllegalArgumentException("CDF file is not GZIP compressed some mismatch occurred.");
-            }
+          } catch (IOException ex) {
             System.out.println(ex.toString());
             return null;
           }
