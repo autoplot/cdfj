@@ -12,3 +12,6 @@ Returns the data as long as the filter variable is zero.
             return fill;
         }
 ```
+
+## IDL (CDAWeb)
+https://cdaweb.gsfc.nasa.gov/pub/software/cdawlib/source/apply_esa_qflag.pro
