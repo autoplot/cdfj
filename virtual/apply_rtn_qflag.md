@@ -1,5 +1,5 @@
-# apply_rtn_qflag(data,fill)
-Returns the data as long as the parameter "data" is not 222 or 223, fill otherwise.
+# apply_rtn_qflag(data,quality,fill)
+Returns the data as long as the parameter "quality" is not 222 or 223, fill otherwise.
 
 # Implementations
 ## Java
