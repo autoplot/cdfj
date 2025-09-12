@@ -10,7 +10,7 @@ Returns the data as long as the parameter "quality" is not 222 or 223, fill othe
 ## Java
 ```java
         double d= data.adaptDouble(index);
-        int i= flag.adaptInteger(index);
+        int i= quality.adaptInteger(index);
         if ( i!=222 && i!=223 ) {
             return d;
         } else {
