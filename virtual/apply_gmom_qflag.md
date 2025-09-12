@@ -1,32 +1,23 @@
-# apply_gmom_qflag(data,quality)
-Returns the data as long as the parameter "quality" is 222 or 223, fill otherwise.
+# apply_gmom_qflag(data,flag)
+Returns the data as long as the filter variable is zero.  This is implemented with the same 
+code as apply_esa_qflag.
 
 # use
 | SPID | Name | Funct | Components |
 |---|---|---|---|
-| MESSENGER_MAG_RTN  | B_radial_q | apply_rtn_qflag | B_radial, Quality_Flag |
+| THE_L2_GMOM  | the_ptiff_densityQ  | apply_gmom_qflag | the_ptiff_density,the_ptiff_data_quality |
 
 # Implementations
 ## Java
 ```java
         double d= data.adaptDouble(index);
-        int i= quality.adaptInteger(index);
-        if ( i!=222 || i!=223 ) {
-            return fill;
-        } else {
+        int i= flag.adaptInteger(index);
+        if ( i==0 ) {
             return d;
+        } else {
+            return fill;
         }
 ```
 
 ## IDL (CDAWeb)
-https://cdaweb.gsfc.nasa.gov/pub/software/cdawlib/source/apply_esa_qflag.pro search for name.
-
-```idl
-    temp = where((quality_data ne 222 and quality_data ne 223), badcnt)
-    if (badcnt ge 1) then begin
-      print, 'found some bad rtn data, replacing ',badcnt, ' out of ', data_size[1],' values with fill.'
-      parent_data[temp] = fill_val
-    endif else begin
-      print, 'All ',astruct.(index).COMPONENT_0,' data good'
-    endelse
-```
+https://cdaweb.gsfc.nasa.gov/pub/software/cdawlib/source/apply_esa_qflag.pro
