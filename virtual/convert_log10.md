@@ -1,6 +1,11 @@
 # convert_log10(base)
 Returns the base 10 logarithm of the data.
 
+# use
+| SPID | Name | Funct | Components |
+|---|---|---|---|
+| IM_K0_WIC | WIC_PIXELS_LOG | convert_log10 | WIC_PIXELS |
+
 # Implementations
 ## Java
 ```java
