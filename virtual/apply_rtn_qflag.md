@@ -3,7 +3,7 @@ Returns the data as long as the parameter "quality" is not 222 or 223, fill othe
 
 # use
 | SPID | Name | Funct | Components |
-|---|---|--|
+|---|---|---|---|
 | MESSENGER_MAG_RTN  | B_radial_q | apply_rtn_qflag | B_radial, Quality_Flag |
 
 # Implementations
