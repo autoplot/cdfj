@@ -1,5 +1,5 @@
 # apply_rtn_qflag(data,quality)
-Returns the data as long as the parameter "quality" is not 222 or 223, fill otherwise.
+Returns the data as long as the parameter "quality" is 222 or 223, fill otherwise.
 
 # use
 | SPID | Name | Funct | Components |
