@@ -4,9 +4,9 @@ in the IDL software for CDAWeb, but a specification has never been written in an
 Note this has been created independently from CDAWeb, by inspecting their code.
 
 # Conventions
-"data" is the name of the CDF data which has been loaded and will be modified for display.  This is often the
+`data` is the name of the CDF data which has been loaded and will be modified for display.  This is often the
 first argument (component) to the virtual function.
 
-"fill" is the fill value associated with the virtual variable metadata.
+`fill` is the fill value associated with the virtual variable metadata.
 
-"index" is the record number.  
+`index` is the record number.  
