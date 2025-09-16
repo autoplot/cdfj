@@ -19,7 +19,7 @@ Returns the data as long as the parameter "quality" is 222 or 223, fill otherwis
 ```
 
 ## IDL (CDAWeb)
-https://cdaweb.gsfc.nasa.gov/pub/software/cdawlib/source/apply_esa_qflag.pro search for name.
+https://cdaweb.gsfc.nasa.gov/pub/software/cdawlib/source/virtual_funcs.pro search for name.
 
 ```idl
     temp = where((quality_data ne 222 and quality_data ne 223), badcnt)
