@@ -3,7 +3,7 @@ Returns the base 10 logarithm of the data, and then flip the values vertically.
 
 # use
 | SPID | Name | Funct | Components |
-|---|---|---|---|q
+|---|---|---|---|
 | IMAGE_M2_EUV | Mapped_Plasmapause_Grid_flip_vert | alternate_view_flip_vert | Mapped_Plasmapause_Gridb |
 
 # Implementations
