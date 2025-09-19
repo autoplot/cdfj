@@ -10,4 +10,4 @@ Filter a variable based on another using HANDLE, COMPARE_OPERATOR, COMPARE_VAL
 ## Java
 
 ## IDL (CDAWeb)
-https://cdaweb.gsfc.nasa.gov/pub/software/cdawlib/source/convert_log10.pro
+https://cdaweb.gsfc.nasa.gov/pub/software/cdawlib/source/virtual_funcs.pro (line 5324)
