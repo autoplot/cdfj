@@ -8,9 +8,6 @@ Filter a variable based on another using HANDLE, COMPARE_OPERATOR, COMPARE_VAL
 
 # Implementations
 ## Java
-```java
-        return Math.log10( base.adaptDouble(index) );
-```
 
 ## IDL (CDAWeb)
 https://cdaweb.gsfc.nasa.gov/pub/software/cdawlib/source/convert_log10.pro
