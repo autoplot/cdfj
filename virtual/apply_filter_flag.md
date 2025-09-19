@@ -11,6 +11,9 @@ to zero. It also looks for COMPARE_OPERATOR, defaults to "eq".
 | PSP_SWP_SPC_L3I | vp_moment_SC_gd | apply_filter_flag | vp_moment_SC general_flag | 2025-05-29 |
 
 # Implementations
+## Autoplot
+Autoplot supports this at line https://github.com/autoplot/autoplot/blob/abd103d614b499036c01dededf332d81c2c08db3/CdfJavaDataSource/src/org/autoplot/cdf/CdfVirtualVars.java#L233
+
 ## Java
 
 ## IDL (CDAWeb)
