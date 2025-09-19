@@ -1,5 +1,9 @@
 # apply_filter_flag(base)
-Filter a variable based on another using HANDLE, COMPARE_OPERATOR, COMPARE_VAL
+To use the filter variable to "filter" out unwanted data points.
+This one is different than the rest in that the user, through the
+master cdf can specify the value to be tested against by using
+the variable attribute COMPARE_VAL, if not defined, value defaults
+to zero. It also looks for COMPARE_OPERATOR, defaults to "eq".
 
 # use
 | SPID | Name | Funct | Components | Date |
