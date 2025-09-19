@@ -12,6 +12,8 @@ Note this has been created independently from CDAWeb, by inspecting their code.
 | MESSENGER_MAG_RTN  | B_radial_q | apply_rtn_qflag | B_radial, Quality_Flag |
 | IMAGE_M2_EUV | Equatorial_EUV_Grid_log_Movie | convert_log10_flip_vert | Equatorial_EUV_Grid |
 | IM_K0_WIC | WIC_PIXELS_LOG | convert_log10 | WIC_PIXELS |
+| FA_ESA_L2_EEB | pitch_angle_median | arr_slice | pitch_angle  |
+| MVN_SWE_L2_SVYPAD | pa_E31 | arr_slice | pa |
 
 # Conventions
 `data` is the name of the CDF data which has been loaded and will be modified for display.  This is often the
