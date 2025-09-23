@@ -15,6 +15,9 @@ to zero. It also looks for COMPARE_OPERATOR, defaults to "eq".
 # Implementations
 ## Autoplot
 Autoplot supports this at line https://github.com/autoplot/autoplot/blob/abd103d614b499036c01dededf332d81c2c08db3/CdfJavaDataSource/src/org/autoplot/cdf/CdfVirtualVars.java#L233
+* vap+cdaweb:ds=MSL_RAD_OBS-L1&filter=MSL&id=LET_A1_f&timerange=2025-08-29
+* vap+cdaweb:ds=MMS1_FPI_BRST_L2_DES-DIST&id=mms1_des_dist_brst1_even&timerange=2025-07-31T18:29:23Z/2025-07-31T18:31:22Z
+* vap+cdaweb:ds=PSP_SWP_SPC_L3I&id=vp_moment_SC_gd&timerange=2025-05-29
 
 ## Java
 https://github.com/hapi-server/server-java/blob/main/CDAWebServer/src/org/hapiserver/source/cdaweb/adapters/ApplyFilterFlag.java
